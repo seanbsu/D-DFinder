@@ -112,7 +112,10 @@ export default class App extends React.Component {
             </Animated.View>
             <Image style={styles.image} source={item.uri} />
              <Animated.View>
-              <InteractionBar/>
+              <InteractionBar 
+               onLike={this.handleLike} 
+               onDislike={this.handleDislike}/>
+               
             </Animated.View>
           </Animated.View>
         );
@@ -124,6 +127,34 @@ export default class App extends React.Component {
         );
       }
     }).reverse();
+  };
+
+  handleLike = () => {
+    Animated.spring(this.position, {
+      toValue: { x: SCREEN_WIDTH + 100, y: 0 },
+      useNativeDriver: true,
+    }).start(() => {
+      this.setState(
+        (prevState) => ({ currentIndex: prevState.currentIndex + 1 }),
+        () => {
+          this.position.setValue({ x: 0, y: 0 });
+        }
+      );
+    });
+  };
+
+  handleDislike = () => {
+    Animated.spring(this.position, {
+      toValue: { x: -SCREEN_WIDTH - 100, y: 0 },
+      useNativeDriver: true,
+    }).start(() => {
+      this.setState(
+        (prevState) => ({ currentIndex: prevState.currentIndex + 1 }),
+        () => {
+          this.position.setValue({ x: 0, y: 0 });
+        }
+      );
+    });
   };
 
   render() {

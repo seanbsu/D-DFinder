@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Image, StyleSheet } from 'react-native';
+import { Text, View, Image, StyleSheet,TouchableOpacity } from 'react-native';
 
 const styles = StyleSheet.create({
   name: {
@@ -32,13 +32,20 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function InteractionBar() {
+export default function InteractionBar({ onLike, onDislike }) {
   return (
     <View style={styles.interactionBar}>
       <Text style={styles.name}>Name</Text>
       <View style={styles.buttonContainer}>
+
+      <TouchableOpacity onPress={onDislike}>
         <Image source={require('../assets/xicon.png')} style={styles.redx} />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={onLike}>
         <Image source={require('../assets/checkmark.png')} style={styles.check} />
+        </TouchableOpacity>
+
       </View>
     </View>
   );
