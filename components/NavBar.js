@@ -1,10 +1,12 @@
 import React from 'react';
-import { Text, View, Image, StyleSheet } from 'react-native';
+import { Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 const styles = StyleSheet.create({
   nav: {
     borderWidth: 1,
     paddingTop: 20,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
   },
   logo: {
     width: 50,
@@ -17,6 +19,12 @@ const styles = StyleSheet.create({
     color:'white',
   },
 });
+
+function displayProfile(){
+  <View>
+  <Text> Profile Holder </Text>
+  </View>
+}
 export default function NavBar() {
   return (
     <View style={styles.nav}>
@@ -26,6 +34,11 @@ export default function NavBar() {
       <Text style={styles.title}>
         D & D Finder
       </Text>
+
+      <TouchableOpacity  onPress={displayProfile}>
+      <Image style={styles.logo} source={require('../assets/profileIcon.png')} />
+      </TouchableOpacity>
+
     </View>
   );
 }
