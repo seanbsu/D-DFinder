@@ -48,28 +48,23 @@ export default function App() {
     });
   };
   
- return (
+  return (
     <View style={styles.container}>
       {!showProfile && <NavBar displayProfile={displayProfile} />}
-      {showProfile ? (
-        <ProfileScreen closeProfile={closeProfile} />
-      ) : (
-        <View style={styles.contentContainer}>
-          {currentIndex < Users.length ? (
-            <View style={styles.cards}>
-              <UserCard
-                user={Users[currentIndex]}
-                position={position}
-                onLike={handleLike}
-                onDislike={handleDislike}
-              />
-            </View>
-          ) : (
-            <ProfileScreen />
-          )}
-          <View style={styles.footer} />
-        </View>
-      )}
+      <View style={styles.contentContainer}>
+        {!showProfile && currentIndex < Users.length && (
+          <View style={styles.cards}>
+            <UserCard
+              user={Users[currentIndex]}
+              position={position}
+              onLike={handleLike}
+              onDislike={handleDislike}
+            />
+          </View>
+        )}
+        {showProfile && <ProfileScreen closeProfile={closeProfile} />}
+        <View style={styles.footer} />
+      </View>
     </View>
   );
 }
@@ -132,6 +127,7 @@ function UserCard({ user, position, onLike, onDislike }) {
   }), [position, onLike, onDislike]);
 
   return (
+    <>
     <Animated.View
       {...panResponder.panHandlers}
       style={[rotateAndTranslate, styles.card]}
@@ -147,8 +143,10 @@ function UserCard({ user, position, onLike, onDislike }) {
         </>
       )}
       <Image style={styles.image} source={user.uri} />
-      <InteractionBar onLike={onLike} onDislike={onDislike} />
+      
     </Animated.View>
+    <InteractionBar onLike={onLike} onDislike={onDislike}/>
+    </>
   );
 }
 
@@ -165,7 +163,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   footer: {
-    height: 60
+    height: 60,
+    backgroundColor: 'grey',
   },
   card: {
     height: SCREEN_HEIGHT - 120,
