@@ -5,7 +5,7 @@ import styles from '../assets/styles';
 const ProfileScreen = ({ closeProfile }) => {
   return (
     <View style={styles.overlay}>
-      <View style={styles.container}>
+      <View style={styles.profilecontainer}>
         <Text style={styles.profileText}>Profile Holder</Text>
         <TouchableOpacity onPress={closeProfile}>
           <Text style={styles.closeButton}>Close Profile</Text>

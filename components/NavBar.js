@@ -8,7 +8,7 @@ export default function NavBar({ displayProfile }) {
   return (
     <View style={styles.nav}>
       <Image style={styles.logo} source={require('../assets/icon.jpg')} />
-      <Text style={styles.title}>D & D Finder</Text>
+      <Text style={styles.navtitle}>D &amp; D Finder</Text>
 
       <TouchableOpacity onPress={displayProfile}>
         <Image style={styles.logo} source={require('../assets/profileIcon.png')} />

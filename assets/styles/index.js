@@ -105,16 +105,7 @@ export default StyleSheet.create({
 		fontFamily: ICON_FONT,
 		color: STAR_ACTIONS
 	},
-	like: {
-		fontSize: 25,
-		fontFamily: ICON_FONT,
-		color: LIKE_ACTIONS
-	},
-	dislike: {
-		fontSize: 25,
-		fontFamily: ICON_FONT,
-		color: DISLIKE_ACTIONS
-	},
+
 	flash: {
 		fontFamily: ICON_FONT,
 		color: FLASH_ACTIONS
@@ -352,7 +343,7 @@ export default StyleSheet.create({
     width: 50,
     height: 50,
   },
-  title: {
+  navtitle: {
     marginLeft: 10,
     paddingTop: 10,
     fontSize: 32,
@@ -360,7 +351,7 @@ export default StyleSheet.create({
   },
 
   //INTERACTIONBAR
-    name: {
+    interactname: {
     color: 'white',
     fontSize: 32,
     textAlign: 'center',
@@ -396,7 +387,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  container: {
+  profilecontainer: {
     width: '80%', // Adjust the width as needed
     backgroundColor: 'black',
     padding: 20,
@@ -411,5 +402,60 @@ export default StyleSheet.create({
     fontSize: 18,
     color: 'white',
     textDecorationLine: 'underline',
+  },
+
+  //
+    container: {
+    flex: 1,
+    backgroundColor: 'black',
+  },
+  contentContainer: {
+    flex: 1, // Make the content container flex to take remaining space
+  },
+  cards: {
+    flex: 1
+  },
+  footer: {
+    height: 60,
+    backgroundColor: 'grey',
+  },
+  card: {
+    height: DIMENSION_HEIGHT - 120,
+    width: DIMENSION_WIDTH,
+    padding: 10,
+    position: 'absolute'
+  },
+  image: {
+    flex: 1,
+    height: null,
+    width: null,
+    resizeMode: 'cover',
+    borderRadius: 20
+  },
+  like: {
+    position: 'absolute',
+    top: 70,
+    left: 50,
+    zIndex: 1000
+  },
+  dislike: {
+    position: 'absolute',
+    top: 50,
+    right: 40,
+    zIndex: 1000
+  },
+  buttonTextLike: {
+    borderWidth: 1,
+    padding: 10,
+    fontWeight: '800',
+    color:'#00FF00', 
+    borderColor:'#00FF00', 
+  },
+  buttonTextDislike: {
+  borderWidth: 1,
+  padding: 10,
+  fontWeight: '800',
+  color:'#FF0000',
+  borderColor:'#FF0000',
   },
 });
