@@ -9,6 +9,9 @@ import {
 import Message from '../components/Message';
 import Icon from '../components/Icon';
 import Demo from '../assets/Demo.js';
+import styles from '../assets/styles';
+
+
 
 const Messages = () => {
   return (

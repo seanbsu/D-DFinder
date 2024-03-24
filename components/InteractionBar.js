@@ -1,43 +1,14 @@
 import React from 'react';
-import { Text, View, Image, StyleSheet,TouchableOpacity } from 'react-native';
+import { Text, View, Image, TouchableOpacity } from 'react-native';
+import styles from '../assets/styles';
 
-const styles = StyleSheet.create({
-  name: {
-    color: 'white',
-    fontSize: 32,
-    textAlign: 'center',
-  },
-  interactionBar: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    paddingHorizontal: 20,
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  buttonContainer: {
-    flexDirection: 'row', // Arrange buttons horizontally
-    justifyContent: 'space-between', // Position buttons at opposite ends
-    marginTop: 10,
-    width: '100%',
-  },
-  check: {
-    width: 50,
-    height: 50,
-  },
-  redx: {
-    width: 60,
-    height: 60,
-  },
-});
 
-export default function InteractionBar({ onLike, onDislike }) {
+export default function InteractionBar({ onLike, onDislike, name }) {
   return (
     <View style={styles.interactionBar}>
-      <Text style={styles.name}>Name</Text>
+      <Text style={styles.name}>{name}</Text>
       <View style={styles.buttonContainer}>
-
+        
       <TouchableOpacity onPress={onDislike}>
         <Image source={require('../assets/xicon.png')} style={styles.redx} />
         </TouchableOpacity>
