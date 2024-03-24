@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "932d8606-b0cc-4158-9e83-e28bdee22529"
+      }
+    },
+    "owner": "scalkins"
   }
 }
