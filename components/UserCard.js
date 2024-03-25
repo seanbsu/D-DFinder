@@ -80,7 +80,7 @@ const UserCard = ({ user, position, onLike, onDislike }) => {
           </>
         )}
         <Image style={styles.image} source={user.uri}></Image>
-        />
+        
       </Animated.View>
       <InteractionBar onLike={onLike} onDislike={onDislike} name={user.name} />
     </>

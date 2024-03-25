@@ -20,7 +20,7 @@ const Messages = () => {
       style={styles.bg}
     >
       <View style={styles.containerMessages}>
-        <ScrollView>
+        
           <View style={styles.top}>
             <Text style={styles.title}>Messages</Text>
             <TouchableOpacity>
@@ -43,7 +43,7 @@ const Messages = () => {
               </TouchableOpacity>
             )}
           />
-        </ScrollView>
+       
       </View>
     </ImageBackground>
   );
