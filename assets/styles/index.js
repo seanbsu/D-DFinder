@@ -327,8 +327,8 @@ export default StyleSheet.create({
 	},
 	iconMenu: {
 		
-		height: 20,
-		paddingBottom: 7
+		height: 30,
+		paddingBottom: 3
 	},
 
   //NAVBAR Styles

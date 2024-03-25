@@ -34,24 +34,25 @@ export default function App() {
           }
         }}
       >
-        <Tab.Screen
-          name="Home"
-          component={Home}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <Text style={[styles.iconMenu, { color: focused ? "#7444C0" : "#363636" }]}>
-                <Icon name="home" />
-              </Text>
-            )
-          }}
-        />
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <Text style={[styles.iconMenu, { color: focused ? "#7444C0" : "#363636" }]}>
+              <Icon name="home" />
+            </Text>
+          ),
+          headerShown: false
+        }}
+      />
         <Tab.Screen
           name="Chat"
           component={MessagesScreen}
           options={{
             tabBarIcon: ({ focused }) => (
               <Text style={[styles.iconMenu, { color: focused ? "#7444C0" : "#363636" }]}>
-                <Icon name="chat" />
+                <Icon name="chat"/>
               </Text>
             )
           }}
