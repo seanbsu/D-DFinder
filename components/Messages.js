@@ -9,6 +9,9 @@ import {
 import Message from '../components/Message';
 import Icon from '../components/Icon';
 import Demo from '../assets/Demo.js';
+import styles from '../assets/styles';
+
+
 
 const Messages = () => {
   return (
@@ -17,7 +20,7 @@ const Messages = () => {
       style={styles.bg}
     >
       <View style={styles.containerMessages}>
-        <ScrollView>
+        
           <View style={styles.top}>
             <Text style={styles.title}>Messages</Text>
             <TouchableOpacity>
@@ -40,7 +43,7 @@ const Messages = () => {
               </TouchableOpacity>
             )}
           />
-        </ScrollView>
+       
       </View>
     </ImageBackground>
   );
