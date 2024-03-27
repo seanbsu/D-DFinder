@@ -7,7 +7,7 @@ const Icon = ({ name }) => {
     flash: '\uE803',
     marker: '\uF031',
     filter: '\uF0B0',
-    user: '\u{F061}',
+    user: '\u{1F464}',
     circle: '\uF039',
     hashtag: '\uF029',
     calendar: '\uF4C5',

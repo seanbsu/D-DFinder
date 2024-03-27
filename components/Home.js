@@ -37,7 +37,7 @@ export const Home = () => {
 
   return (
     <View style={styles.container}>
-      {!showProfile && <NavBar displayProfile={() => setShowProfile(true)} />}
+       <NavBar displayProfile={() => setShowProfile(true)} />
       <View style={styles.contentContainer}>
         {!showProfile && currentIndex < Users.length && (
           <View style={styles.cards}>

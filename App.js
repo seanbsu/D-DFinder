@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Home } from './components/Home';
 import MessagesScreen from './components/Messages';
+import ProfileScreen from './components/ProfileScreen';
 import Icon from './components/Icon';
 import styles from './assets/styles';
 
@@ -53,6 +54,18 @@ export default function App() {
             tabBarIcon: ({ focused }) => (
               <Text style={[styles.iconMenu, { color: focused ? "#7444C0" : "#363636" }]}>
                 <Icon name="chat"/>
+              </Text>
+            )
+          }}
+        />
+
+<Tab.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <Text style={[styles.iconMenu, { color: focused ? "#7444C0" : "#363636" }]}>
+                <Icon name="user"/>
               </Text>
             )
           }}
