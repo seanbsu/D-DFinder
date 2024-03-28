@@ -25,7 +25,7 @@ const Messages = () => {
             <Text style={styles.title}>Messages</Text>
             <TouchableOpacity>
               <Text style={styles.icon}>
-                <Icon name="optionsV" />
+                <Icon name="ellipsis-vertical" />
               </Text>
             </TouchableOpacity>
           </View>
@@ -36,7 +36,7 @@ const Messages = () => {
             renderItem={({ item }) => (
               <TouchableOpacity>
                 <Message
-                  image={item.image}
+                  image={item.uri}
                   name={item.name}
                   lastMessage={item.message}
                 />

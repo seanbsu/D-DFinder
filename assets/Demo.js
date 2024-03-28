@@ -2,6 +2,13 @@ module.exports = [
 	{
 		id: 1,
 		name: 'Leanne Stormcloak',
+		age: '27',
+		location: 'Irvine, CA',
+		info1: 'Straight, Single, 5"10',
+		info2: 'Tea Totaller, Loves Photography & Travel',
+		info3: 'Beaches, Mountain, Cafe, Movies',
+		info4: 'Last seen: 23h ago',
+		match: '76',
 		status: 'Online',
 		match: '78',
 		description:
@@ -13,6 +20,13 @@ module.exports = [
 	{
 		id: 2,
 		name: 'Krilkath Rhorinn',
+		age: '27',
+		location: 'Irvine, CA',
+		info1: 'Straight, Single, 5"10',
+		info2: 'Tea Totaller, Loves Photography & Travel',
+		info3: 'Beaches, Mountain, Cafe, Movies',
+		info4: 'Last seen: 23h ago',
+		match: '76',
 		match: '93',
 		description:
 			'level 2 Ranger',
@@ -34,6 +48,13 @@ module.exports = [
 	{
 		id: 4,
 		name: 'Damxius',
+		age: '27',
+		location: 'Irvine, CA',
+		info1: 'Straight, Single, 5"10',
+		info2: 'Tea Totaller, Loves Photography & Travel',
+		info3: 'Beaches, Mountain, Cafe, Movies',
+		info4: 'Last seen: 23h ago',
+		match: '76',
 		match: '88',
 		description:
 			'Level 8 Fighter',
@@ -44,6 +65,12 @@ module.exports = [
 	{
 		id: 5,
 		name: 'Liow Shuay',
+		age: '27',
+		location: 'Irvine, CA',
+		info1: 'Straight, Single, 5"10',
+		info2: 'Tea Totaller, Loves Photography & Travel',
+		info3: 'Beaches, Mountain, Cafe, Movies',
+		info4: 'Last seen: 23h ago',
 		match: '76',
 		description:
 			'Level 10 warlock/bard, Part time Singer/Dancer.',

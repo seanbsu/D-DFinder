@@ -274,7 +274,6 @@ export default StyleSheet.create({
 		color: WHITE,
 		paddingLeft: 20,
 		marginTop: -20,
-		transform: [{ rotate: "90deg" }]
 	},
 	topIconRight: {
 		

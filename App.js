@@ -41,7 +41,7 @@ export default function App() {
         options={{
           tabBarIcon: ({ focused }) => (
             <Text style={[styles.iconMenu, { color: focused ? "#7444C0" : "#363636" }]}>
-              <Icon name="home" />
+              <Icon  name="search" size={24} />
             </Text>
           ),
           headerShown: false
@@ -53,7 +53,7 @@ export default function App() {
           options={{
             tabBarIcon: ({ focused }) => (
               <Text style={[styles.iconMenu, { color: focused ? "#7444C0" : "#363636" }]}>
-                <Icon name="chat"/>
+                <Icon name="chatbubble" size={24} />
               </Text>
             )
           }}
@@ -65,7 +65,7 @@ export default function App() {
           options={{
             tabBarIcon: ({ focused }) => (
               <Text style={[styles.iconMenu, { color: focused ? "#7444C0" : "#363636" }]}>
-                <Icon name="user"/>
+                <Icon name="person-circle-outline" size={24}/>
               </Text>
             )
           }}
