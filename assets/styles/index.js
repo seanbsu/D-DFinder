@@ -457,4 +457,21 @@ export default StyleSheet.create({
   color:'#FF0000',
   borderColor:'#FF0000',
   },
+
+  //SPLASHSCREEN
+  splash_container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  splash_logo: {
+    width: 200, // Adjust width and height as needed
+    height: 200,
+    resizeMode: 'contain', // Make sure the image fits the container
+  },
+  splash_text: {
+    marginTop: 20, // Adjust spacing between image and text
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
 });
