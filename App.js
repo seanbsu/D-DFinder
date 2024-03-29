@@ -23,12 +23,12 @@ export default function App() {
     }, 5000); 
   }, []);
 
-  if (isLoading) {
-    return <SplashScreen />;
-  }
-  if (!isLoggedIn) { 
-    return <LoginView setIsLoggedIn={setIsLoggedIn} />;
-  }
+  // if (isLoading) {
+  //   return <SplashScreen />;
+  // }
+  // if (!isLoggedIn) { 
+  //   return <LoginView setIsLoggedIn={setIsLoggedIn} />;
+  // }
 
   return (
     <NavigationContainer>

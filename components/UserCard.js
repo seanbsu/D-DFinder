@@ -44,11 +44,13 @@ const UserCard = ({ user, position, onLike, onDislike }) => {
     onPanResponderRelease: (_, gestureState) => {
       setShowButtons(false); // Hide buttons when user stops swiping
       if (gestureState.dx > 120) {
+        getUserInfo();
         Animated.spring(position, {
           toValue: { x: SCREEN_WIDTH + 100, y: gestureState.dy },
           useNativeDriver: true,
         }).start(onLike);
       } else if (gestureState.dx < -120) {
+        console.log('dislike - no action yet');
         Animated.spring(position, {
           toValue: { x: -SCREEN_WIDTH - 100, y: gestureState.dy },
           useNativeDriver: true,
