@@ -49,6 +49,8 @@ module.exports = [
 		id: 4,
 		name: 'Damxius',
 		age: '27',
+		email:'123@gmail.com',
+		password:'123',
 		location: 'Irvine, CA',
 		info1: 'Straight, Single, 5"10',
 		info2: 'Tea Totaller, Loves Photography & Travel',

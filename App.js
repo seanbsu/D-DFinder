@@ -27,7 +27,7 @@ export default function App() {
     return <SplashScreen />;
   }
   if (!isLoggedIn) { 
-    return <LoginView />;
+    return <LoginView setIsLoggedIn={setIsLoggedIn} />;
   }
 
   return (

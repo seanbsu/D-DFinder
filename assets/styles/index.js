@@ -474,4 +474,34 @@ export default StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
   },
+
+  //SignUp
+  signup_container: {
+	flex: 1,
+	padding: 16,
+	paddingBottom: 100,
+  },
+  header: {
+	fontSize: 36,
+	padding: 24,
+	margin: 12,
+	textAlign: "center",
+  },
+  inputTextWrapper: {
+	marginBottom: 24,
+  },
+  textInput: {
+	height: 40,
+	borderColor: "#000000",
+	borderBottomWidth: 1,
+	paddingRight: 30,
+  },
+  errorText: {
+	color: 'red',
+	fontSize: 10,
+  },
+  btnContainer: {
+	backgroundColor: "white",
+	marginTop:36,
+  },
 });
