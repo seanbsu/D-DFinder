@@ -8,27 +8,26 @@ import ProfileScreen from './components/ProfileScreen';
 import Icon from './components/Icon';
 import styles from './assets/styles';
 import SplashScreen from './components/SplashScreen'; 
+import LoginView from './components/LoginView';
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // You can set it to true if the user is already logged in
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
 
   useEffect(() => {
-    // Simulate checking user authentication status
-    // You can replace this with your actual authentication logic
     setTimeout(() => {
       setIsLoading(false);
-      // Check if the user is logged in
-      // For now, I'll assume the user is not logged in
       setIsLoggedIn(false);
-    }, 5000); // Simulating 2 seconds for splash screen
+    }, 5000); 
   }, []);
 
   if (isLoading) {
-    // Show splash screen while loading
     return <SplashScreen />;
+  }
+  if (!isLoggedIn) { 
+    return <LoginView />;
   }
 
   return (
