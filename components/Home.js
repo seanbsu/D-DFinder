@@ -35,10 +35,10 @@ export const Home = () => {
     // Find the object with the specific id and update its match value
     userP = userP.map(profile => {
     if (profile.id === 5) { // Assuming update the match value for the object with id 5
-      const matchList = [...profile.match, Users[currentIndex].id]
+      const matchList = [...profile.like, Users[currentIndex].id]
       return {
           ...profile,
-          match: matchList // Update the match value here
+          like: matchList // Update the match value here
       };
     }
     return profile;

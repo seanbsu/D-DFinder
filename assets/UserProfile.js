@@ -7,8 +7,9 @@ module.exports = [{
     info2: 'Tea Totaller, Loves Photography & Travel',
     info3: 'Secrets of Wildemount',
     info4: 'Last seen: 23h ago',
-    match: [],
+    match: '',
     dislike: [],
+    like: [],
     description:
         'Level 10 warlock/bard, Part time Singer/Dancer.',
     status: 'Offline',
