@@ -89,7 +89,7 @@ const UserCard = ({ user, position, onLike, onDislike, toggleProfile }) => {
         </Animated.View>
       
       
-      {showProfile && <ProfileScreen  />} 
+      {/* {showProfile && <ProfileScreen edit={false} />}  */}
       
       {!showProfile && <InteractionBar onLike={onLike} onDislike={onDislike} name={user.name} user={user} toggleProfile={toggleProfile} />} 
     </>

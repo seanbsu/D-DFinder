@@ -98,7 +98,7 @@ export default function App() {
           />
           <Tab.Screen
             name="Profile"
-            children={()=><ProfileScreen user={loggedInUser}/>}
+            children={()=><ProfileScreen user={loggedInUser} back={false}/>}
             options={{
               tabBarIcon: ({ focused }) => (
                 <Text style={[styles.iconMenu, { color: focused ? "#7444C0" : "#363636" }]}>

@@ -12,7 +12,7 @@ import ProfileItem from './ProfileItem';
 import Icon from './Icon';
 import Demo from '../assets/Demo';
 
-const Profile = ({onClose, user}) => {
+const Profile = ({onClose, user, edit, back}) => {
   const {
     age,
     uri,
@@ -34,11 +34,13 @@ const Profile = ({onClose, user}) => {
       <ScrollView style={styles.containerProfile}>
         <ImageBackground source={uri} style={styles.photo}>
           <View style={styles.top}>
+          {back === false ? null : ( 
             <TouchableOpacity onPress={onClose}>
               <Text style={styles.topIconLeft}>
                 <Icon name="chevron-back-sharp" size= {20}  />
               </Text>
             </TouchableOpacity>
+            )}
 
             <TouchableOpacity>
               <Text style={styles.topIconRight}>
@@ -60,11 +62,14 @@ const Profile = ({onClose, user}) => {
         />
 
         <View style={styles.actionsProfile}>
-          <TouchableOpacity style={styles.circledButton}>
-            <Text style={styles.iconButton}>
-              <Icon name="ellipsis-horizontal" />
-            </Text>
-          </TouchableOpacity>
+
+          {edit === false ? null : ( 
+            <TouchableOpacity style={styles.circledButton}>
+              <Text style={styles.iconButton}>
+                <Icon name="ellipsis-horizontal" />
+              </Text>
+            </TouchableOpacity>
+          ) }
 
           <TouchableOpacity style={styles.roundedButton}>
             <Text style={styles.iconButton}>

@@ -53,7 +53,7 @@ export const Home = () => {
             />
           </View>
         )}
-        {showProfile && <ProfileScreen user={Users[currentIndex]} onClose={toggleProfile} />}
+        {showProfile && <ProfileScreen user={Users[currentIndex]} onClose={toggleProfile} edit={false} />}
       </View>
     </View>
   );
