@@ -2,13 +2,13 @@ module.exports = [
 	{
 		id: 1,
 		name: 'Leanne Stormcloak',
-		age: '27',
+		age: '24',
 		location: 'Irvine, CA',
 		info1: 'Straight, Single, 5"10',
 		info2: 'Tea Totaller, Loves Photography & Travel',
 		info3: 'Beaches, Mountain, Cafe, Movies',
 		info4: 'Last seen: 23h ago',
-		match: '76',
+		match: '2',
 		status: 'Online',
 		match: '78',
 		description:
@@ -20,14 +20,13 @@ module.exports = [
 	{
 		id: 2,
 		name: 'Krilkath Rhorinn',
-		age: '27',
-		location: 'Irvine, CA',
-		info1: 'Straight, Single, 5"10',
-		info2: 'Tea Totaller, Loves Photography & Travel',
-		info3: 'Beaches, Mountain, Cafe, Movies',
+		age: '30',
+		location: 'Orange, CA',
+		info1: 'Straight, Single, 6"2',
+		info2: 'Tea Totaller, Loves Travel',
+		info3: ' Mountain, Sushi, Movies',
 		info4: 'Last seen: 23h ago',
-		match: '76',
-		match: '93',
+		match: '1,4',
 		description:
 			'level 2 Ranger',
 		status: 'Offline',
@@ -37,6 +36,12 @@ module.exports = [
 	{
 		id: 3,
 		name: 'Yinlar Sunshadow',
+		age: '25',
+		location: 'Santa Ana, CA',
+		info1: 'Straight, Single, 6"',
+		info2: 'Tea Totaller, Loves Photography & Travel',
+		info3: 'Beaches, Mountain, Meat, Movies',
+		info4: 'Last seen: 23h ago',
 		match: '45',
 		description:
 			'level 12 Barbarian',
@@ -48,16 +53,15 @@ module.exports = [
 	{
 		id: 4,
 		name: 'Damxius',
-		age: '27',
+		age: '26',
 		email:'123@gmail.com',
 		password:'123',
-		location: 'Irvine, CA',
-		info1: 'Straight, Single, 5"10',
+		location: 'Los Angeles, CA',
+		info1: 'Straight, Single, 5"6',
 		info2: 'Tea Totaller, Loves Photography & Travel',
 		info3: 'Beaches, Mountain, Cafe, Movies',
 		info4: 'Last seen: 23h ago',
-		match: '76',
-		match: '88',
+		match: '2',
 		description:
 			'Level 8 Fighter',
 		status: 'Online',
@@ -73,12 +77,28 @@ module.exports = [
 		info2: 'Tea Totaller, Loves Photography & Travel',
 		info3: 'Beaches, Mountain, Cafe, Movies',
 		info4: 'Last seen: 23h ago',
-		match: '76',
+		match: '4,1,3',
 		description:
 			'Level 10 warlock/bard, Part time Singer/Dancer.',
 		status: 'Offline',
 		message: "It's not who I am underneath but what I do that defines me.",
 		uri: require('./5.jpg')
 	},
+	{
+		id: 6,
+		name: 'Ryllyn Torate',
+		age: '27',
+		location: 'Irvine, CA',
+		info1: 'Level 10 warlock/bard, Part time Singer/Dancer.',
+		info2: 'Tea Totaller, Loves Photography & Travel',
+		info3: 'Secrets of Wildemount',
+		info4: 'Last seen: 23h ago',
+		match: '76',
+		description:
+			'Level 10 warlock/bard, Part time Singer/Dancer.',
+		status: 'Offline',
+		message: "It's not who I am underneath but what I do that defines me.",
+		uri: require('../assets/6.jpg')
+	}
 
 ];

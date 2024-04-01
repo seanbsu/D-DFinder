@@ -34,10 +34,13 @@ export const Home = () => {
       position.setValue({ x: 0, y: 0 });
     });
   };
+  const toggleProfile = () => {
+    setShowProfile(!showProfile);
+  };
 
   return (
     <View style={styles.container}>
-       <NavBar displayProfile={() => setShowProfile(true)} />
+       
       <View style={styles.contentContainer}>
         {!showProfile && currentIndex < Users.length && (
           <View style={styles.cards}>
@@ -46,10 +49,11 @@ export const Home = () => {
               position={position}
               onLike={handleLike}
               onDislike={handleDislike}
+              toggleProfile={toggleProfile}
             />
           </View>
         )}
-        {showProfile && <ProfileScreen closeProfile={() => setShowProfile(false)} />}
+        {showProfile && <ProfileScreen user={Users[currentIndex]} onClose={toggleProfile} />}
       </View>
     </View>
   );

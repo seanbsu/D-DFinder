@@ -12,7 +12,7 @@ import ProfileItem from './ProfileItem';
 import Icon from './Icon';
 import Demo from '../assets/Demo';
 
-const Profile = () => {
+const Profile = ({onClose, user}) => {
   const {
     age,
     uri,
@@ -23,23 +23,8 @@ const Profile = () => {
     location,
     match,
     name
-  } = 
-	{
-		id: 5,
-		name: 'Ryllyn Torate',
-		age: '27',
-		location: 'Irvine, CA',
-		info1: 'Level 10 warlock/bard, Part time Singer/Dancer.',
-		info2: 'Tea Totaller, Loves Photography & Travel',
-		info3: 'Secrets of Wildemount',
-		info4: 'Last seen: 23h ago',
-		match: '76',
-		description:
-			'Level 10 warlock/bard, Part time Singer/Dancer.',
-		status: 'Offline',
-		message: "It's not who I am underneath but what I do that defines me.",
-		uri: require('../assets/6.jpg')
-	};
+  } = user
+	
 
   return (
     <ImageBackground
@@ -49,9 +34,9 @@ const Profile = () => {
       <ScrollView style={styles.containerProfile}>
         <ImageBackground source={uri} style={styles.photo}>
           <View style={styles.top}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={onClose}>
               <Text style={styles.topIconLeft}>
-                <Icon name="chevron-back-sharp" size= {20 } />
+                <Icon name="chevron-back-sharp" size= {20}  />
               </Text>
             </TouchableOpacity>
 

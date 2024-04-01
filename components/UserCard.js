@@ -2,12 +2,14 @@ import React, { useState, useMemo } from 'react';
 import { Animated, PanResponder, Text, Image, Dimensions } from 'react-native';
 import InteractionBar from './InteractionBar'; // Import InteractionBar component
 import styles from '../assets/styles/index';
+import ProfileScreen from './ProfileScreen';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-const UserCard = ({ user, position, onLike, onDislike }) => {
+const UserCard = ({ user, position, onLike, onDislike, toggleProfile }) => {
   const [showButtons, setShowButtons] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
 
   const rotate = position.x.interpolate({
     inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
@@ -63,26 +65,33 @@ const UserCard = ({ user, position, onLike, onDislike }) => {
     }
   }), [position, onLike, onDislike]);
 
+
+
   return (
     <>
-      <Animated.View
-        {...panResponder.panHandlers}
-        style={[rotateAndTranslate, styles.card]}
-      >
-        {showButtons && (
-          <>
-            <Animated.View style={[styles.like, { opacity: likeOpacity }]}>
-              <Text style={styles.buttonTextLike}>LIKE</Text>
-            </Animated.View>
-            <Animated.View style={[styles.dislike, { opacity: dislikeOpacity }]}>
-              <Text style={styles.buttonTextDislike}>NOPE</Text>
-            </Animated.View>
-          </>
-        )}
-        <Image style={styles.image} source={user.uri}></Image>
-        
-      </Animated.View>
-      <InteractionBar onLike={onLike} onDislike={onDislike} name={user.name} />
+      
+        <Animated.View
+          {...panResponder.panHandlers}
+          style={[rotateAndTranslate, styles.card]}
+        >
+          {showButtons && (
+            <>
+              <Animated.View style={[styles.like, { opacity: likeOpacity }]}>
+                <Text style={styles.buttonTextLike}>LIKE</Text>
+              </Animated.View>
+              <Animated.View style={[styles.dislike, { opacity: dislikeOpacity }]}>
+                <Text style={styles.buttonTextDislike}>NOPE</Text>
+              </Animated.View>
+            </>
+          )}
+          <Image style={styles.image} source={user.uri}></Image>
+          
+        </Animated.View>
+      
+      
+      {showProfile && <ProfileScreen  />} 
+      
+      {!showProfile && <InteractionBar onLike={onLike} onDislike={onDislike} name={user.name} user={user} toggleProfile={toggleProfile} />} 
     </>
   );
 }

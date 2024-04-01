@@ -15,6 +15,7 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const [loggedInUserId, setLoggedInUserId] = useState(null);
 
   useEffect(() => {
     setTimeout(() => {
@@ -22,6 +23,8 @@ export default function App() {
       setIsLoggedIn(false);
     }, 5000); 
   }, []);
+
+  
 
   if (isLoading) {
     return <SplashScreen />;
