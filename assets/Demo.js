@@ -98,7 +98,7 @@ module.exports = [
 			'Level 10 warlock/bard, Part time Singer/Dancer.',
 		status: 'Offline',
 		message: "It's not who I am underneath but what I do that defines me.",
-		uri: require('../assets/6.jpg')
+		uri: require('./6.jpg')
 	}
 
 ];
