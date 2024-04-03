@@ -18,7 +18,7 @@ export const Home = () => {
   const [showProfile, setShowProfile] = useState(false);
 
   const handleLike = () => {
-    addMatch();
+    addToLikeList();
     Animated.spring(position, {
       toValue: { x: SCREEN_WIDTH + 100, y: 0 },
       useNativeDriver: true,
@@ -30,7 +30,7 @@ export const Home = () => {
     /**
    * Update the match value for the user object if the user swipes right
    */
-  const addMatch = () => {
+  const addToLikeList = () => {
     console.log('add match1');
     // Find the object with the specific id and update its match value
     userP = userP.map(profile => {
