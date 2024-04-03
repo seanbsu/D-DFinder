@@ -25,12 +25,12 @@ const SignUpScreen = ({ setShowSignUp }) => {
     bio: '',
     showEmailError: false,
     showPasswordError: false,
-    showFirstnameError: false,
-    showLastnameError: false,
+    showNameError: false,
+    showCharacterNameError: false,
     showClassError: false,
     showcharacterLevelError: false,
     showCampaignError: false,
-    showPhoneError: false,
+    showBioError: false,
   });
 
   const inputs = [
@@ -105,12 +105,12 @@ const SignUpScreen = ({ setShowSignUp }) => {
       ...prevState,
       showEmailError: state.email.length < 4,
       showPasswordError: state.password.length < 4,
-      showFirstnameError: state.firstname.length < 4,
-      showLastnameError: state.lastname.length < 4,
-      showClassError: state.class.length < 4,
-      showcharacterLevelError: state.characterlevel.length < 4,
-      showCampaignError: state.campaign.length < 4,
-      showPhoneError: state.phone.length < 4,
+      showNameError: state.name.length < 4,
+      showCharacterNameError: state.charactername.length < 4,
+      showClassError: state.characterclass.length < 4,
+      showcharacterLevelError: state.characterlevel.length > 2 ||state.characterlevel.length < 1,
+      showCampaignError: state.campaigns.length < 4,
+      showBioError: state.bio.length < 4,
     }));
     Keyboard.dismiss();
   };
@@ -171,7 +171,7 @@ const SignUpScreen = ({ setShowSignUp }) => {
             onChangeText={(value) => onChangeInputHandler('name', value)}
             ref={firstnameInputRef}
           />
-          {state.showFirstnameError && <Text style={styles.errorText}>Please enter your first name.</Text>}
+          {state.showNameError && <Text style={styles.errorText}>Please enter your name.</Text>}
         </View>
         <View style={styles.inputTextWrapper}>
           <TextInput
@@ -183,7 +183,7 @@ const SignUpScreen = ({ setShowSignUp }) => {
             onChangeText={(value) => onChangeInputHandler('charactername', value)}
             ref={characternameInputRef}
           />
-          {state.showLastnameError && <Text style={styles.errorText}>Please enter your character name.</Text>}
+          {state.showCharacterNameError && <Text style={styles.errorText}>Please enter your character name.</Text>}
         </View>
         <View style={styles.inputTextWrapper}>
           <TextInput
@@ -207,7 +207,7 @@ const SignUpScreen = ({ setShowSignUp }) => {
             onChangeText={(value) => onChangeInputHandler('characterlevel', value)}
             ref={characterLevelInputRef}
           />
-          {state.showcharacterLevelError && <Text style={styles.errorText}>Please enter your character's level.</Text>}
+          {state.showcharacterLevelError && <Text style={styles.errorText}>Please enter your character's level {"(1-20)"} .</Text>}
         </View>
         <View style={styles.inputTextWrapper}>
           <TextInput
@@ -224,7 +224,7 @@ const SignUpScreen = ({ setShowSignUp }) => {
         </View>
         <View style={styles.inputTextWrapper}>
           <TextInput
-            placeholder="Phone"
+            placeholder="Bio"
             style={styles.textInput}
             returnKeyType="done"
             onSubmitEditing={editNextInput}
@@ -232,7 +232,7 @@ const SignUpScreen = ({ setShowSignUp }) => {
             onChangeText={(value) => onChangeInputHandler('phone', value)}
             ref={phoneInputRef}
           />
-          {state.showPhoneError && <Text style={styles.errorText}>Please enter your phone number.</Text>}
+          {state.showBioError && <Text style={styles.errorText}>Please enter a Bio statement.</Text>}
         </View>
         <View style={styles.btnContainer}>
           <Button title="Submit" onPress={submitPressed} />
