@@ -10,9 +10,9 @@ import styles from './assets/styles';
 import SplashScreen from './components/SplashScreen'; 
 import LoginView from './components/LoginView';
 import Demo from './assets/Demo'; // Import the Demo array
+import  UserProfile  from './assets/UserProfile'; // Import the UserProfile array
 
 const Tab = createBottomTabNavigator();
-
 // Create context for loggedInUserId and its setter function
 export const UserIdContext = createContext();
 
@@ -29,23 +29,28 @@ export default function App() {
   }, []);
 
   // For testing purposes, set the logged-in user ID directly
-  
+   // Define a callback function to receive the username
+   const handleLogin = (user) => {
+    setLoggedInUser(user);
+   };
+
   useEffect(() => {
-    if (isLoading === false) {
-      const testUserId = 6; // Number type
-      // Attempt to find the user with id 6
-      const user = Demo.find(user => user.id === testUserId);
-      
-      setLoggedInUser(user);
+    if (isLoading === false && loggedInUser !== null) {
+      // const testUserId = 6; // Number type
+      // // Attempt to find the user with id 6
+      // const user = Demo.find(user => user.id === testUserId);
+      console.log("Logged In");
+      console.log(loggedInUser);
     }
   }, [isLoading, loggedInUser]);
 
+ 
 
   if (isLoading) {
     return <SplashScreen />;
   }
   if (!isLoggedIn) { 
-    return <LoginView setIsLoggedIn={setIsLoggedIn} />;
+    return <LoginView setIsLoggedIn={setIsLoggedIn}  onLogin={handleLogin}/>;
   }
 
   return (
@@ -75,7 +80,8 @@ export default function App() {
         >
           <Tab.Screen
             name="Home"
-            component={Home}
+            children={()=><Home user={loggedInUser}/>}
+      
             options={{
               tabBarIcon: ({ focused }) => (
                 <Text style={[styles.iconMenu, { color: focused ? "#7444C0" : "#363636" }]}>

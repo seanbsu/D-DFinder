@@ -10,9 +10,14 @@ import UserProfile from '../assets/UserProfile';
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 const Users = Demo;
-let userP = UserProfile;
+let userP= UserProfile;
 
-export const Home = () => {
+export const Home = ({user}) => {
+  const {
+    email,
+    password,
+    name
+  } = user
   const [currentIndex, setCurrentIndex] = useState(0);
   const position = new Animated.ValueXY();
   const [showProfile, setShowProfile] = useState(false);
@@ -32,13 +37,14 @@ export const Home = () => {
    */
   const addToLikeList = () => {
     console.log('add match1');
+
     // Find the object with the specific id and update its match value
     userP = userP.map(profile => {
-    if (profile.id === 5) { // Assuming update the match value for the object with id 5
-      const matchList = [...profile.like, Users[currentIndex].id]
+    if (profile.email === user.email) { // Assuming update the match value for the object with id 5
+      const likeList = [...profile.like, Users[currentIndex].id]
       return {
           ...profile,
-          like: matchList // Update the match value here
+          like: likeList // Update the match value here
       };
     }
     return profile;
@@ -64,13 +70,15 @@ export const Home = () => {
    */
   const addDisLikeList = () => {
     console.log('add dislike');
+    
     // Find the object with the specific id and update its match value
     userP = userP.map(profile => {
-    if (profile.id === 5) { // Assuming update the match value for the object with id 5
-      const matchList = [...profile.dislike, Users[currentIndex].id]
+    if (profile.email === user.email) { // Assuming update the match value for the object with id 5
+      
+      const dislikeList = [...profile.dislike, Users[currentIndex].id]
       return {
           ...profile,
-          dislike: matchList // Update the match value here
+          dislike: dislikeList // Update the match value here
       };
     }
     return profile;

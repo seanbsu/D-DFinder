@@ -2,8 +2,9 @@ import React, { useRef, useState } from 'react';
 import { Button, Keyboard, Platform, StyleSheet, Text, TextInput, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from '../assets/styles';
+import  UserProfile  from '../assets/UserProfile';
 
-const SignUpScreen = ({ setShowSignUp }) => {
+const SignUpScreen = ({ setShowSignUp ,setIsLoggedIn, onSignUp}) => {
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
   const firstnameInputRef = useRef(null);
@@ -13,7 +14,8 @@ const SignUpScreen = ({ setShowSignUp }) => {
   const campaignInputRef = useRef(null);
   const phoneInputRef = useRef(null);
   const scrollViewRef = useRef(null);
-
+  let user = UserProfile;
+  
   const [state, setState] = useState({
     email: '',
     password: '',
@@ -43,6 +45,20 @@ const SignUpScreen = ({ setShowSignUp }) => {
     campaignInputRef,
     phoneInputRef,
   ];
+  const initialState = {
+    email: '', // initial value for email
+    password: '', // initial value for password
+    firstname: '', // initial value for firstname
+    charactername: '', // initial value for charactername
+    class: '', // initial value for class
+    character: '', // initial value for character
+    campaign: '', // initial value for campaign
+    bio: '', // initial value for bio
+    like: [], // initial value for like as empty array
+    dislike: [], // initial value for dislike as empty array
+    match: [], // initial value for match as empty array
+  };
+  const [userState, setUserState] = useState(initialState);
 
   const editNextInput = () => {
     const activeIndex = getActiveInputIndex();
@@ -66,10 +82,12 @@ const SignUpScreen = ({ setShowSignUp }) => {
   };
 
   const onChangeInputHandler = (name, value) => {
+    
     setState((prevState) => ({
       ...prevState,
       [name]: value,
     }));
+
   };
 
   const getActiveInputIndex = () => {
@@ -112,7 +130,38 @@ const SignUpScreen = ({ setShowSignUp }) => {
       showCampaignError: state.campaigns.length < 4,
       showBioError: state.bio.length < 4,
     }));
-    Keyboard.dismiss();
+    let newUser={
+      email : state.email,
+      password :  state.password,
+      firstname : state.name,
+      charactername : state.charactername,
+      class : state.characterclass,
+      character: state.characterlevel,
+      campaign : state.campaigns,
+      bio : state.bio,
+      like: [],
+      dislike: [],
+      match: [],
+    }
+    //check if email exists
+    let isCreated = false;
+    user.some(profile => {
+      if (profile.email === state.email) {
+        isCreated = true;
+        alert('Email already exists. Please use a different email or try to sign in.');
+        Keyboard.dismiss();
+        backPressed();
+      } 
+    });
+    if(!isCreated){
+      setUserState(newUser);
+      user.push(newUser);  // TODO: need to post to the server to add new user
+      onSignUp(newUser);
+      Keyboard.dismiss();
+    //  backPressed();
+      setIsLoggedIn(true);
+    }
+   
   };
 
   const backPressed = () => {
@@ -202,6 +251,7 @@ const SignUpScreen = ({ setShowSignUp }) => {
             placeholder="Character Level"
             style={styles.textInput}
             returnKeyType="next"
+            keyboardType="numeric"
             onSubmitEditing={editNextInput}
             onFocus={onInputFocus}
             onChangeText={(value) => onChangeInputHandler('characterlevel', value)}
@@ -229,7 +279,7 @@ const SignUpScreen = ({ setShowSignUp }) => {
             returnKeyType="done"
             onSubmitEditing={editNextInput}
             onFocus={onInputFocus}
-            onChangeText={(value) => onChangeInputHandler('phone', value)}
+            onChangeText={(value) => onChangeInputHandler('bio', value)}
             ref={phoneInputRef}
           />
           {state.showBioError && <Text style={styles.errorText}>Please enter a Bio statement.</Text>}
