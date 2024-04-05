@@ -20,6 +20,8 @@ export default function LoginView({setIsLoggedIn, onLogin}) {
       if(user.email === username && user.password === password){
         onLogin(user);
         setIsLoggedIn(true);
+      } else {
+        alert('Invalid username or password');
       }
     }); 
   }
@@ -27,7 +29,7 @@ export default function LoginView({setIsLoggedIn, onLogin}) {
     onLogin(user);
     setIsLoggedIn(true);
   }
-  
+
   return(
       <View style={{ flex: 1 }}>
         {showSignUp ? (
