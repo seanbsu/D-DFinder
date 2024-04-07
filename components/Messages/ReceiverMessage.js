@@ -7,7 +7,7 @@ const ReceiverMessage = ({ message, receiver }) => {
       style={{
         backgroundColor: "#FF6347",
         borderRadius: 10,
-        borderBottomRightRadius: 0,
+        borderBottomLeftRadius: 0,
         paddingHorizontal: 15,
         paddingVertical: 10,
         marginHorizontal: 20,

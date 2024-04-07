@@ -7,7 +7,7 @@ const SenderMessage = ({ message }) => {
       style={{
         backgroundColor: "#6A5ACD",
         borderRadius: 10,
-        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
         paddingHorizontal: 15,
         paddingVertical: 10,
         marginHorizontal: 10,
