@@ -41,12 +41,6 @@ const Profile = ({onClose, user, edit, back}) => {
               </Text>
             </TouchableOpacity>
             )}
-
-            <TouchableOpacity>
-              <Text style={styles.topIconRight}>
-                <Icon name="ellipsis-vertical" size={20} />
-              </Text>
-            </TouchableOpacity>
           </View>
         </ImageBackground>
 
@@ -64,22 +58,18 @@ const Profile = ({onClose, user, edit, back}) => {
         <View style={styles.actionsProfile}>
 
           {edit === false ? null : ( 
-            <TouchableOpacity style={styles.circledButton}>
-              <Text style={styles.iconButton}>
-                <Icon name="ellipsis-horizontal" />
-              </Text>
-            </TouchableOpacity>
-          ) }
-
           <TouchableOpacity style={styles.roundedButton}>
             <Text style={styles.iconButton}>
-              <Icon name="chatbubble" />
+              <Icon name="create-outline"/>
             </Text>
-            <Text style={styles.textButton}>Start chatting</Text>
+            <Text style={styles.textButton}>Edit Profile</Text>
           </TouchableOpacity>
+          )}
+
         </View>
       </ScrollView>
     </ImageBackground>
+    
   );
 };
 
