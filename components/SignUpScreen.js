@@ -2,8 +2,10 @@ import React, { useRef, useState } from 'react';
 import { Button, Keyboard, Platform, StyleSheet, Text, TextInput, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from '../assets/styles';
+import Demo from '../assets/Demo';
+import {UserService} from '../components/UserService';
 
-const SignUpScreen = ({ setShowSignUp }) => {
+const SignUpScreen = ({ setShowSignUp ,setIsLoggedIn, onSignUp}) => {
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
   const firstnameInputRef = useRef(null);
@@ -13,7 +15,7 @@ const SignUpScreen = ({ setShowSignUp }) => {
   const campaignInputRef = useRef(null);
   const phoneInputRef = useRef(null);
   const scrollViewRef = useRef(null);
-
+  
   const [state, setState] = useState({
     email: '',
     password: '',
@@ -43,6 +45,8 @@ const SignUpScreen = ({ setShowSignUp }) => {
     campaignInputRef,
     phoneInputRef,
   ];
+  const initialState = new UserService();
+  const [userState, setUserState] = useState(initialState);
 
   const editNextInput = () => {
     const activeIndex = getActiveInputIndex();
@@ -66,10 +70,12 @@ const SignUpScreen = ({ setShowSignUp }) => {
   };
 
   const onChangeInputHandler = (name, value) => {
+    
     setState((prevState) => ({
       ...prevState,
       [name]: value,
     }));
+
   };
 
   const getActiveInputIndex = () => {
@@ -112,7 +118,26 @@ const SignUpScreen = ({ setShowSignUp }) => {
       showCampaignError: state.campaigns.length < 4,
       showBioError: state.bio.length < 4,
     }));
-    Keyboard.dismiss();
+    const aUser = new UserService( state.email, state.password, state.name, state.charactername, state.characterclass, state.characterlevel, state.campaigns, state.bio, [], [], [], [],);
+    //check if email exists
+    let isCreated = false;
+    Demo.some(profile => {
+      if (profile.email === state.email) {
+        isCreated = true;
+        alert('Email already exists. Please use a different email or try to sign in.');
+        Keyboard.dismiss();
+        backPressed();
+      } 
+    });
+    if(!isCreated){
+      setUserState(aUser);
+      Demo.push(aUser);  // TODO: need to post to the server to add new user
+      onSignUp(aUser);
+      Keyboard.dismiss();
+    //  backPressed();
+      setIsLoggedIn(true);
+    }
+   
   };
 
   const backPressed = () => {
@@ -202,6 +227,7 @@ const SignUpScreen = ({ setShowSignUp }) => {
             placeholder="Character Level"
             style={styles.textInput}
             returnKeyType="next"
+            keyboardType="numeric"
             onSubmitEditing={editNextInput}
             onFocus={onInputFocus}
             onChangeText={(value) => onChangeInputHandler('characterlevel', value)}
@@ -229,7 +255,7 @@ const SignUpScreen = ({ setShowSignUp }) => {
             returnKeyType="done"
             onSubmitEditing={editNextInput}
             onFocus={onInputFocus}
-            onChangeText={(value) => onChangeInputHandler('phone', value)}
+            onChangeText={(value) => onChangeInputHandler('bio', value)}
             ref={phoneInputRef}
           />
           {state.showBioError && <Text style={styles.errorText}>Please enter a Bio statement.</Text>}
