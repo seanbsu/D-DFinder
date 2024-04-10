@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import styles from '../assets/styles';
-import { ScrollView, View, Text, ImageBackground, TouchableOpacity } from 'react-native';
+import { ScrollView, View, Text, ImageBackground, TouchableOpacity, Modal } from 'react-native';
 import ProfileItem from './ProfileItem';
 import Icon from './Icon';
 import EditProfileScreen from './EditProfileScreen';
+import styles from '../assets/styles';
 
 const Profile = ({ onClose, user, edit, back }) => {
   const { age, uri, info1, info2, info3, info4, location, match, name } = user;
@@ -43,25 +43,21 @@ const Profile = ({ onClose, user, edit, back }) => {
           info4={info4}
         />
 
-        {editing ? (
-          <EditProfileScreen
-            setShowEditProfile={handleCloseEdit}
-            user={user} // Pass the user data for prefilling fields
-            edit
-          />
-        ) : (
+        {edit !== false && ( // Ensure the "Edit Profile" button is rendered when 'edit' prop is not explicitly set to false
           <View style={styles.actionsProfile}>
-            {edit === false ? null : (
-              <TouchableOpacity style={styles.roundedButton} onPress={handleEditProfile}>
-                <Text style={styles.iconButton}>
-                  <Icon name="create-outline" />
-                </Text>
-                <Text style={styles.textButton}>Edit Profile</Text>
-              </TouchableOpacity>
-            )}
+            <TouchableOpacity style={styles.roundedButton} onPress={handleEditProfile}>
+              <Text style={styles.iconButton}>
+                <Icon name="create-outline" />
+              </Text>
+              <Text style={styles.textButton}>Edit Profile</Text>
+            </TouchableOpacity>
           </View>
         )}
       </ScrollView>
+
+      <Modal visible={editing} animationType="slide">
+        <EditProfileScreen setShowEditProfile={handleCloseEdit} user={user} edit />
+      </Modal>
     </ImageBackground>
   );
 };
