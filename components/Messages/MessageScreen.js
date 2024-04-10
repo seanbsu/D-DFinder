@@ -5,51 +5,47 @@ import ReceiverMessage from "../components/ReceiverMessage";
 import SenderMessage from "../components/SenderMessage";
 import Demo from '../assets/Demo';
 
-const MessageScreen = ({ user }) => {
+const MessageScreen = ({ user, matchedUserId }) => {
   const [input, setInput] = useState("");
   const [conversation, setConversation] = useState([]);
   const [matchedUser, setMatchedUser] = useState(null);
 
   const sendMessage = () => {
     const newMessage = {
-      userId: user.id,
-      message: input,
+      senderId: user.id,
+      recipientId: matchedUser.id,
+      content: input,
       timestamp: Date.now()
     };
     setConversation(prevConversation => [...prevConversation, newMessage]);
     setInput("");
   };
 
- useEffect(() => {
-  // Find the matched user
-  const foundMatch = Demo.find(item => item.match.includes(user.id));
+  useEffect(() => {
+    // Find the matched user's messages in the current user's messages
+    const matchedMessages = user.messages.find(message => message.matchId === matchedUserId);
 
-  if (foundMatch) {
-    setMatchedUser(foundMatch);
+    if (matchedMessages) {
+      const foundMatch = Demo.find(item => item.id === matchedUserId);
+      if (foundMatch) {
+        setMatchedUser(foundMatch);
 
-    // Prepare initial conversation with matched user's message and user's message
-    const initialConversation = [
-      {
-        id: foundMatch.id,
-        userId: foundMatch.id,
-        message: foundMatch.message,
-        user: foundMatch
-      },
-      {
-        id: user.id,
-        userId: user.id,
-        message: user.message, // Include the user's message
-        user: user
+        // Extract conversation from matched messages
+        const initialConversation = matchedMessages.conversation.map(message => ({
+          id: message.senderId === user.id ? user.id : foundMatch.id,
+          senderId: message.senderId,
+          content: message.content,
+          timestamp: message.timestamp,
+        }));
+        // Sort conversation by timestamp
+        initialConversation.sort((a, b) => a.timestamp - b.timestamp);
+        setConversation(initialConversation);
+      } else {
+        setMatchedUser(null);
+        setConversation([]);
       }
-    ];
-    setConversation(initialConversation);
-    console.log(initialConversation);
-  } else {
-    setMatchedUser(null);
-    setConversation([]);
-  }
-}, []);
-
+    }
+  }, [matchedUserId]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -61,20 +57,20 @@ const MessageScreen = ({ user }) => {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FlatList
-            inverted
-            data={conversation}
-            keyExtractor={item => item.id.toString()}
-            renderItem={({ item }) => {
-              
-              if (item.userId === user.id) {
-                // Render sender message
-                return <SenderMessage message={item.message} />;
-              } else {
-                // Render receiver message
-                return <ReceiverMessage receiver={item.user} message={item.message} />;
-              }
-            }}
+              inverted
+              data={conversation.reverse()} // Reverse the order of messages
+              keyExtractor={item => item.timestamp.toString()}
+              renderItem={({ item }) => {
+                  if (item.senderId === user.id) {
+                      // Render sender message
+                      return <SenderMessage message={item.content} />;
+                  } else {
+                      // Render receiver message
+                      return <ReceiverMessage receiver={matchedUser} message={item.content} />;
+                  }
+              }}
           />
+
         </TouchableWithoutFeedback>
 
         <View style={{ flexDirection: "row", alignItems: "center", borderTopWidth: 1, borderTopColor: "#ccc", padding: 10 }}>
