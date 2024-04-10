@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import LoginScreen from "react-native-login-screen";
 import {View, TextInput} from "react-native";
 import SignUpScreen from './SignUpScreen';
-import UserProfile from '../assets/UserProfile';
+import Demo from '../assets/Demo';
 
 export default function LoginView({setIsLoggedIn, onLogin}) {
   const [username, setUsername] = React.useState('');
@@ -16,19 +16,25 @@ export default function LoginView({setIsLoggedIn, onLogin}) {
     //test user: a@gmail.com
     //test password:  123456
     //TODO: fetch user data from server
-    UserProfile.forEach((user)=>{
+    let isLoggedIn = false;
+    console.log(username);
+    console.log(password);
+    Demo.forEach((user)=>{
       if(user.email === username && user.password === password){
         onLogin(user);
         setIsLoggedIn(true);
-      } else {
-        alert('Invalid username or password');
+        isLoggedIn = true;
       }
     }); 
+    if(isLoggedIn === false){
+      alert("Invalid username or password");
+    }
   }
-  setUser = (user)=>{
-    onLogin(user);
-    setIsLoggedIn(true);
-  }
+  
+  // setUser = (user)=>{
+  //   onLogin(user);
+  //   setIsLoggedIn(true);
+  // }
 
   return(
       <View style={{ flex: 1 }}>

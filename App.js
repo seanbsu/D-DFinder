@@ -10,7 +10,6 @@ import styles from './assets/styles';
 import SplashScreen from './components/SplashScreen'; 
 import LoginView from './components/LoginView';
 import Demo from './assets/Demo'; // Import the Demo array
-import  UserProfile  from './assets/UserProfile'; // Import the UserProfile array
 
 const Tab = createBottomTabNavigator();
 // Create context for loggedInUserId and its setter function

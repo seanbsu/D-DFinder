@@ -2,7 +2,8 @@ import React, { useRef, useState } from 'react';
 import { Button, Keyboard, Platform, StyleSheet, Text, TextInput, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from '../assets/styles';
-import  UserProfile  from '../assets/UserProfile';
+import Demo from '../assets/Demo';
+import {UserService} from '../components/UserService';
 
 const SignUpScreen = ({ setShowSignUp ,setIsLoggedIn, onSignUp}) => {
   const emailInputRef = useRef(null);
@@ -14,7 +15,6 @@ const SignUpScreen = ({ setShowSignUp ,setIsLoggedIn, onSignUp}) => {
   const campaignInputRef = useRef(null);
   const phoneInputRef = useRef(null);
   const scrollViewRef = useRef(null);
-  let user = UserProfile;
   
   const [state, setState] = useState({
     email: '',
@@ -45,19 +45,7 @@ const SignUpScreen = ({ setShowSignUp ,setIsLoggedIn, onSignUp}) => {
     campaignInputRef,
     phoneInputRef,
   ];
-  const initialState = {
-    email: '', // initial value for email
-    password: '', // initial value for password
-    firstname: '', // initial value for firstname
-    charactername: '', // initial value for charactername
-    class: '', // initial value for class
-    character: '', // initial value for character
-    campaign: '', // initial value for campaign
-    bio: '', // initial value for bio
-    like: [], // initial value for like as empty array
-    dislike: [], // initial value for dislike as empty array
-    match: [], // initial value for match as empty array
-  };
+  const initialState = new UserService();
   const [userState, setUserState] = useState(initialState);
 
   const editNextInput = () => {
@@ -130,22 +118,10 @@ const SignUpScreen = ({ setShowSignUp ,setIsLoggedIn, onSignUp}) => {
       showCampaignError: state.campaigns.length < 4,
       showBioError: state.bio.length < 4,
     }));
-    let newUser={
-      email : state.email,
-      password :  state.password,
-      firstname : state.name,
-      charactername : state.charactername,
-      class : state.characterclass,
-      character: state.characterlevel,
-      campaign : state.campaigns,
-      bio : state.bio,
-      like: [],
-      dislike: [],
-      match: [],
-    }
+    const aUser = new UserService( state.email, state.password, state.name, state.charactername, state.characterclass, state.characterlevel, state.campaigns, state.bio, [], [], [], [],);
     //check if email exists
     let isCreated = false;
-    user.some(profile => {
+    Demo.some(profile => {
       if (profile.email === state.email) {
         isCreated = true;
         alert('Email already exists. Please use a different email or try to sign in.');
@@ -154,9 +130,9 @@ const SignUpScreen = ({ setShowSignUp ,setIsLoggedIn, onSignUp}) => {
       } 
     });
     if(!isCreated){
-      setUserState(newUser);
-      user.push(newUser);  // TODO: need to post to the server to add new user
-      onSignUp(newUser);
+      setUserState(aUser);
+      Demo.push(aUser);  // TODO: need to post to the server to add new user
+      onSignUp(aUser);
       Keyboard.dismiss();
     //  backPressed();
       setIsLoggedIn(true);
