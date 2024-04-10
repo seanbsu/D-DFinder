@@ -45,7 +45,7 @@ const Profile = ({ onClose, user, edit, back }) => {
 
         {editing ? (
           <EditProfileScreen
-            setShowSignUp={handleCloseEdit}
+            setShowEditProfile={handleCloseEdit}
             user={user} // Pass the user data for prefilling fields
             edit
           />
