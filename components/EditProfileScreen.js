@@ -206,7 +206,8 @@ const EditProfileScreen = ({ setShowEditProfile, user }) => {
           />
           {errorMessages.bio !== '' && <Text style={styles.errorText}>{errorMessages.bio}</Text>}
         </View>
-        
+        {user.uri && <Image source={user.uri} style={{ width: 150, height: 150 }} />}
+
         <View style={styles.btnContainer}>
           <Button title="Upload Photo" />
         </View>
