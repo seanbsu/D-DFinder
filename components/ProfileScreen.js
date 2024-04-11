@@ -13,8 +13,8 @@ import Icon from "./Icon";
 import Demo from "../assets/Demo";
 
 const Profile = ({ onClose, user, edit, back }) => {
-  console.log("user");
-  console.log(user);
+  // console.log("user");
+  // console.log(user);
 
   return (
     <ImageBackground

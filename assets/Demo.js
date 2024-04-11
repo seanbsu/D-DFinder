@@ -6,7 +6,7 @@ module.exports = [
     firstname: "Leane",
     charactername: "Leanne Stormcloak",
     characterClass: "rogue",
-    characterLevel: "",
+    characterLevel: "20",
     campaign: "",
     bio: "",
     otheruser: [],
