@@ -259,7 +259,14 @@ export default StyleSheet.create({
 	containerMessages: {
 		justifyContent: "space-between",
 		flex: 1,
-		paddingHorizontal: 10
+		paddingHorizontal: 0
+	},
+	messagestop: {
+		paddingTop: 0,
+		marginHorizontal: 10,
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center"
 	},
 
 	// CONTAINER - PROFILE

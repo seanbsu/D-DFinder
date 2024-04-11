@@ -5,7 +5,7 @@ import ReceiverMessage from "./ReceiverMessage";
 import SenderMessage from "./SenderMessage";
 import Demo from '../../assets/Demo';
 
-const MessageScreen = ({ user, matchedUserId }) => {
+const MessageScreen = ({ user, matchedUserId, onPressBack }) => {
   const [input, setInput] = useState("");
   const [conversation, setConversation] = useState([]);
   const [matchedUser, setMatchedUser] = useState(null);
@@ -49,7 +49,7 @@ const MessageScreen = ({ user, matchedUserId }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Header title={matchedUser ? matchedUser.name : "User"} callEnabled />
+      <Header title={matchedUser ? matchedUser.charactername : "User"} callEnabled onBackPress={onPressBack} />
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}

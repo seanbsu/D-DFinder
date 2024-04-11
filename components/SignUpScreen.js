@@ -135,8 +135,8 @@ const SignUpScreen = ({ setShowSignUp, setIsLoggedIn, onSignUp }) => {
       state.campaigns,
       state.bio
     );
-    console.log("aUser");
-    console.log(userState);
+    // console.log("aUser");
+    // console.log(userState);
     //check if email exists
     let isCreated = false;
     Demo.some((profile) => {
