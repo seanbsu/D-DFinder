@@ -15,6 +15,7 @@ export const Home = ({ user }) => {
   const position = new Animated.ValueXY();
   const [showProfile, setShowProfile] = useState(false);
   const [currentUsers, setCurrentUsers] = useState(user);
+  const filteredUsers = Users.filter((u) => u.email !== user.email);
 
   const handleLike = () => {
     addToLikeList();
@@ -83,10 +84,10 @@ export const Home = ({ user }) => {
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-        {!showProfile && currentIndex < Users.length && (
+        {!showProfile && currentIndex < filteredUsers.length && (
           <View style={styles.cards}>
             <UserCard
-              user={Users[currentIndex]}
+              user={filteredUsers[currentIndex]}
               position={position}
               onLike={handleLike}
               onDislike={handleDislike}
