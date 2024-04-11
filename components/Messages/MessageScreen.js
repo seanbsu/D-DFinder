@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, View, TextInput, Button, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, FlatList } from "react-native";
 import Header from "./Header";
-import ReceiverMessage from "../components/ReceiverMessage";
-import SenderMessage from "../components/SenderMessage";
-import Demo from '../assets/Demo';
+import ReceiverMessage from "./ReceiverMessage";
+import SenderMessage from "./SenderMessage";
+import Demo from '../../assets/Demo';
 
 const MessageScreen = ({ user, matchedUserId }) => {
   const [input, setInput] = useState("");
