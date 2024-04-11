@@ -17,14 +17,8 @@ export const Home = () => {
   const [showProfile, setShowProfile] = useState(false);
   const [Users, setUsers] = useState(null)
 
+  //Trying to save t
   saveRemoteProfiles(url,Demo);
-
-  // function getList(){
-  //   saveRemoteProfiles(url,Demo).then(() => {
-  //     const users = getRemoteProfiles(url);
-  //     setUsers(users)
-  //   });
-  // }
 
   //Get the users from our remote
   useEffect(() => {
