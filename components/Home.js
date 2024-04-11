@@ -1,24 +1,20 @@
-import React, { useState } from 'react';
-import { Dimensions, View, Animated,Text } from 'react-native';
-import NavBar from './NavBar.js';
-import ProfileScreen from './ProfileScreen';
-import Demo from '../assets/Demo';
-import UserCard from './UserCard';
-import styles from '../assets/styles';
+import React, { useState } from "react";
+import { Dimensions, View, Animated, Text } from "react-native";
+import NavBar from "./NavBar.js";
+import ProfileScreen from "./ProfileScreen";
+import Demo from "../assets/Demo";
+import UserCard from "./UserCard";
+import styles from "../assets/styles";
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 let Users = Demo;
 
-export const Home = ({user}) => {
-  const {
-    email,
-    password,
-    name
-  } = user
+export const Home = ({ user }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const position = new Animated.ValueXY();
   const [showProfile, setShowProfile] = useState(false);
+  const [currentUsers, setCurrentUsers] = useState(user);
 
   const handleLike = () => {
     addToLikeList();
@@ -30,25 +26,25 @@ export const Home = ({user}) => {
       position.setValue({ x: 0, y: 0 });
     });
   };
-    /**
+  /**
    * Update the match value for the user object if the user swipes right
    */
   const addToLikeList = () => {
-    console.log('add match1');
+    console.log("add match1");
 
     // Find the object with the specific id and update its match value
-    Users = Users.map(profile => {
-    if (profile.email === user.email) { // Assuming update the match value for the object with id 5
-      const likeList = [...profile.like, Users[currentIndex].id]
-      return {
+    Users = Users.map((profile) => {
+      if (profile.email === user.email) {
+        // Assuming update the match value for the object with id 5
+        const likeList = [...profile.like, Users[currentIndex].id];
+        return {
           ...profile,
-          like: likeList // Update the match value here
-      };
-    }
-    return profile;
-   });
-   console.log(Users);
-  }
+          like: likeList, // Update the match value here
+        };
+      }
+      return profile;
+    });
+  };
 
   const handleDislike = () => {
     addDisLikeList();
@@ -62,30 +58,30 @@ export const Home = ({user}) => {
   };
   const toggleProfile = () => {
     setShowProfile(!showProfile);
+    setCurrentUsers(Users[currentIndex]);
   };
   /**
    * Update the match value for the user object if the user swipes left or click x icon
    */
   const addDisLikeList = () => {
-    console.log('add dislike');
-    
+    console.log("add dislike");
+
     // Find the object with the specific id and update its match value
-    Users = Users.map(profile => {
-    if (profile.email === user.email) { // Assuming update the match value for the object with id 5
-      
-      const dislikeList = [...profile.dislike, Users[currentIndex].id]
-      return {
+    Users = Users.map((profile) => {
+      if (profile.email === user.email) {
+        // Assuming update the match value for the object with id 5
+
+        const dislikeList = [...profile.dislike, Users[currentIndex].id];
+        return {
           ...profile,
-          dislike: dislikeList // Update the match value here
-      };
-    }
-    return profile;
-   });
-   console.log(Users);
-  }
+          dislike: dislikeList, // Update the match value here
+        };
+      }
+      return profile;
+    });
+  };
   return (
     <View style={styles.container}>
-       
       <View style={styles.contentContainer}>
         {!showProfile && currentIndex < Users.length && (
           <View style={styles.cards}>
@@ -98,8 +94,14 @@ export const Home = ({user}) => {
             />
           </View>
         )}
-        {showProfile && <ProfileScreen user={Users[currentIndex]} onClose={toggleProfile} edit={false} />}
+        {showProfile && (
+          <ProfileScreen
+            user={currentUsers}
+            onClose={toggleProfile}
+            edit={false}
+          />
+        )}
       </View>
     </View>
   );
-}
+};
