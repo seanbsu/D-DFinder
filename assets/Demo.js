@@ -8,7 +8,7 @@ module.exports = [
     characterClass: "paladin",
     characterLevel: "20",
     campaign: "Elf home",
-    bio: "upstanding paladin who fights for the little guy ",
+    bio: "upstanding paladin who fights for the little guy. I love to swing my big ass sword around ",
     otheruser: [],
     like: [2,4,5],
     dislike: [],
