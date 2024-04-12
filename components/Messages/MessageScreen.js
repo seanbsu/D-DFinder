@@ -17,12 +17,11 @@ const MessageScreen = ({ user, matchedUserId, onPressBack }) => {
       content: input,
       timestamp: Date.now()
     };
-    setConversation(prevConversation => [...prevConversation, newMessage]);
+    setConversation(prevConversation => [newMessage, ...prevConversation]); // Add new message to the beginning of the conversation array
     setInput("");
   };
 
   useEffect(() => {
-    // Find the matched user's messages in the current user's messages
     const matchedMessages = user.messages.find(message => message.matchId === matchedUserId);
 
     if (matchedMessages) {
@@ -30,7 +29,6 @@ const MessageScreen = ({ user, matchedUserId, onPressBack }) => {
       if (foundMatch) {
         setMatchedUser(foundMatch);
 
-        // Extract conversation from matched messages
         const initialConversation = matchedMessages.conversation.map(message => ({
           id: message.senderId === user.id ? user.id : foundMatch.id,
           senderId: message.senderId,
@@ -39,7 +37,8 @@ const MessageScreen = ({ user, matchedUserId, onPressBack }) => {
         }));
         // Sort conversation by timestamp
         initialConversation.sort((a, b) => a.timestamp - b.timestamp);
-        setConversation(initialConversation);
+        // Reverse the order of messages here
+        setConversation(initialConversation.reverse());
       } else {
         setMatchedUser(null);
         setConversation([]);
@@ -57,15 +56,12 @@ const MessageScreen = ({ user, matchedUserId, onPressBack }) => {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FlatList
-              inverted
-              data={conversation.reverse()} // Reverse the order of messages
+              data={conversation}
               keyExtractor={item => item.timestamp.toString()}
               renderItem={({ item }) => {
                   if (item.senderId === user.id) {
-                      // Render sender message
                       return <SenderMessage message={item.content} />;
                   } else {
-                      // Render receiver message
                       return <ReceiverMessage receiver={matchedUser} message={item.content} />;
                   }
               }}
