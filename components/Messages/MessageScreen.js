@@ -10,17 +10,6 @@ const MessageScreen = ({ user, matchedUserId, onPressBack }) => {
   const [conversation, setConversation] = useState([]);
   const [matchedUser, setMatchedUser] = useState(null);
 
-  const sendMessage = () => {
-    const newMessage = {
-      senderId: user.id,
-      recipientId: matchedUser.id,
-      content: input,
-      timestamp: Date.now()
-    };
-    setConversation(prevConversation => [newMessage, ...prevConversation]); // Add new message to the beginning of the conversation array
-    setInput("");
-  };
-
   useEffect(() => {
     const matchedMessages = user.messages.find(message => message.matchId === matchedUserId);
 
@@ -37,14 +26,27 @@ const MessageScreen = ({ user, matchedUserId, onPressBack }) => {
         }));
         // Sort conversation by timestamp
         initialConversation.sort((a, b) => a.timestamp - b.timestamp);
-        // Reverse the order of messages here
-        setConversation(initialConversation.reverse());
+        setConversation(initialConversation);
       } else {
         setMatchedUser(null);
         setConversation([]);
       }
     }
   }, [matchedUserId]);
+
+  const sendMessage = () => {
+    const newMessage = {
+      senderId: user.id,
+      recipientId: matchedUser.id,
+      content: input,
+      timestamp: Date.now()
+    };
+    const updatedConversation = [...conversation, newMessage]; // Add new message to the end of the conversation array
+    // Sort conversation by timestamp
+    updatedConversation.sort((a, b) => a.timestamp - b.timestamp);
+    setConversation(updatedConversation);
+    setInput("");
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -60,9 +62,9 @@ const MessageScreen = ({ user, matchedUserId, onPressBack }) => {
               keyExtractor={item => item.timestamp.toString()}
               renderItem={({ item }) => {
                   if (item.senderId === user.id) {
-                      return <SenderMessage message={item.content} />;
+                      return <SenderMessage message={item.content} timestamp={item.timestamp} />;
                   } else {
-                      return <ReceiverMessage receiver={matchedUser} message={item.content} />;
+                      return <ReceiverMessage receiver={matchedUser} message={item.content} timestamp={item.timestamp} />;
                   }
               }}
           />
