@@ -15,6 +15,8 @@ export const Home = ({ user }) => {
   const position = new Animated.ValueXY();
   const [showProfile, setShowProfile] = useState(false);
   const [currentUsers, setCurrentUsers] = useState(user);
+  const filteredUsers = Users.filter(u => u.email !== user.email && !user.like.includes(u.id) && !user.match.includes(u.id));
+
 
   const handleLike = () => {
     addToLikeList();
@@ -58,8 +60,11 @@ export const Home = ({ user }) => {
   };
   const toggleProfile = () => {
     setShowProfile(!showProfile);
-    setCurrentUsers(Users[currentIndex]);
+    if (!showProfile) {
+      setCurrentUsers(filteredUsers[currentIndex]);
+    }
   };
+  
   /**
    * Update the match value for the user object if the user swipes left or click x icon
    */
@@ -83,10 +88,10 @@ export const Home = ({ user }) => {
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-        {!showProfile && currentIndex < Users.length && (
+        {!showProfile && currentIndex < filteredUsers.length && (
           <View style={styles.cards}>
             <UserCard
-              user={Users[currentIndex]}
+              user={filteredUsers[currentIndex]}
               position={position}
               onLike={handleLike}
               onDislike={handleDislike}

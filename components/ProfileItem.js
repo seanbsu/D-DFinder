@@ -21,16 +21,24 @@ const ProfileItem = ({
 
       <View style={styles.info}>
         <Text style={styles.iconProfile}>
-          <Icon name="body-sharp" />
+          <Icon name="body-outline" size={20} />
+        </Text>
+        <Text style={styles.infoContent}>{bio}</Text>
+      </View>
+
+      <View style={styles.info}>
+        <Text style={styles.iconProfile}>
+          <Icon name="body-sharp" size={20} />
         </Text>
         <Text style={styles.infoContent}>{characterClass}</Text>
       </View>
 
       <View style={styles.info}>
         <Text style={styles.iconProfile}>
-          <MaterialIcons
-            name="favorite"
+          <Icon
+            name="trail-sign-sharp"
             color="black"
+            size={20}
           />
         </Text>
         <Text style={styles.infoContent}>{campaign}</Text>
@@ -38,17 +46,12 @@ const ProfileItem = ({
 
       <View style={styles.info}>
         <Text style={styles.iconProfile}>
-          <Icon name="trail-sign" />
+          <Icon name="trending-up-sharp" size={20}/>
         </Text>
         <Text style={styles.infoContent}>{characterlevel}</Text>
       </View>
 
-      <View style={styles.info}>
-        <Text style={styles.iconProfile}>
-          <Icon name="calendar" />
-        </Text>
-        <Text style={styles.infoContent}>{bio}</Text>
-      </View>
+      
     </View>
   );
 };

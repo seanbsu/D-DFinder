@@ -13,8 +13,8 @@ import Icon from "./Icon";
 import Demo from "../assets/Demo";
 
 const Profile = ({ onClose, user, edit, back }) => {
-  console.log("user");
-  console.log(user);
+  // console.log("user");
+  // console.log(user);
 
   return (
     <ImageBackground
@@ -51,7 +51,7 @@ const Profile = ({ onClose, user, edit, back }) => {
           firstname={user.firstname}
           charactername={user.charactername}
           characterClass={user.characterClass}
-          characterlevel={user.characterlevel}
+          characterlevel={user.characterLevel}
           campaign={user.campaign}
           bio={user.bio}
         />

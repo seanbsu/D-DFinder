@@ -5,17 +5,47 @@ module.exports = [
     password: "123456",
     firstname: "Leane",
     charactername: "Leanne Stormcloak",
-    characterClass: "rogue",
-    characterLevel: "",
-    campaign: "",
-    bio: "",
+    characterClass: "paladin",
+    characterLevel: "20",
+    campaign: "Elf home",
+    bio: "upstanding paladin who fights for the little guy. I love to swing my big ass sword around ",
     otheruser: [],
-    like: [],
+    like: [2,4,5],
     dislike: [],
-    match: [],
-    message:
-      "I will go back to Gotham and I will fight men Iike this but I will not become an executioner.",
-    uri: require("./1.jpg"),
+    match: [2, 4],
+    messages: [
+      {
+        matchId: 2,
+        conversation: [
+          {
+            senderId: 1,
+            content: "I will go back to Gotham and I will fight men Iike this but I will not become an executioner.",
+            timestamp: "2024-04-09T12:00:00Z"
+          },
+          {
+            senderId: 2,
+            content: "Someone like you. Someone who'll rattle the cages.",
+            timestamp: "2024-04-09T12:05:00Z"
+          }
+        ]
+      },
+      {
+        matchId: 4,
+        conversation: [
+          {
+            senderId: 1,
+            content: "I will go back to Gotham and I will fight men Iike this but I will not become an executioner.",
+            timestamp: "2024-04-09T12:01:00Z"
+          },
+          {
+            senderId: 4,
+            content: "Bats frighten me. It's time my enemies shared my dread.",
+            timestamp: "2024-04-09T12:05:00Z"
+          }
+        ]
+      }
+    ],
+    uri: require("./1.jpg")
   },
   {
     id: 2,
@@ -24,16 +54,32 @@ module.exports = [
     firstname: "Henry",
     charactername: "Krilkath Rhorinn",
     characterClass: "sorcerer",
-    characterLevel: "",
-    campaign: "",
-    bio: "",
+    characterLevel: "10",
+    campaign: " Dwarven Mysteries",
+    bio: "you need a healer then I'm your guy",
     otheruser: [],
     like: [],
     dislike: [],
-    match: [],
+    match: [1],
     status: "Offline",
-    message: "Someone like you. Someone who'll rattle the cages.",
-    uri: require("./2.jpg"),
+    messages: [
+      {
+        matchId: 1,
+        conversation: [
+          {
+            senderId: 1,
+            content: "I will go back to Gotham and I will fight men Iike this but I will not become an executioner.",
+            timestamp: "2024-04-09T12:00:00Z"
+          },
+          {
+            senderId: 2,
+            content: "Someone like you. Someone who'll rattle the cages.",
+            timestamp: "2024-04-09T12:05:00Z"
+          }
+        ]
+      }
+    ],
+    uri: require("./2.jpg")
   },
   {
     id: 3,
@@ -42,17 +88,16 @@ module.exports = [
     firstname: "Juan",
     charactername: "Yinlar Sunshadow",
     characterClass: "sorcerer",
-    characterLevel: "",
-    campaign: "",
+    characterLevel: "3",
+    campaign: "Quest for Camelot",
     bio: 'Straight, Single, 6"',
     otheruser: [],
     like: [],
     dislike: [],
     match: [],
     status: "Offline",
-    message:
-      "Oh, hee-hee, aha. Ha, ooh, hee, ha-ha, ha-ha. And I thought my jokes were bad.",
-    uri: require("./3.jpg"),
+    messages: [],
+    uri: require("./3.jpg")
   },
   {
     id: 4,
@@ -63,14 +108,30 @@ module.exports = [
     characterClass: "sorcerer",
     characterLevel: "8",
     campaign: "Fighter",
-    bio: "",
+    bio: "firey sorcerer who loves to duke it out in a magic battle with dragons",
     otheruser: [],
     like: [],
     dislike: [],
-    match: [],
+    match: [1],
     status: "Online",
-    message: "Bats frighten me. It's time my enemies shared my dread.",
-    uri: require("./4.jpg"),
+    messages: [
+      {
+        matchId: 1,
+        conversation: [
+          {
+            senderId: 1,
+            content: "I will go back to Gotham and I will fight men Iike this but I will not become an executioner.",
+            timestamp: "2024-04-09T12:01:00Z"
+          },
+          {
+            senderId: 4,
+            content: "Bats frighten me. It's time my enemies shared my dread.",
+            timestamp: "2024-04-09T12:05:00Z"
+          }
+        ]
+      }
+    ],
+    uri: require("./4.jpg")
   },
   {
     id: 5,
@@ -80,15 +141,15 @@ module.exports = [
     charactername: "Liow Shuay",
     characterClass: "bard",
     characterLevel: "10",
-    campaign: "Mountain",
+    campaign: "Mountain Home",
     bio: 'Straight, Single, 5"10',
     otheruser: [],
     like: [],
     dislike: [],
     match: [],
     status: "Offline",
-    message: "It's not who I am underneath but what I do that defines me.",
-    uri: require("./5.jpg"),
+    messages: [],
+    uri: require("./5.jpg")
   },
   {
     id: 6,
@@ -97,7 +158,7 @@ module.exports = [
     firstname: "John",
     charactername: "Ryllyn Torate",
     characterClass: "bard",
-    characterLevel: 10,
+    characterLevel: "10",
     campaign: "The Lost Mine of Phandelver",
     bio: "Part time Singer/Dancer",
     otheruser: [],
@@ -105,7 +166,7 @@ module.exports = [
     dislike: [],
     match: [],
     status: "Offline",
-    message: "It's not who I am underneath but what I do that defines me.",
-    uri: require("./6.jpg"),
-  },
+    messages: [],
+    uri: require("./6.jpg")
+  }
 ];

@@ -46,7 +46,6 @@ const UserCard = ({ user, position, onLike, onDislike, toggleProfile }) => {
     onPanResponderRelease: (_, gestureState) => {
       setShowButtons(false); // Hide buttons when user stops swiping
       if (gestureState.dx > 120) {
-        getUserInfo();
         Animated.spring(position, {
           toValue: { x: SCREEN_WIDTH + 100, y: gestureState.dy },
           useNativeDriver: true,
@@ -93,7 +92,7 @@ const UserCard = ({ user, position, onLike, onDislike, toggleProfile }) => {
       
       {/* {showProfile && <ProfileScreen edit={false} />}  */}
       
-      {!showProfile && <InteractionBar onLike={onLike} onDislike={onDislike} name={user.name} user={user} toggleProfile={toggleProfile} />} 
+      {!showProfile && <InteractionBar onLike={onLike} onDislike={onDislike} name={user.charactername} user={user} toggleProfile={toggleProfile} />} 
     </>
   );
 }
