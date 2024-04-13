@@ -1,104 +1,172 @@
 module.exports = [
-	{
-		id: 1,
-		name: 'Leanne Stormcloak',
-		age: '24',
-		location: 'Irvine, CA',
-		info1: 'Straight, Single, 5"10',
-		info2: 'Tea Totaller, Loves Photography & Travel',
-		info3: 'Beaches, Mountain, Cafe, Movies',
-		info4: 'Last seen: 23h ago',
-		match: '2',
-		status: 'Online',
-		match: '78',
-		description:
-			'Level 5 Paladin.',
-		message:
-			'I will go back to Gotham and I will fight men Iike this but I will not become an executioner.',
-		uri: require('./1.jpg')
-	},
-	{
-		id: 2,
-		name: 'Krilkath Rhorinn',
-		age: '30',
-		location: 'Orange, CA',
-		info1: 'Straight, Single, 6"2',
-		info2: 'Tea Totaller, Loves Travel',
-		info3: ' Mountain, Sushi, Movies',
-		info4: 'Last seen: 23h ago',
-		match: '1,4',
-		description:
-			'level 2 Ranger',
-		status: 'Offline',
-		message: "Someone like you. Someone who'll rattle the cages.",
-		uri: require('./2.jpg')
-	},
-	{
-		id: 3,
-		name: 'Yinlar Sunshadow',
-		age: '25',
-		location: 'Santa Ana, CA',
-		info1: 'Straight, Single, 6"',
-		info2: 'Tea Totaller, Loves Photography & Travel',
-		info3: 'Beaches, Mountain, Meat, Movies',
-		info4: 'Last seen: 23h ago',
-		match: '45',
-		description:
-			'level 12 Barbarian',
-		status: 'Offline',
-		message:
-			'Oh, hee-hee, aha. Ha, ooh, hee, ha-ha, ha-ha. And I thought my jokes were bad.',
-		uri: require('./3.jpg')
-	},
-	{
-		id: 4,
-		name: 'Damxius',
-		age: '26',
-		email:'123@gmail.com',
-		password:'123',
-		location: 'Los Angeles, CA',
-		info1: 'Straight, Single, 5"6',
-		info2: 'Tea Totaller, Loves Photography & Travel',
-		info3: 'Beaches, Mountain, Cafe, Movies',
-		info4: 'Last seen: 23h ago',
-		match: '2',
-		description:
-			'Level 8 Fighter',
-		status: 'Online',
-		message: "Bats frighten me. It's time my enemies shared my dread.",
-		uri: require('./4.jpg')
-	},
-	{
-		id: 5,
-		name: 'Liow Shuay',
-		age: '27',
-		location: 'Irvine, CA',
-		info1: 'Straight, Single, 5"10',
-		info2: 'Tea Totaller, Loves Photography & Travel',
-		info3: 'Beaches, Mountain, Cafe, Movies',
-		info4: 'Last seen: 23h ago',
-		match: '4,1,3',
-		description:
-			'Level 10 warlock/bard, Part time Singer/Dancer.',
-		status: 'Offline',
-		message: "It's not who I am underneath but what I do that defines me.",
-		uri: require('./5.jpg')
-	},
-	{
-		id: 6,
-		name: 'Ryllyn Torate',
-		age: '27',
-		location: 'Irvine, CA',
-		info1: 'Level 10 warlock/bard, Part time Singer/Dancer.',
-		info2: 'Tea Totaller, Loves Photography & Travel',
-		info3: 'Secrets of Wildemount',
-		info4: 'Last seen: 23h ago',
-		match: '76',
-		description:
-			'Level 10 warlock/bard, Part time Singer/Dancer.',
-		status: 'Offline',
-		message: "It's not who I am underneath but what I do that defines me.",
-		uri: require('./6.jpg')
-	}
-
+  {
+    id: 1,
+    email: "l@gmail.com",
+    password: "123456",
+    firstname: "Leane",
+    charactername: "Leanne Stormcloak",
+    characterClass: "paladin",
+    characterLevel: "20",
+    campaign: "Elf home",
+    bio: "upstanding paladin who fights for the little guy. I love to swing my big ass sword around ",
+    otheruser: [],
+    like: [2,4,5],
+    dislike: [],
+    match: [2, 4],
+    messages: [
+      {
+        matchId: 2,
+        conversation: [
+          {
+            senderId: 1,
+            content: "I will go back to Gotham and I will fight men Iike this but I will not become an executioner.",
+            timestamp: "2024-04-09T12:00:00Z"
+          },
+          {
+            senderId: 2,
+            content: "Someone like you. Someone who'll rattle the cages.",
+            timestamp: "2024-04-09T12:05:00Z"
+          }
+        ]
+      },
+      {
+        matchId: 4,
+        conversation: [
+          {
+            senderId: 1,
+            content: "I will go back to Gotham and I will fight men Iike this but I will not become an executioner.",
+            timestamp: "2024-04-09T12:01:00Z"
+          },
+          {
+            senderId: 4,
+            content: "Bats frighten me. It's time my enemies shared my dread.",
+            timestamp: "2024-04-09T12:05:00Z"
+          }
+        ]
+      }
+    ],
+    uri: require("./1.jpg")
+  },
+  {
+    id: 2,
+    email: "k@gmail.com",
+    password: "123456",
+    firstname: "Henry",
+    charactername: "Krilkath Rhorinn",
+    characterClass: "sorcerer",
+    characterLevel: "10",
+    campaign: " Dwarven Mysteries",
+    bio: "you need a healer then I'm your guy",
+    otheruser: [],
+    like: [],
+    dislike: [],
+    match: [1],
+    status: "Offline",
+    messages: [
+      {
+        matchId: 1,
+        conversation: [
+          {
+            senderId: 1,
+            content: "I will go back to Gotham and I will fight men Iike this but I will not become an executioner.",
+            timestamp: "2024-04-09T12:00:00Z"
+          },
+          {
+            senderId: 2,
+            content: "Someone like you. Someone who'll rattle the cages.",
+            timestamp: "2024-04-09T12:05:00Z"
+          }
+        ]
+      }
+    ],
+    uri: require("./2.jpg")
+  },
+  {
+    id: 3,
+    email: "y@gmail.com",
+    password: "123456",
+    firstname: "Juan",
+    charactername: "Yinlar Sunshadow",
+    characterClass: "sorcerer",
+    characterLevel: "3",
+    campaign: "Quest for Camelot",
+    bio: 'Straight, Single, 6"',
+    otheruser: [],
+    like: [],
+    dislike: [],
+    match: [],
+    status: "Offline",
+    messages: [],
+    uri: require("./3.jpg")
+  },
+  {
+    id: 4,
+    email: "d@gmail.com",
+    password: "123456",
+    firstname: "Jenny",
+    charactername: "Damxius",
+    characterClass: "sorcerer",
+    characterLevel: "8",
+    campaign: "Fighter",
+    bio: "firey sorcerer who loves to duke it out in a magic battle with dragons",
+    otheruser: [],
+    like: [],
+    dislike: [],
+    match: [1],
+    status: "Online",
+    messages: [
+      {
+        matchId: 1,
+        conversation: [
+          {
+            senderId: 1,
+            content: "I will go back to Gotham and I will fight men Iike this but I will not become an executioner.",
+            timestamp: "2024-04-09T12:01:00Z"
+          },
+          {
+            senderId: 4,
+            content: "Bats frighten me. It's time my enemies shared my dread.",
+            timestamp: "2024-04-09T12:05:00Z"
+          }
+        ]
+      }
+    ],
+    uri: require("./4.jpg")
+  },
+  {
+    id: 5,
+    email: "ls@gmail.com",
+    password: "123456",
+    firstname: "John",
+    charactername: "Liow Shuay",
+    characterClass: "bard",
+    characterLevel: "10",
+    campaign: "Mountain Home",
+    bio: 'Straight, Single, 5"10',
+    otheruser: [],
+    like: [],
+    dislike: [],
+    match: [],
+    status: "Offline",
+    messages: [],
+    uri: require("./5.jpg")
+  },
+  {
+    id: 6,
+    email: "a@gmail.com",
+    password: "123456",
+    firstname: "John",
+    charactername: "Ryllyn Torate",
+    characterClass: "bard",
+    characterLevel: "10",
+    campaign: "The Lost Mine of Phandelver",
+    bio: "Part time Singer/Dancer",
+    otheruser: [],
+    like: [],
+    dislike: [],
+    match: [],
+    status: "Offline",
+    messages: [],
+    uri: require("./6.jpg")
+  }
 ];

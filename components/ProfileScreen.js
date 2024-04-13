@@ -20,7 +20,9 @@ const Profile = ({ onClose, user, edit, back }) => {
   return (
     <ImageBackground source={require('../assets/bg.png')} style={styles.bg}>
       <ScrollView style={styles.containerProfile}>
-        <ImageBackground source={uri} style={styles.photo}>
+        <ImageBackground
+          source={(user.uri === "")? require("../assets/icon.jpg"): user.uri} //need a default uri
+          style={styles.photo}>
           <View style={styles.top}>
             {back === false ? null : (
               <TouchableOpacity onPress={onClose}>
@@ -29,18 +31,25 @@ const Profile = ({ onClose, user, edit, back }) => {
                 </Text>
               </TouchableOpacity>
             )}
+
+            <TouchableOpacity>
+              <Text style={styles.topIconRight}>
+                <Icon
+                  name="ellipsis-vertical"
+                  size={20}
+                />
+              </Text>
+            </TouchableOpacity>
           </View>
         </ImageBackground>
 
         <ProfileItem
-          matches={match}
-          name={name}
-          age={age}
-          location={location}
-          info1={info1}
-          info2={info2}
-          info3={info3}
-          info4={info4}
+          firstname={user.firstname}
+          charactername={user.charactername}
+          characterClass={user.characterClass}
+          characterlevel={user.characterLevel}
+          campaign={user.campaign}
+          bio={user.bio}
         />
 
         {edit !== false && ( // Ensure the "Edit Profile" button is rendered when 'edit' prop is not explicitly set to false

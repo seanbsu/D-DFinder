@@ -1,56 +1,57 @@
-import React from 'react';
-import styles from '../assets/styles';
+import React from "react";
+import styles from "../assets/styles";
 
-import { Text, View } from 'react-native';
-import Icon from './Icon';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Text, View } from "react-native";
+import Icon from "./Icon";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const ProfileItem = ({
-  age,
-  info1,
-  info2,
-  info3,
-  info4,
-  location,
-  matches,
-  name
+  firstname,
+  charactername,
+  characterClass,
+  characterlevel,
+  campaign,
+  bio,
 }) => {
   return (
     <View style={styles.containerProfileItem}>
+      <Text style={styles.name}>{firstname}</Text>
 
-      <Text style={styles.name}>{name}</Text>
-
-      <Text style={styles.descriptionProfileItem}>
-        {age} - {location}
-      </Text>
+      <Text style={styles.descriptionProfileItem}>{charactername}</Text>
 
       <View style={styles.info}>
         <Text style={styles.iconProfile}>
-          <Icon name="body-sharp" />
+          <Icon name="body-outline" size={20} />
         </Text>
-        <Text style={styles.infoContent}>{info1}</Text>
+        <Text style={styles.infoContent}>{bio}</Text>
       </View>
 
       <View style={styles.info}>
         <Text style={styles.iconProfile}>
-        <MaterialIcons name="favorite"  color="black" />
+          <Icon name="body-sharp" size={20} />
         </Text>
-        <Text style={styles.infoContent}>{info2}</Text>
+        <Text style={styles.infoContent}>{characterClass}</Text>
       </View>
 
       <View style={styles.info}>
         <Text style={styles.iconProfile}>
-          <Icon name="trail-sign" />
+          <Icon
+            name="trail-sign-sharp"
+            color="black"
+            size={20}
+          />
         </Text>
-        <Text style={styles.infoContent}>{info3}</Text>
+        <Text style={styles.infoContent}>{campaign}</Text>
       </View>
 
       <View style={styles.info}>
         <Text style={styles.iconProfile}>
-          <Icon name="calendar" />
+          <Icon name="trending-up-sharp" size={20}/>
         </Text>
-        <Text style={styles.infoContent}>{info4}</Text>
+        <Text style={styles.infoContent}>{characterlevel}</Text>
       </View>
+
+      
     </View>
   );
 };
