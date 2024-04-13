@@ -34,14 +34,6 @@ const Profile = ({ onClose, user, edit, back }) => {
               </TouchableOpacity>
             )}
 
-            <TouchableOpacity>
-              <Text style={styles.topIconRight}>
-                <Icon
-                  name="ellipsis-vertical"
-                  size={20}
-                />
-              </Text>
-            </TouchableOpacity>
           </View>
         </ImageBackground>
 

@@ -1,9 +1,7 @@
 import React from "react";
-import styles from "../assets/styles";
-
 import { Text, View } from "react-native";
 import Icon from "./Icon";
-import { MaterialIcons } from "@expo/vector-icons";
+import styles from "../assets/styles";
 
 const ProfileItem = ({
   firstname,
@@ -23,14 +21,18 @@ const ProfileItem = ({
         <Text style={styles.iconProfile}>
           <Icon name="body-outline" size={20} />
         </Text>
-        <Text style={styles.infoContent}>{bio}</Text>
+        <View style={styles.infoContentContainer}>
+          <Text style={styles.infoContent}>{bio}</Text>
+        </View>
       </View>
 
       <View style={styles.info}>
         <Text style={styles.iconProfile}>
           <Icon name="body-sharp" size={20} />
         </Text>
-        <Text style={styles.infoContent}>{characterClass}</Text>
+        <View style={styles.infoContentContainer}>
+          <Text style={styles.infoContent}>{characterClass}</Text>
+        </View>
       </View>
 
       <View style={styles.info}>
@@ -41,17 +43,19 @@ const ProfileItem = ({
             size={20}
           />
         </Text>
-        <Text style={styles.infoContent}>{campaign}</Text>
+        <View style={styles.infoContentContainer}>
+          <Text style={styles.infoContent}>{campaign}</Text>
+        </View>
       </View>
 
       <View style={styles.info}>
         <Text style={styles.iconProfile}>
           <Icon name="trending-up-sharp" size={20}/>
         </Text>
-        <Text style={styles.infoContent}>{characterlevel}</Text>
+        <View style={styles.infoContentContainer}>
+          <Text style={styles.infoContent}>{characterlevel}</Text>
+        </View>
       </View>
-
-      
     </View>
   );
 };
