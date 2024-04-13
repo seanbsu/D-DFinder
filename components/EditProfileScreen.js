@@ -13,11 +13,11 @@ const EditProfileScreen = ({ setShowEditProfile, user }) => {
   const scrollViewRef = useRef(null);
 
   const [formData, setFormData] = useState({
-    name: user.name || '',
+    name: user.firstname || '',
     charactername: user.charactername || '',
-    characterclass: user.characterclass || '',
-    characterlevel: user.characterlevel || '',
-    campaigns: user.campaigns || '',
+    characterclass: user.characterClass || '',
+    characterlevel: user.characterLevel || '',
+    campaigns: user.campaign || '',
     bio: user.bio || '',
   });
 
@@ -197,7 +197,8 @@ const EditProfileScreen = ({ setShowEditProfile, user }) => {
         <View style={styles.inputTextWrapper}>
           <TextInput
             placeholder="Bio"
-            style={styles.textInput}
+            style={[styles.textInput, { height: 100 }]}
+            multiline={true}
             returnKeyType="done"
             onSubmitEditing={editNextInput}
             onChangeText={(value) => onChangeInputHandler('bio', value)}
