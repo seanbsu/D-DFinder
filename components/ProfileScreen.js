@@ -6,6 +6,8 @@ import EditProfileScreen from './EditProfileScreen';
 import styles from '../assets/styles';
 
 const Profile = ({ onClose, user, edit, back }) => {
+  console.log("user");
+  console.log(user);
   const { age, uri, info1, info2, info3, info4, location, match, name } = user;
   const [editing, setEditing] = useState(false);
 
