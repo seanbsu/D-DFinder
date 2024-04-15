@@ -15,9 +15,9 @@ const ProfileItem = ({
 }) => {
   return (
     <View style={styles.containerProfileItem}>
-      <Text style={styles.name}>{firstname}</Text>
+      <Text style={styles.name}>{charactername}</Text>
 
-      <Text style={styles.descriptionProfileItem}>{charactername}</Text>
+      <Text style={styles.descriptionProfileItem}>{firstname}</Text>
 
       <View style={styles.info}>
         <Text style={styles.iconProfile}>
