@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dimensions, View, Animated, Text } from "react-native";
 import NavBar from "./NavBar.js";
 import ProfileScreen from "./ProfileScreen";
@@ -15,8 +15,19 @@ export const Home = ({ user }) => {
   const position = new Animated.ValueXY();
   const [showProfile, setShowProfile] = useState(false);
   const [currentUsers, setCurrentUsers] = useState(user);
+  const [matched, setMatched] = useState(false);
   const filteredUsers = Users.filter(u => u.email !== user.email && !user.like.includes(u.id) && !user.match.includes(u.id));
 
+
+  useEffect(() => {
+    if (matched) {
+      const timer = setTimeout(() => {
+        setMatched(false); // Reset matched state after 3 seconds
+      }, 3000);
+
+      return () => clearTimeout(timer); // Cleanup timer on unmount
+    }
+  }, [matched]);
 
   const handleLike = () => {
     addToLikeList();
