@@ -10,9 +10,9 @@ module.exports = [
     campaign: "Elf home",
     bio: "upstanding paladin who fights for the little guy. I love to swing my big ass sword around ",
     otheruser: [],
-    like: [2,4,5],
+    like: [2,5],
     dislike: [],
-    match: [2, 4],
+    match: [2],
     messages: [
       {
         matchId: 2,
@@ -60,7 +60,7 @@ module.exports = [
     otheruser: [],
     like: [],
     dislike: [],
-    match: [1],
+    match: [1 ],
     status: "Offline",
     messages: [
       {
@@ -110,9 +110,9 @@ module.exports = [
     campaign: "Fighter",
     bio: "firey sorcerer who loves to duke it out in a magic battle with dragons",
     otheruser: [],
-    like: [],
+    like: [1],
     dislike: [],
-    match: [1],
+    match: [],
     status: "Online",
     messages: [
       {

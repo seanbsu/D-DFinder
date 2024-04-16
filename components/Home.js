@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Dimensions, View, Animated, Text } from "react-native";
 import NavBar from "./NavBar.js";
 import ProfileScreen from "./ProfileScreen";
-import Demo from "../assets/Demo";
+import Demo, { find } from "../assets/Demo";
 import UserCard from "./UserCard";
 import styles from "../assets/styles";
 
@@ -15,8 +15,12 @@ export const Home = ({ user }) => {
   const position = new Animated.ValueXY();
   const [showProfile, setShowProfile] = useState(false);
   const [currentUsers, setCurrentUsers] = useState(user);
-  const filteredUsers = Users.filter(u => u.email !== user.email && !user.like.includes(u.id) && !user.match.includes(u.id));
-
+  const filteredUsers = Users.filter(
+    (u) =>
+      u.email !== user.email &&
+      !user.like.includes(u.id) &&
+      !user.match.includes(u.id)
+  );
 
   const handleLike = () => {
     addToLikeList();
@@ -33,19 +37,58 @@ export const Home = ({ user }) => {
    */
   const addToLikeList = () => {
     console.log("add match1");
-
+    console.log(filteredUsers[currentIndex]);
     // Find the object with the specific id and update its match value
     Users = Users.map((profile) => {
-      if (profile.email === user.email) {
+      if (
+        profile.email === user.email &&
+        !profile.like.includes(filteredUsers[currentIndex].id)
+      ) {
         // Assuming update the match value for the object with id 5
-        const likeList = [...profile.like, Users[currentIndex].id];
+        const likeList = [...profile.like, filteredUsers[currentIndex].id];
+
         return {
           ...profile,
           like: likeList, // Update the match value here
         };
       }
+
       return profile;
     });
+    let otherU = filteredUsers[currentIndex];
+    console.log(Users);
+    findMatch(user, otherU);
+  };
+  const findMatch = (currentUser, otherUser) => {
+    if (
+      otherUser.like.includes(currentUser.id) &&
+      !otherUser.match.includes(currentUser.id) &&
+      !currentUser.match.includes(otherUser.id)
+    ) {
+      const matchList = [...currentUser.match, otherUser.id];
+      //update match for currentUser
+      Users = Users.map((profile) => {
+        if (profile.email === currentUser.email) {
+          return {
+            ...profile,
+            match: matchList, // Update the match value here
+          };
+        }
+
+        return profile;
+      });
+      //update match for otherUser
+      const matchList2 = [...otherUser.match, currentUser.id];
+      Users = Users.map((profile) => {
+        if (profile.email === otherUser.email) {
+          return {
+            ...profile,
+            match: matchList2, // Update the match value here
+          };
+        }
+        return profile;
+      });
+    }
   };
 
   const handleDislike = () => {
@@ -64,7 +107,7 @@ export const Home = ({ user }) => {
       setCurrentUsers(filteredUsers[currentIndex]);
     }
   };
-  
+
   /**
    * Update the match value for the user object if the user swipes left or click x icon
    */
@@ -73,10 +116,16 @@ export const Home = ({ user }) => {
 
     // Find the object with the specific id and update its match value
     Users = Users.map((profile) => {
-      if (profile.email === user.email) {
+      if (
+        profile.email === user.email &&
+        !profile.like.includes(filteredUsers[currentIndex].id)
+      ) {
         // Assuming update the match value for the object with id 5
 
-        const dislikeList = [...profile.dislike, Users[currentIndex].id];
+        const dislikeList = [
+          ...profile.dislike,
+          filteredUsers[currentIndex].id,
+        ];
         return {
           ...profile,
           dislike: dislikeList, // Update the match value here
