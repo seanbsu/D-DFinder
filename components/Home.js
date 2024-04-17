@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Dimensions, View, Animated, Text } from "react-native";
 import NavBar from "./NavBar.js";
 import ProfileScreen from "./ProfileScreen";
-import Demo, { find } from "../assets/Demo";
+import Demo from "../assets/Demo";
 import UserCard from "./UserCard";
 import styles from "../assets/styles";
 
