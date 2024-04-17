@@ -247,6 +247,16 @@ export default StyleSheet.create({
 
 	// CONTAINER - HOME
 	containerHome: { marginHorizontal: 10 },
+	noUsersText: {
+		color: "white",
+		fontSize: 20, 
+		fontFamily: "sans-serif", 
+		textAlign: "center",
+	  },
+	  noUsersContainer: {
+		justifyContent: "center",
+		alignItems: "center",
+	  },
 
 	// CONTAINER - MATCHES
 	containerMatches: {
@@ -527,4 +537,5 @@ export default StyleSheet.create({
 	backgroundColor: "white",
 	marginTop:36,
   },
+  
 });

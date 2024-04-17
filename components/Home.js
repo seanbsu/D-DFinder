@@ -88,17 +88,22 @@ export const Home = ({ user }) => {
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-        {!showProfile && currentIndex < filteredUsers.length && (
-          <View style={styles.cards}>
-            <UserCard
-              user={filteredUsers[currentIndex]}
-              position={position}
-              onLike={handleLike}
-              onDislike={handleDislike}
-              toggleProfile={toggleProfile}
-            />
-          </View>
-        )}
+          {!showProfile && currentIndex < filteredUsers.length ? (
+              <View style={styles.cards}>
+                <UserCard
+                  user={filteredUsers[currentIndex]}
+                  position={position}
+                  onLike={handleLike}
+                  onDislike={handleDislike}
+                  toggleProfile={toggleProfile}
+                />
+              </View>
+            ) : (
+            
+          <View style={[styles.cards, styles.noUsersContainer]}>
+              <Text style= {styles.noUsersText}>No more users available</Text>
+            </View>
+            )}
         {showProfile && (
           <ProfileScreen
             user={currentUsers}
