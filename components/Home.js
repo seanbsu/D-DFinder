@@ -15,6 +15,7 @@ export const Home = ({ user }) => {
   const position = new Animated.ValueXY();
   const [showProfile, setShowProfile] = useState(false);
   const [currentUsers, setCurrentUsers] = useState(user);
+  const [updateOtherUser, setUpdateOtherUser] = useState(null);
   const filteredUsers = Users.filter(
     (u) =>
       u.email !== user.email &&
@@ -36,17 +37,17 @@ export const Home = ({ user }) => {
    * Update the match value for the user object if the user swipes right
    */
   const addToLikeList = () => {
-    console.log("add match1");
+    console.log("add like");
     console.log(filteredUsers[currentIndex]);
+    const likeList = [...user.like, filteredUsers[currentIndex].id];
+    let tempUser = { ...user };
+    tempUser.like = likeList;
     // Find the object with the specific id and update its match value
     Users = Users.map((profile) => {
       if (
         profile.email === user.email &&
         !profile.like.includes(filteredUsers[currentIndex].id)
       ) {
-        // Assuming update the match value for the object with id 5
-        const likeList = [...profile.like, filteredUsers[currentIndex].id];
-
         return {
           ...profile,
           like: likeList, // Update the match value here
@@ -55,17 +56,19 @@ export const Home = ({ user }) => {
 
       return profile;
     });
+
     let otherU = filteredUsers[currentIndex];
-    console.log(Users);
-    findMatch(user, otherU);
+    findMatch(tempUser, otherU);
   };
   const findMatch = (currentUser, otherUser) => {
+    console.log("add match");
     if (
       otherUser.like.includes(currentUser.id) &&
       !otherUser.match.includes(currentUser.id) &&
       !currentUser.match.includes(otherUser.id)
     ) {
       const matchList = [...currentUser.match, otherUser.id];
+      currentUser.match = matchList;
       //update match for currentUser
       Users = Users.map((profile) => {
         if (profile.email === currentUser.email) {
@@ -77,8 +80,12 @@ export const Home = ({ user }) => {
 
         return profile;
       });
+      console.log("\n\n liked users match list", matchList);
+      console.log("\n\n", currentUser);
+      setCurrentUsers(currentUser);
       //update match for otherUser
       const matchList2 = [...otherUser.match, currentUser.id];
+      otherUser.match = matchList2;
       Users = Users.map((profile) => {
         if (profile.email === otherUser.email) {
           return {
@@ -88,6 +95,9 @@ export const Home = ({ user }) => {
         }
         return profile;
       });
+      console.log("\n\n liked users match list", matchList2);
+      console.log("\n\n", otherUser);
+      setUpdateOtherUser(otherUser);
     }
   };
 
