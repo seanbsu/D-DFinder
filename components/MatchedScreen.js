@@ -6,7 +6,7 @@ import styles from '../assets/styles';
 const MatchedScreen = ({ user, matchedUserID }) => {
   
 const matchedUser = Demo.find(item => item.id === matchedUserID);
-console.log(matchedUser);
+// console.log(matchedUser);
   return (
     <View style={styles.matchedContainer}>
       <View style={styles.imageContainer}>

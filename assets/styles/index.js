@@ -543,7 +543,8 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: "green",
     paddingTop: 20,
-    opacity: 0.89 
+    opacity: 0.89,
+	zIndex: 999,
   },
   imageContainer: {
     justifyContent: "center",
@@ -570,4 +571,9 @@ export default StyleSheet.create({
     width: 100,
     borderRadius: 50,
   },
+  overlay: {
+	...StyleSheet.absoluteFillObject,
+	zIndex: 999,
+  },
+  
 });
