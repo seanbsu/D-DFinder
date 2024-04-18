@@ -2,8 +2,10 @@ import React, { useRef, useState } from 'react';
 import { Button, Keyboard, Platform, StyleSheet, Text, TextInput, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from '../assets/styles';
+import Demo from '../assets/Demo';
+import {UserService} from '../components/UserService';
 
-const SignUpScreen = ({ setShowSignUp }) => {
+const SignUpScreen = ({ setShowSignUp ,setIsLoggedIn, onSignUp}) => {
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
   const firstnameInputRef = useRef(null);
@@ -13,7 +15,7 @@ const SignUpScreen = ({ setShowSignUp }) => {
   const campaignInputRef = useRef(null);
   const phoneInputRef = useRef(null);
   const scrollViewRef = useRef(null);
-
+  
   const [state, setState] = useState({
     email: '',
     password: '',
@@ -25,12 +27,12 @@ const SignUpScreen = ({ setShowSignUp }) => {
     bio: '',
     showEmailError: false,
     showPasswordError: false,
-    showFirstnameError: false,
-    showLastnameError: false,
+    showNameError: false,
+    showCharacterNameError: false,
     showClassError: false,
     showcharacterLevelError: false,
     showCampaignError: false,
-    showPhoneError: false,
+    showBioError: false,
   });
 
   const inputs = [
@@ -43,6 +45,8 @@ const SignUpScreen = ({ setShowSignUp }) => {
     campaignInputRef,
     phoneInputRef,
   ];
+  const initialState = new UserService();
+  const [userState, setUserState] = useState(initialState);
 
   const editNextInput = () => {
     const activeIndex = getActiveInputIndex();
@@ -66,10 +70,12 @@ const SignUpScreen = ({ setShowSignUp }) => {
   };
 
   const onChangeInputHandler = (name, value) => {
+    
     setState((prevState) => ({
       ...prevState,
       [name]: value,
     }));
+
   };
 
   const getActiveInputIndex = () => {
@@ -105,14 +111,33 @@ const SignUpScreen = ({ setShowSignUp }) => {
       ...prevState,
       showEmailError: state.email.length < 4,
       showPasswordError: state.password.length < 4,
-      showFirstnameError: state.firstname.length < 4,
-      showLastnameError: state.lastname.length < 4,
-      showClassError: state.class.length < 4,
-      showcharacterLevelError: state.characterlevel.length < 4,
-      showCampaignError: state.campaign.length < 4,
-      showPhoneError: state.phone.length < 4,
+      showNameError: state.name.length < 4,
+      showCharacterNameError: state.charactername.length < 4,
+      showClassError: state.characterclass.length < 4,
+      showcharacterLevelError: state.characterlevel.length > 2 ||state.characterlevel.length < 1,
+      showCampaignError: state.campaigns.length < 4,
+      showBioError: state.bio.length < 4,
     }));
-    Keyboard.dismiss();
+    const aUser = new UserService( state.email, state.password, state.name, state.charactername, state.characterclass, state.characterlevel, state.campaigns, state.bio, [], [], [], [],);
+    //check if email exists
+    let isCreated = false;
+    Demo.some(profile => {
+      if (profile.email === state.email) {
+        isCreated = true;
+        alert('Email already exists. Please use a different email or try to sign in.');
+        Keyboard.dismiss();
+        backPressed();
+      } 
+    });
+    if(!isCreated){
+      setUserState(aUser);
+      Demo.push(aUser);  // TODO: need to post to the server to add new user
+      onSignUp(aUser);
+      Keyboard.dismiss();
+    //  backPressed();
+      setIsLoggedIn(true);
+    }
+   
   };
 
   const backPressed = () => {
@@ -171,7 +196,7 @@ const SignUpScreen = ({ setShowSignUp }) => {
             onChangeText={(value) => onChangeInputHandler('name', value)}
             ref={firstnameInputRef}
           />
-          {state.showFirstnameError && <Text style={styles.errorText}>Please enter your first name.</Text>}
+          {state.showNameError && <Text style={styles.errorText}>Please enter your name.</Text>}
         </View>
         <View style={styles.inputTextWrapper}>
           <TextInput
@@ -183,7 +208,7 @@ const SignUpScreen = ({ setShowSignUp }) => {
             onChangeText={(value) => onChangeInputHandler('charactername', value)}
             ref={characternameInputRef}
           />
-          {state.showLastnameError && <Text style={styles.errorText}>Please enter your character name.</Text>}
+          {state.showCharacterNameError && <Text style={styles.errorText}>Please enter your character name.</Text>}
         </View>
         <View style={styles.inputTextWrapper}>
           <TextInput
@@ -202,12 +227,13 @@ const SignUpScreen = ({ setShowSignUp }) => {
             placeholder="Character Level"
             style={styles.textInput}
             returnKeyType="next"
+            keyboardType="numeric"
             onSubmitEditing={editNextInput}
             onFocus={onInputFocus}
             onChangeText={(value) => onChangeInputHandler('characterlevel', value)}
             ref={characterLevelInputRef}
           />
-          {state.showcharacterLevelError && <Text style={styles.errorText}>Please enter your character's level.</Text>}
+          {state.showcharacterLevelError && <Text style={styles.errorText}>Please enter your character's level {"(1-20)"} .</Text>}
         </View>
         <View style={styles.inputTextWrapper}>
           <TextInput
@@ -224,15 +250,15 @@ const SignUpScreen = ({ setShowSignUp }) => {
         </View>
         <View style={styles.inputTextWrapper}>
           <TextInput
-            placeholder="Phone"
+            placeholder="Bio"
             style={styles.textInput}
             returnKeyType="done"
             onSubmitEditing={editNextInput}
             onFocus={onInputFocus}
-            onChangeText={(value) => onChangeInputHandler('phone', value)}
+            onChangeText={(value) => onChangeInputHandler('bio', value)}
             ref={phoneInputRef}
           />
-          {state.showPhoneError && <Text style={styles.errorText}>Please enter your phone number.</Text>}
+          {state.showBioError && <Text style={styles.errorText}>Please enter a Bio statement.</Text>}
         </View>
         <View style={styles.btnContainer}>
           <Button title="Submit" onPress={submitPressed} />
