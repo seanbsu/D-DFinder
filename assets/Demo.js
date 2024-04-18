@@ -10,42 +10,44 @@ module.exports = [
     campaign: "Elf home",
     bio: "upstanding paladin who fights for the little guy. I love to swing my big ass sword around ",
     otheruser: [],
-    like: [2,4,5],
+    like: [2, 5],
     dislike: [],
-    match: [2, 4],
+    match: [2],
     messages: [
       {
         matchId: 2,
         conversation: [
           {
             senderId: 1,
-            content: "I will go back to Gotham and I will fight men Iike this but I will not become an executioner.",
-            timestamp: "2024-04-09T12:00:00Z"
+            content:
+              "I will go back to Gotham and I will fight men Iike this but I will not become an executioner.",
+            timestamp: "2024-04-09T12:00:00Z",
           },
           {
             senderId: 2,
             content: "Someone like you. Someone who'll rattle the cages.",
-            timestamp: "2024-04-09T12:05:00Z"
-          }
-        ]
+            timestamp: "2024-04-09T12:05:00Z",
+          },
+        ],
       },
       {
         matchId: 4,
         conversation: [
           {
             senderId: 1,
-            content: "I will go back to Gotham and I will fight men Iike this but I will not become an executioner.",
-            timestamp: "2024-04-09T12:01:00Z"
+            content:
+              "I will go back to Gotham and I will fight men Iike this but I will not become an executioner.",
+            timestamp: "2024-04-09T12:01:00Z",
           },
           {
             senderId: 4,
             content: "Bats frighten me. It's time my enemies shared my dread.",
-            timestamp: "2024-04-09T12:05:00Z"
-          }
-        ]
-      }
+            timestamp: "2024-04-09T12:05:00Z",
+          },
+        ],
+      },
     ],
-    uri: require("./1.jpg")
+    uri: require("./1.jpg"),
   },
   {
     id: 2,
@@ -68,18 +70,19 @@ module.exports = [
         conversation: [
           {
             senderId: 1,
-            content: "I will go back to Gotham and I will fight men Iike this but I will not become an executioner.",
-            timestamp: "2024-04-09T12:00:00Z"
+            content:
+              "I will go back to Gotham and I will fight men Iike this but I will not become an executioner.",
+            timestamp: "2024-04-09T12:00:00Z",
           },
           {
             senderId: 2,
             content: "Someone like you. Someone who'll rattle the cages.",
-            timestamp: "2024-04-09T12:05:00Z"
-          }
-        ]
-      }
+            timestamp: "2024-04-09T12:05:00Z",
+          },
+        ],
+      },
     ],
-    uri: require("./2.jpg")
+    uri: require("./2.jpg"),
   },
   {
     id: 3,
@@ -97,7 +100,7 @@ module.exports = [
     match: [],
     status: "Offline",
     messages: [],
-    uri: require("./3.jpg")
+    uri: require("./3.jpg"),
   },
   {
     id: 4,
@@ -120,18 +123,19 @@ module.exports = [
         conversation: [
           {
             senderId: 1,
-            content: "I will go back to Gotham and I will fight men Iike this but I will not become an executioner.",
-            timestamp: "2024-04-09T12:01:00Z"
+            content:
+              "I will go back to Gotham and I will fight men Iike this but I will not become an executioner.",
+            timestamp: "2024-04-09T12:01:00Z",
           },
           {
             senderId: 4,
             content: "Bats frighten me. It's time my enemies shared my dread.",
-            timestamp: "2024-04-09T12:05:00Z"
-          }
-        ]
-      }
+            timestamp: "2024-04-09T12:05:00Z",
+          },
+        ],
+      },
     ],
-    uri: require("./4.jpg")
+    uri: require("./4.jpg"),
   },
   {
     id: 5,
@@ -149,7 +153,7 @@ module.exports = [
     match: [],
     status: "Offline",
     messages: [],
-    uri: require("./5.jpg")
+    uri: require("./5.jpg"),
   },
   {
     id: 6,
@@ -167,6 +171,6 @@ module.exports = [
     match: [],
     status: "Offline",
     messages: [],
-    uri: require("./6.jpg")
-  }
+    uri: require("./6.jpg"),
+  },
 ];

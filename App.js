@@ -32,7 +32,9 @@ export default function App() {
   const handleLogin = (user) => {
     setLoggedInUser(user);
   };
-
+  const updateUser = (user) => {
+    setLoggedInUser(user);
+  };
   useEffect(() => {
     if (isLoading === false && loggedInUser !== null) {
       // const testUserId = 6; // Number type
@@ -100,11 +102,7 @@ export default function App() {
           />
           <Tab.Screen
             name="Chat"
-            children={() => (
-              <MessagesScreen
-                user={loggedInUser}
-              />
-            )}
+            children={() => <MessagesScreen user={loggedInUser} />}
             options={{
               tabBarIcon: ({ focused }) => (
                 <Text
@@ -126,6 +124,7 @@ export default function App() {
               <ProfileScreen
                 user={loggedInUser}
                 back={false}
+                updateUser={updateUser}
               />
             )}
             options={{

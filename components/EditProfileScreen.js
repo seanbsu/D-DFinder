@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   Keyboard,
@@ -11,8 +11,9 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import styles from "../assets/styles";
 import Demo from "../assets/Demo";
+import * as ImagePicker from "expo-image-picker";
 
-const EditProfileScreen = ({ setShowEditProfile, user }) => {
+const EditProfileScreen = ({ setShowEditProfile, user, updateEditUser }) => {
   const firstnameInputRef = useRef(null);
   const characternameInputRef = useRef(null);
   const classInputRef = useRef(null);
@@ -20,6 +21,7 @@ const EditProfileScreen = ({ setShowEditProfile, user }) => {
   const campaignInputRef = useRef(null);
   const phoneInputRef = useRef(null);
   const scrollViewRef = useRef(null);
+  const defaultImage = user.uri;
 
   const [formData, setFormData] = useState({
     name: user.firstname || "",
@@ -28,6 +30,7 @@ const EditProfileScreen = ({ setShowEditProfile, user }) => {
     characterlevel: user.characterLevel || "",
     campaigns: user.campaign || "",
     bio: user.bio || "",
+    uri: user.uri || null,
   });
 
   const [errorMessages, setErrorMessages] = useState({
@@ -38,7 +41,7 @@ const EditProfileScreen = ({ setShowEditProfile, user }) => {
     campaigns: "",
     bio: "",
   });
-
+  const [image, setImage] = useState(null);
   const inputs = [
     firstnameInputRef,
     characternameInputRef,
@@ -61,6 +64,7 @@ const EditProfileScreen = ({ setShowEditProfile, user }) => {
       finishEditing();
     }
   };
+  useEffect((image) => {}), [image];
 
   const onInputFocus = () => {
     // Handle input focus if needed
@@ -110,7 +114,7 @@ const EditProfileScreen = ({ setShowEditProfile, user }) => {
     const errors = {};
     let hasError = false;
 
-    // Validate inputs
+    // Implement validation for other fields similarly
     if (formData.name.trim() === "") {
       errors.name = "First Name is required";
       hasError = true;
@@ -136,21 +140,35 @@ const EditProfileScreen = ({ setShowEditProfile, user }) => {
       errors.bio = "Bio is required";
       hasError = true;
     }
-    // Implement validation for other fields similarly
 
     if (hasError) {
       setErrorMessages(errors);
     } else {
       console.log(formData);
+      updateEditUser(formData);
       // Implement your submission logic here
+     // updateFormDataInDemo(formData);
       Keyboard.dismiss();
     }
+  };
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+    onChangeInputHandler("uri", result.assets[0].uri);
   };
 
   const backPressed = () => {
     setShowEditProfile(false);
   };
-
   return (
     <KeyboardAwareScrollView
       style={styles.signup_container}
@@ -259,15 +277,29 @@ const EditProfileScreen = ({ setShowEditProfile, user }) => {
             <Text style={styles.errorText}>{errorMessages.bio}</Text>
           )}
         </View>
-        {user.uri && (
+
+        {image !== null ? (
+          <Image
+            source={{ uri: image }}
+            style={{ width: 150, height: 150 }}
+          />
+        ) : user.uri !== null ? (
           <Image
             source={user.uri}
+            style={{ width: 150, height: 150 }}
+          />
+        ) : (
+          <Image
+            source={require("../assets/icon.jpg")}
             style={{ width: 150, height: 150 }}
           />
         )}
 
         <View style={styles.btnContainer}>
-          <Button title="Upload Photo" />
+          <Button
+            title="Upload Photo"
+            onPress={pickImage}
+          />
         </View>
         <View style={styles.btnContainer}>
           <Button
