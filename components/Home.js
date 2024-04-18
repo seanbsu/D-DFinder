@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dimensions, View, Animated, Text } from "react-native";
 import NavBar from "./NavBar.js";
 import ProfileScreen from "./ProfileScreen";
@@ -10,7 +10,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 let Users = Demo;
 
-export const Home = ({ user }) => {
+export const Home = ({ user, updateUser }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const position = new Animated.ValueXY();
   const [showProfile, setShowProfile] = useState(false);
@@ -23,13 +23,17 @@ export const Home = ({ user }) => {
       !user.match.includes(u.id)
   );
 
+  useEffect(() => {
+    updateUser(currentUsers);
+  }, [currentUsers]);
+
   const handleLike = () => {
     addToLikeList();
     Animated.spring(position, {
       toValue: { x: SCREEN_WIDTH + 100, y: 0 },
       useNativeDriver: true,
     }).start(() => {
-      setCurrentIndex(currentIndex + 1);
+      setCurrentIndex(currentIndex);
       position.setValue({ x: 0, y: 0 });
     });
   };
@@ -38,7 +42,7 @@ export const Home = ({ user }) => {
    */
   const addToLikeList = () => {
     console.log("add like");
-    console.log(filteredUsers[currentIndex]);
+    // console.log(filteredUsers[currentIndex]);
     const likeList = [...user.like, filteredUsers[currentIndex].id];
     let tempUser = { ...user };
     tempUser.like = likeList;
@@ -57,18 +61,19 @@ export const Home = ({ user }) => {
       return profile;
     });
 
-    let otherU = filteredUsers[currentIndex];
+    setCurrentUsers(tempUser);
+    otherU = filteredUsers[currentIndex];
     findMatch(tempUser, otherU);
   };
   const findMatch = (currentUser, otherUser) => {
-    console.log("add match");
     if (
       otherUser.like.includes(currentUser.id) &&
       !otherUser.match.includes(currentUser.id) &&
       !currentUser.match.includes(otherUser.id)
     ) {
+      console.log("add match");
       const matchList = [...currentUser.match, otherUser.id];
-      currentUser.match = matchList;
+      const updatedCurrentUser = { ...currentUser, match: matchList };
       //update match for currentUser
       Users = Users.map((profile) => {
         if (profile.email === currentUser.email) {
@@ -80,9 +85,10 @@ export const Home = ({ user }) => {
 
         return profile;
       });
-      console.log("\n\n liked users match list", matchList);
-      console.log("\n\n", currentUser);
-      setCurrentUsers(currentUser);
+      console.log("\n\n update current users match list", matchList);
+      console.log("\n\n", updatedCurrentUser);
+      setCurrentUsers(updatedCurrentUser);
+
       //update match for otherUser
       const matchList2 = [...otherUser.match, currentUser.id];
       otherUser.match = matchList2;
@@ -95,9 +101,10 @@ export const Home = ({ user }) => {
         }
         return profile;
       });
+
+      setUpdateOtherUser(otherUser);
       console.log("\n\n liked users match list", matchList2);
       console.log("\n\n", otherUser);
-      setUpdateOtherUser(otherUser);
     }
   };
 
@@ -123,19 +130,15 @@ export const Home = ({ user }) => {
    */
   const addDisLikeList = () => {
     console.log("add dislike");
-
+    const dislikeList = [...user.dislike, filteredUsers[currentIndex].id];
+    let tempUser = { ...user };
+    tempUser.dislike = dislikeList;
     // Find the object with the specific id and update its match value
     Users = Users.map((profile) => {
       if (
         profile.email === user.email &&
         !profile.like.includes(filteredUsers[currentIndex].id)
       ) {
-        // Assuming update the match value for the object with id 5
-
-        const dislikeList = [
-          ...profile.dislike,
-          filteredUsers[currentIndex].id,
-        ];
         return {
           ...profile,
           dislike: dislikeList, // Update the match value here
@@ -143,6 +146,7 @@ export const Home = ({ user }) => {
       }
       return profile;
     });
+    setCurrentUsers(tempUser);
   };
   return (
     <View style={styles.container}>
