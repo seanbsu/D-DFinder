@@ -208,16 +208,16 @@ export default StyleSheet.create({
 		fontSize: 13
 	},
 	info: {
-		paddingVertical: 8,
-		flexDirection: "row",
-		alignItems: "center"
-	},
-	iconProfile: {
-		
-		fontSize: 12,
-		color: DARK_GRAY,
-		paddingHorizontal: 10
-	},
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginBottom: 10,
+	  },
+	  iconProfile: {
+		marginRight: 10,
+	  },
+	  infoContentContainer: {
+		flex: 1, 
+	  },
 	infoContent: {
 		color: GRAY,
 		fontSize: 13
@@ -247,6 +247,16 @@ export default StyleSheet.create({
 
 	// CONTAINER - HOME
 	containerHome: { marginHorizontal: 10 },
+	noUsersText: {
+		color: "white",
+		fontSize: 20, 
+		fontFamily: "sans-serif", 
+		textAlign: "center",
+	  },
+	  noUsersContainer: {
+		justifyContent: "center",
+		alignItems: "center",
+	  },
 
 	// CONTAINER - MATCHES
 	containerMatches: {

@@ -1,29 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { ScrollView, Text, TouchableOpacity, ImageBackground, View, FlatList } from 'react-native';
-import Message from '../components/Message';
-import Icon from '../components/Icon';
-import Demo from '../assets/Demo.js'; 
-import styles from '../assets/styles';
-import MessageScreen from './Messages/MessageScreen'; 
+import React, { useState, useEffect } from "react";
+import {
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  ImageBackground,
+  View,
+  FlatList,
+} from "react-native";
+import Message from "../components/Message";
+import Icon from "../components/Icon";
+import Demo from "../assets/Demo.js";
+import styles from "../assets/styles";
+import MessageScreen from "./Messages/MessageScreen";
 
-const Messages = ({ user }) => {
+const Messages = ({ user, updateUser }) => {
   const [matchedUsers, setMatchedUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null); 
+  const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
-    
-    const usersWithMatches = Demo.filter(u => user.match.includes(u.id));
-    
-   
-    const matchedUsersData = usersWithMatches.map(u => {
-     
-      const match = user.messages.find(message => message.matchId === u.id);
-      const lastMessage = match ? match.conversation[match.conversation.length - 1].content : '';
+    const usersWithMatches = Demo.filter((u) => user.match.includes(u.id));
+    const matchedUsersData = usersWithMatches.map((u) => {
+      const match = user.messages.find((message) => message.matchId === u.id);
+      const lastMessage = match
+        ? match.conversation[match.conversation.length - 1].content
+        : "";
       return {
         id: u.id,
         name: u.charactername,
         uri: u.uri,
-        lastMessage: lastMessage ? lastMessage : '', 
+        lastMessage: lastMessage ? lastMessage : "",
       };
     });
 
@@ -31,18 +36,17 @@ const Messages = ({ user }) => {
   }, [user]);
 
   const handlePressMessage = (user) => {
-    setSelectedUser(user); 
+    setSelectedUser(user);
   };
 
   const goBack = () => {
-    setSelectedUser(null); 
+    setSelectedUser(null);
   };
 
   return (
     <ImageBackground
-      source={require('../assets/bg.png')}
-      style={styles.bg}
-    >
+      source={require("../assets/bg.png")}
+      style={styles.bg}>
       <View style={styles.containerMessages}>
         <View style={styles.messagestop}>
           <Text style={styles.title}>Messages</Text>
@@ -50,7 +54,11 @@ const Messages = ({ user }) => {
 
         {/* Conditionally render MessageScreen if a user is selected */}
         {selectedUser && (
-          <MessageScreen user={user} matchedUserId={selectedUser.id} onPressBack={goBack} />
+          <MessageScreen
+            user={user}
+            matchedUserId={selectedUser.id}
+            onPressBack={goBack}
+          />
         )}
 
         {/* Render the list of matched users */}
