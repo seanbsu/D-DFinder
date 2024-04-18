@@ -41,7 +41,7 @@ export default function App() {
       // // Attempt to find the user with id 6
       // const user = Demo.find(user => user.id === testUserId);
       console.log("Logged In");
-      console.log(loggedInUser);
+      // console.log(loggedInUser);
     }
   }, [isLoading, loggedInUser]);
 
