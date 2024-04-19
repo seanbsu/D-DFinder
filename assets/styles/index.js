@@ -537,5 +537,43 @@ export default StyleSheet.create({
 	backgroundColor: "white",
 	marginTop:36,
   },
+
+  //MATCHED SCREEN
+  matchedContainer: {
+    flex: 1,
+    backgroundColor: "green",
+    paddingTop: 20,
+    opacity: 0.89,
+	zIndex: 999,
+  },
+  imageContainer: {
+    justifyContent: "center",
+    paddingHorizontal: 10,
+    paddingTop: 20,
+  },
+  matchedImage: {
+    height: 80,
+    width: "100%",
+    resizeMode: "contain",
+  },
+  matchedText: {
+    color: "white",
+    textAlign: "center",
+    marginTop: 5,
+  },
+  avatarsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    marginTop: 5,
+  },
+  matchAvatar: {
+    height: 100,
+    width: 100,
+    borderRadius: 50,
+  },
+  overlay: {
+	...StyleSheet.absoluteFillObject,
+	zIndex: 999,
+  },
   
 });

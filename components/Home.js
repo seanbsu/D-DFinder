@@ -5,6 +5,7 @@ import ProfileScreen from "./ProfileScreen";
 import Demo from "../assets/Demo";
 import UserCard from "./UserCard";
 import styles from "../assets/styles";
+import MatchedScreen from "./MatchedScreen"; // Import MatchedScreen component
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -15,6 +16,8 @@ export const Home = ({ user, updateUser }) => {
   const position = new Animated.ValueXY();
   const [showProfile, setShowProfile] = useState(false);
   const [currentUsers, setCurrentUsers] = useState(user);
+  const [matched, setMatched] = useState(false);
+  const [matchedUserID, setMatchedUserID] = useState(null); // Track matched user ID
   const [updateU, setupdateU] = useState(user);
   const [updateOtherUser, setUpdateOtherUser] = useState(null);
   const filteredUsers = Users.filter(
@@ -25,11 +28,28 @@ export const Home = ({ user, updateUser }) => {
   );
 
   useEffect(() => {
+    if (matched) {
+      const timer = setTimeout(() => {
+        setMatched(false); // Reset matched state after 3 seconds
+      }, 5000);
+
+      return () => clearTimeout(timer); // Cleanup timer on unmount
+    }
+  }, [matched]);
+
+  useEffect(() => {
     updateUser(updateU);
     setCurrentUsers(updateU);
   }, [updateU]);
 
   useEffect(() => {}, [currentUsers]);
+
+  useEffect(() => {
+    if (matched) {
+      // If matched, show MatchedScreen
+      setShowProfile(false); // Hide ProfileScreen if it's open
+    }
+  }, [matched]);
 
   const handleLike = () => {
     addToLikeList();
@@ -41,16 +61,12 @@ export const Home = ({ user, updateUser }) => {
       position.setValue({ x: 0, y: 0 });
     });
   };
-  /**
-   * Update the match value for the user object if the user swipes right
-   */
+
   const addToLikeList = () => {
     console.log("add like");
-    // console.log(filteredUsers[currentIndex]);
     const likeList = [...user.like, filteredUsers[currentIndex].id];
     let tempUser = { ...user };
     tempUser.like = likeList;
-    // Find the object with the specific id and update its match value
     Users = Users.map((profile) => {
       if (
         profile.email === user.email &&
@@ -58,10 +74,9 @@ export const Home = ({ user, updateUser }) => {
       ) {
         return {
           ...profile,
-          like: likeList, // Update the match value here
+          like: likeList,
         };
       }
-
       return profile;
     });
 
@@ -69,6 +84,7 @@ export const Home = ({ user, updateUser }) => {
     otherU = filteredUsers[currentIndex];
     findMatch(tempUser, otherU);
   };
+
   const findMatch = (currentUser, otherUser) => {
     let updatedCurrentUser = currentUser;
     if (
@@ -84,21 +100,19 @@ export const Home = ({ user, updateUser }) => {
         if (profile.email === updatedCurrentUser.email) {
           return {
             ...profile,
-            match: matchList, // Update the match value here
+            match: matchList,
           };
         }
-
         return profile;
       });
 
-      //update match for otherUser
       const matchList2 = [...otherUser.match, currentUser.id];
       otherUser.match = matchList2;
       Users = Users.map((profile) => {
         if (profile.email === otherUser.email) {
           return {
             ...profile,
-            match: matchList2, // Update the match value here
+            match: matchList2,
           };
         }
         return profile;
@@ -107,6 +121,11 @@ export const Home = ({ user, updateUser }) => {
       setUpdateOtherUser(otherUser);
       console.log("\n\n liked users match list", matchList2);
       console.log("\n\n", otherUser);
+            // Set matchedUserID for MatchedScreen
+            setMatchedUserID(otherUser.id);
+
+            // Set matched to true to trigger MatchedScreen display
+            setMatched(true);
     }
     console.log("\n\n update current users match list");
     console.log("\n\n", updatedCurrentUser);
@@ -123,6 +142,7 @@ export const Home = ({ user, updateUser }) => {
       position.setValue({ x: 0, y: 0 });
     });
   };
+
   const toggleProfile = () => {
     setShowProfile(!showProfile);
     if (!showProfile) {
@@ -130,15 +150,11 @@ export const Home = ({ user, updateUser }) => {
     }
   };
 
-  /**
-   * Update the match value for the user object if the user swipes left or click x icon
-   */
   const addDisLikeList = () => {
     console.log("add dislike");
     const dislikeList = [...user.dislike, filteredUsers[currentIndex].id];
     let tempUser = { ...user };
     tempUser.dislike = dislikeList;
-    // Find the object with the specific id and update its match value
     Users = Users.map((profile) => {
       if (
         profile.email === user.email &&
@@ -146,13 +162,14 @@ export const Home = ({ user, updateUser }) => {
       ) {
         return {
           ...profile,
-          dislike: dislikeList, // Update the match value here
+          dislike: dislikeList,
         };
       }
       return profile;
     });
     setupdateU(tempUser);
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
@@ -180,6 +197,13 @@ export const Home = ({ user, updateUser }) => {
           </View>
         )}
       </View>
+      {matched && (
+        <View style={[styles.overlay, styles.matchedContainer]}>
+          <MatchedScreen user={user} matchedUserID={matchedUserID} />
+        </View>
+      )}
     </View>
   );
 };
+
+export default Home;
