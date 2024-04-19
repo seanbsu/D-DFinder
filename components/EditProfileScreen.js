@@ -156,8 +156,8 @@ const EditProfileScreen = ({ setShowEditProfile, user, updateEditUser }) => {
       // Implement your submission logic here
       updateFormDataInDemo(formData);
       updateEditUser(formData);
-
       Keyboard.dismiss();
+      backPressed();
     }
   };
   const updateFormDataInDemo = (updatedFormData) => {
