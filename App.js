@@ -40,8 +40,8 @@ export default function App() {
       // const testUserId = 6; // Number type
       // // Attempt to find the user with id 6
       // const user = Demo.find(user => user.id === testUserId);
-      console.log("Logged In");
-      console.log(loggedInUser);
+      // console.log("Logged In");
+      // console.log(loggedInUser);
     }
   }, [isLoading, loggedInUser]);
 
