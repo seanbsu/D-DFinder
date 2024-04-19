@@ -24,21 +24,29 @@ const EditProfileScreen = ({ setShowEditProfile, user, updateEditUser }) => {
   const defaultImage = user.uri;
 
   const [formData, setFormData] = useState({
-    name: user.firstname || "",
+    id: user.id,
+    firstname: user.firstname || "",
     charactername: user.charactername || "",
-    characterclass: user.characterClass || "",
-    characterlevel: user.characterLevel || "",
-    campaigns: user.campaign || "",
+    characterClass: user.characterClass || "",
+    characterLevel: user.characterLevel || "",
+    campaign: user.campaign || "",
     bio: user.bio || "",
     uri: user.uri || null,
+    messages: user.messages || [],
+    like: user.like || [],
+    dislike: user.dislike || [],
+    match: user.match || [],
+    email: user.email || "",
+    password: user.password || "",
+    otheruser: user.otheruser || [],
   });
 
   const [errorMessages, setErrorMessages] = useState({
-    name: "",
+    firstname: "",
     charactername: "",
-    characterclass: "",
-    characterlevel: "",
-    campaigns: "",
+    characterClass: "",
+    characterLevel: "",
+    campaign: "",
     bio: "",
   });
   const [image, setImage] = useState(null);
@@ -115,8 +123,8 @@ const EditProfileScreen = ({ setShowEditProfile, user, updateEditUser }) => {
     let hasError = false;
 
     // Implement validation for other fields similarly
-    if (formData.name.trim() === "") {
-      errors.name = "First Name is required";
+    if (formData.firstname.trim() === "") {
+      errors.firstname = "First Name is required";
       hasError = true;
     }
     if (formData.charactername.trim() === "") {
@@ -124,16 +132,16 @@ const EditProfileScreen = ({ setShowEditProfile, user, updateEditUser }) => {
       hasError = true;
       n;
     }
-    if (formData.characterclass.trim() === "") {
-      errors.characterclass = "Class is required";
+    if (formData.characterClass.trim() === "") {
+      errors.characterClass = "Class is required";
       hasError = true;
     }
-    if (formData.characterlevel.trim() === "") {
-      errors.characterlevel = "Character Level is required";
+    if (formData.characterLevel.trim() === "") {
+      errors.characterLevel = "Character Level is required";
       hasError = true;
     }
-    if (formData.campaigns.trim() === "") {
-      errors.campaigns = "Campaign is required";
+    if (formData.campaign.trim() === "") {
+      errors.campaign = "Campaign is required";
       hasError = true;
     }
     if (formData.bio.trim() === "") {
@@ -145,11 +153,22 @@ const EditProfileScreen = ({ setShowEditProfile, user, updateEditUser }) => {
       setErrorMessages(errors);
     } else {
       console.log(formData);
-      updateEditUser(formData);
       // Implement your submission logic here
-     // updateFormDataInDemo(formData);
+      updateFormDataInDemo(formData);
+      updateEditUser(formData);
+
       Keyboard.dismiss();
     }
+  };
+  const updateFormDataInDemo = (updatedFormData) => {
+    let Users = Demo;
+    // If the user exists in the Demo array
+    Users = Users.map((profile) => {
+      if (profile.id === updatedFormData.id) {
+        return updatedFormData;
+      }
+      return profile;
+    });
   };
 
   const pickImage = async () => {
@@ -191,12 +210,12 @@ const EditProfileScreen = ({ setShowEditProfile, user, updateEditUser }) => {
             style={styles.textInput}
             returnKeyType="next"
             onSubmitEditing={editNextInput}
-            onChangeText={(value) => onChangeInputHandler("name", value)}
+            onChangeText={(value) => onChangeInputHandler("firstname", value)}
             ref={firstnameInputRef}
-            value={formData.name}
+            value={formData.firstname}
           />
-          {errorMessages.name !== "" && (
-            <Text style={styles.errorText}>{errorMessages.name}</Text>
+          {errorMessages.firstname !== "" && (
+            <Text style={styles.errorText}>{errorMessages.firstname}</Text>
           )}
         </View>
         <View style={styles.inputTextWrapper}>
@@ -222,13 +241,13 @@ const EditProfileScreen = ({ setShowEditProfile, user, updateEditUser }) => {
             returnKeyType="next"
             onSubmitEditing={editNextInput}
             onChangeText={(value) =>
-              onChangeInputHandler("characterclass", value)
+              onChangeInputHandler("characterClass", value)
             }
             ref={classInputRef}
-            value={formData.characterclass}
+            value={formData.characterClass}
           />
-          {errorMessages.characterclass !== "" && (
-            <Text style={styles.errorText}>{errorMessages.characterclass}</Text>
+          {errorMessages.characterClass !== "" && (
+            <Text style={styles.errorText}>{errorMessages.characterClass}</Text>
           )}
         </View>
         <View style={styles.inputTextWrapper}>
@@ -238,13 +257,13 @@ const EditProfileScreen = ({ setShowEditProfile, user, updateEditUser }) => {
             returnKeyType="next"
             onSubmitEditing={editNextInput}
             onChangeText={(value) =>
-              onChangeInputHandler("characterlevel", value)
+              onChangeInputHandler("characterLevel", value)
             }
             ref={characterLevelInputRef}
-            value={formData.characterlevel}
+            value={formData.characterLevel}
           />
-          {errorMessages.characterlevel !== "" && (
-            <Text style={styles.errorText}>{errorMessages.characterlevel}</Text>
+          {errorMessages.characterLevel !== "" && (
+            <Text style={styles.errorText}>{errorMessages.characterLevel}</Text>
           )}
         </View>
         <View style={styles.inputTextWrapper}>
@@ -254,12 +273,12 @@ const EditProfileScreen = ({ setShowEditProfile, user, updateEditUser }) => {
             returnKeyType="next"
             keyboardType="numeric"
             onSubmitEditing={editNextInput}
-            onChangeText={(value) => onChangeInputHandler("campaigns", value)}
+            onChangeText={(value) => onChangeInputHandler("campaign", value)}
             ref={campaignInputRef}
-            value={formData.campaigns}
+            value={formData.campaign}
           />
-          {errorMessages.campaigns !== "" && (
-            <Text style={styles.errorText}>{errorMessages.campaigns}</Text>
+          {errorMessages.campaign !== "" && (
+            <Text style={styles.errorText}>{errorMessages.campaign}</Text>
           )}
         </View>
         <View style={styles.inputTextWrapper}>
@@ -285,7 +304,7 @@ const EditProfileScreen = ({ setShowEditProfile, user, updateEditUser }) => {
           />
         ) : user.uri !== null ? (
           <Image
-            source={user.uri}
+            source={typeof user.uri === "number" ? user.uri : { uri: user.uri }}
             style={{ width: 150, height: 150 }}
           />
         ) : (

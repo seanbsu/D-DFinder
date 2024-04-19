@@ -15,7 +15,6 @@ import styles from "../assets/styles";
 const Profile = ({ onClose, user, edit, back, updateUser }) => {
   console.log("user");
   console.log(user);
-  const { age, uri, info1, info2, info3, info4, location, match, name } = user;
   const [editing, setEditing] = useState(false);
 
   const handleEditProfile = () => {
@@ -35,7 +34,13 @@ const Profile = ({ onClose, user, edit, back, updateUser }) => {
       style={styles.bg}>
       <ScrollView style={styles.containerProfile}>
         <ImageBackground
-          source={user.uri === "" ? require("../assets/icon.jpg") : user.uri} //need a default uri
+          source={
+            user.uri === ""
+              ? require("../assets/icon.png")
+              : typeof user.uri === "number"
+              ? user.uri
+              : { uri: user.uri }
+          }
           style={styles.photo}>
           <View style={styles.top}>
             {back === false ? null : (
