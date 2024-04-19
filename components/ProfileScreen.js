@@ -24,8 +24,12 @@ const Profile = ({ onClose, user, edit, back, updateUser }) => {
   const handleCloseEdit = () => {
     setEditing(false);
   };
+
   const updateEditUser = (user) => {
     updateUser(user);
+  };
+  const logOut= ()=> {
+
   };
 
   return (
@@ -67,14 +71,19 @@ const Profile = ({ onClose, user, edit, back, updateUser }) => {
 
         {edit !== false && ( // Ensure the "Edit Profile" button is rendered when 'edit' prop is not explicitly set to false
           <View style={styles.actionsProfile}>
-            <TouchableOpacity
-              style={styles.roundedButton}
-              onPress={handleEditProfile}>
+
+            <TouchableOpacity style={styles.roundedButton} onPress={handleEditProfile}>
+
               <Text style={styles.iconButton}>
                 <Icon name="create-outline" />
               </Text>
               <Text style={styles.textButton}>Edit Profile</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity style={styles.roundedButton} onPress={logOut}>
+              <Text style={styles.textButton}>Log Out</Text>
+            </TouchableOpacity>
+
           </View>
         )}
       </ScrollView>

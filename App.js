@@ -26,7 +26,9 @@ export default function App() {
       setIsLoading(false); // Set loading state to false after 5000 milliseconds
     }, 5000); // Simulating loading for 5 seconds
   }, []);
-
+  const updateUser = (newUser) => {
+    setLoggedInUser(newUser);
+  };
   // For testing purposes, set the logged-in user ID directly
   // Define a callback function to receive the username
   const handleLogin = (user) => {
@@ -83,7 +85,12 @@ export default function App() {
           }}>
           <Tab.Screen
             name="Home"
-            children={() => <Home user={loggedInUser} />}
+            children={() => (
+              <Home
+                user={loggedInUser}
+                updateUser={updateUser}
+              />
+            )}
             options={{
               tabBarIcon: ({ focused }) => (
                 <Text

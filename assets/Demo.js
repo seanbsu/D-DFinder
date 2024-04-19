@@ -113,9 +113,9 @@ module.exports = [
     campaign: "Fighter",
     bio: "firey sorcerer who loves to duke it out in a magic battle with dragons",
     otheruser: [],
-    like: [],
+    like: [1],
     dislike: [],
-    match: [1],
+    match: [],
     status: "Online",
     messages: [
       {
