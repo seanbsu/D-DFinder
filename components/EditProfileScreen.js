@@ -1,9 +1,19 @@
-import React, { useRef, useState } from 'react';
-import { Button, Keyboard, Platform, Text, TextInput, View, Image } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import styles from '../assets/styles';
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Button,
+  Keyboard,
+  Platform,
+  Text,
+  TextInput,
+  View,
+  Image,
+} from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import styles from "../assets/styles";
+import Demo from "../assets/Demo";
+import * as ImagePicker from "expo-image-picker";
 
-const EditProfileScreen = ({ setShowEditProfile, user }) => {
+const EditProfileScreen = ({ setShowEditProfile, user, updateEditUser }) => {
   const firstnameInputRef = useRef(null);
   const characternameInputRef = useRef(null);
   const classInputRef = useRef(null);
@@ -11,25 +21,35 @@ const EditProfileScreen = ({ setShowEditProfile, user }) => {
   const campaignInputRef = useRef(null);
   const phoneInputRef = useRef(null);
   const scrollViewRef = useRef(null);
+  const defaultImage = user.uri;
 
   const [formData, setFormData] = useState({
-    name: user.firstname || '',
-    charactername: user.charactername || '',
-    characterclass: user.characterClass || '',
-    characterlevel: user.characterLevel || '',
-    campaigns: user.campaign || '',
-    bio: user.bio || '',
+    id: user.id,
+    firstname: user.firstname || "",
+    charactername: user.charactername || "",
+    characterClass: user.characterClass || "",
+    characterLevel: user.characterLevel || "",
+    campaign: user.campaign || "",
+    bio: user.bio || "",
+    uri: user.uri || null,
+    messages: user.messages || [],
+    like: user.like || [],
+    dislike: user.dislike || [],
+    match: user.match || [],
+    email: user.email || "",
+    password: user.password || "",
+    otheruser: user.otheruser || [],
   });
 
   const [errorMessages, setErrorMessages] = useState({
-    name: '',
-    charactername: '',
-    characterclass: '',
-    characterlevel: '',
-    campaigns: '',
-    bio: '',
+    firstname: "",
+    charactername: "",
+    characterClass: "",
+    characterLevel: "",
+    campaign: "",
+    bio: "",
   });
-
+  const [image, setImage] = useState(null);
   const inputs = [
     firstnameInputRef,
     characternameInputRef,
@@ -52,20 +72,21 @@ const EditProfileScreen = ({ setShowEditProfile, user }) => {
       finishEditing();
     }
   };
+  useEffect((image) => {}), [image];
 
   const onInputFocus = () => {
     // Handle input focus if needed
   };
 
   const onChangeInputHandler = (name, value) => {
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
 
-    setErrorMessages(prevErrors => ({
+    setErrorMessages((prevErrors) => ({
       ...prevErrors,
-      [name]: '', // Reset error message when input changes
+      [name]: "", // Reset error message when input changes
     }));
   };
 
@@ -101,21 +122,72 @@ const EditProfileScreen = ({ setShowEditProfile, user }) => {
     const errors = {};
     let hasError = false;
 
-    // Validate inputs
     // Implement validation for other fields similarly
+    if (formData.firstname.trim() === "") {
+      errors.firstname = "First Name is required";
+      hasError = true;
+    }
+    if (formData.charactername.trim() === "") {
+      errors.charactername = "Character Name is required";
+      hasError = true;
+      n;
+    }
+    if (formData.characterClass.trim() === "") {
+      errors.characterClass = "Class is required";
+      hasError = true;
+    }
+    if (formData.characterLevel.trim() === "") {
+      errors.characterLevel = "Character Level is required";
+      hasError = true;
+    }
+    if (formData.campaign.trim() === "") {
+      errors.campaign = "Campaign is required";
+      hasError = true;
+    }
+    if (formData.bio.trim() === "") {
+      errors.bio = "Bio is required";
+      hasError = true;
+    }
 
     if (hasError) {
       setErrorMessages(errors);
     } else {
+      console.log(formData);
       // Implement your submission logic here
+      updateFormDataInDemo(formData);
+      updateEditUser(formData);
       Keyboard.dismiss();
+      backPressed();
     }
+  };
+  const updateFormDataInDemo = (updatedFormData) => {
+    let Users = Demo;
+    // If the user exists in the Demo array
+    Users = Users.map((profile) => {
+      if (profile.id === updatedFormData.id) {
+        return updatedFormData;
+      }
+      return profile;
+    });
+  };
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+    onChangeInputHandler("uri", result.assets[0].uri);
   };
 
   const backPressed = () => {
     setShowEditProfile(false);
   };
-
   return (
     <KeyboardAwareScrollView
       style={styles.signup_container}
@@ -128,9 +200,8 @@ const EditProfileScreen = ({ setShowEditProfile, user }) => {
       keyboardDismissMode="on-drag"
       enableOnAndroid={true}
       extraHeight={32}
-      extraScrollHeight={Platform.OS == 'android' ? 32 : 0}
-      enableResetScrollToCoords={false}
-    >
+      extraScrollHeight={Platform.OS == "android" ? 32 : 0}
+      enableResetScrollToCoords={false}>
       <View style={styles.signup_container}>
         <Text style={styles.header}>Edit Profile</Text>
         <View style={styles.inputTextWrapper}>
@@ -139,11 +210,13 @@ const EditProfileScreen = ({ setShowEditProfile, user }) => {
             style={styles.textInput}
             returnKeyType="next"
             onSubmitEditing={editNextInput}
-            onChangeText={(value) => onChangeInputHandler('name', value)}
+            onChangeText={(value) => onChangeInputHandler("firstname", value)}
             ref={firstnameInputRef}
-            value={formData.name}
+            value={formData.firstname}
           />
-          {errorMessages.name !== '' && <Text style={styles.errorText}>{errorMessages.name}</Text>}
+          {errorMessages.firstname !== "" && (
+            <Text style={styles.errorText}>{errorMessages.firstname}</Text>
+          )}
         </View>
         <View style={styles.inputTextWrapper}>
           <TextInput
@@ -151,11 +224,15 @@ const EditProfileScreen = ({ setShowEditProfile, user }) => {
             style={styles.textInput}
             returnKeyType="next"
             onSubmitEditing={editNextInput}
-            onChangeText={(value) => onChangeInputHandler('charactername', value)}
+            onChangeText={(value) =>
+              onChangeInputHandler("charactername", value)
+            }
             ref={characternameInputRef}
             value={formData.charactername}
           />
-          {errorMessages.charactername !== '' && <Text style={styles.errorText}>{errorMessages.charactername}</Text>}
+          {errorMessages.charactername !== "" && (
+            <Text style={styles.errorText}>{errorMessages.charactername}</Text>
+          )}
         </View>
         <View style={styles.inputTextWrapper}>
           <TextInput
@@ -163,11 +240,15 @@ const EditProfileScreen = ({ setShowEditProfile, user }) => {
             style={styles.textInput}
             returnKeyType="next"
             onSubmitEditing={editNextInput}
-            onChangeText={(value) => onChangeInputHandler('characterclass', value)}
+            onChangeText={(value) =>
+              onChangeInputHandler("characterClass", value)
+            }
             ref={classInputRef}
-            value={formData.characterclass}
+            value={formData.characterClass}
           />
-          {errorMessages.characterclass !== '' && <Text style={styles.errorText}>{errorMessages.characterclass}</Text>}
+          {errorMessages.characterClass !== "" && (
+            <Text style={styles.errorText}>{errorMessages.characterClass}</Text>
+          )}
         </View>
         <View style={styles.inputTextWrapper}>
           <TextInput
@@ -175,11 +256,15 @@ const EditProfileScreen = ({ setShowEditProfile, user }) => {
             style={styles.textInput}
             returnKeyType="next"
             onSubmitEditing={editNextInput}
-            onChangeText={(value) => onChangeInputHandler('characterlevel', value)}
+            onChangeText={(value) =>
+              onChangeInputHandler("characterLevel", value)
+            }
             ref={characterLevelInputRef}
-            value={formData.characterlevel}
+            value={formData.characterLevel}
           />
-          {errorMessages.characterlevel !== '' && <Text style={styles.errorText}>{errorMessages.characterlevel}</Text>}
+          {errorMessages.characterLevel !== "" && (
+            <Text style={styles.errorText}>{errorMessages.characterLevel}</Text>
+          )}
         </View>
         <View style={styles.inputTextWrapper}>
           <TextInput
@@ -188,11 +273,13 @@ const EditProfileScreen = ({ setShowEditProfile, user }) => {
             returnKeyType="next"
             keyboardType="numeric"
             onSubmitEditing={editNextInput}
-            onChangeText={(value) => onChangeInputHandler('campaigns', value)}
+            onChangeText={(value) => onChangeInputHandler("campaign", value)}
             ref={campaignInputRef}
-            value={formData.campaigns}
+            value={formData.campaign}
           />
-          {errorMessages.campaigns !== '' && <Text style={styles.errorText}>{errorMessages.campaigns}</Text>}
+          {errorMessages.campaign !== "" && (
+            <Text style={styles.errorText}>{errorMessages.campaign}</Text>
+          )}
         </View>
         <View style={styles.inputTextWrapper}>
           <TextInput
@@ -201,22 +288,55 @@ const EditProfileScreen = ({ setShowEditProfile, user }) => {
             multiline={true}
             returnKeyType="done"
             onSubmitEditing={editNextInput}
-            onChangeText={(value) => onChangeInputHandler('bio', value)}
+            onChangeText={(value) => onChangeInputHandler("bio", value)}
             ref={phoneInputRef}
             value={formData.bio}
           />
-          {errorMessages.bio !== '' && <Text style={styles.errorText}>{errorMessages.bio}</Text>}
+          {errorMessages.bio !== "" && (
+            <Text style={styles.errorText}>{errorMessages.bio}</Text>
+          )}
         </View>
-        {user.uri && <Image source={user.uri} style={{ width: 150, height: 150 }} />}
+
+        {image !== null ? (
+          <Image
+            source={{ uri: image }}
+            style={{ width: 150, height: 150 }}
+          />
+        ) : user.uri !== null ? (
+          <Image
+            source={
+              user.uri === ""
+                ? require("../assets/icon.jpg")
+                : typeof user.uri === "number"
+                ? user.uri
+                : { uri: user.uri }
+            }
+            style={{ width: 150, height: 150 }}
+          />
+        ) : (
+          <Image
+            source={require("../assets/icon.jpg")}
+            style={{ width: 150, height: 150 }}
+          />
+        )}
 
         <View style={styles.btnContainer}>
-          <Button title="Upload Photo" />
+          <Button
+            title="Upload Photo"
+            onPress={pickImage}
+          />
         </View>
         <View style={styles.btnContainer}>
-          <Button title="Submit" onPress={submitPressed} />
+          <Button
+            title="Submit"
+            onPress={submitPressed}
+          />
         </View>
         <View style={styles.btnContainer}>
-          <Button title="Back" onPress={backPressed} />
+          <Button
+            title="Back"
+            onPress={backPressed}
+          />
         </View>
       </View>
     </KeyboardAwareScrollView>

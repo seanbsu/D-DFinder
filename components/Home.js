@@ -15,6 +15,7 @@ export const Home = ({ user, updateUser }) => {
   const position = new Animated.ValueXY();
   const [showProfile, setShowProfile] = useState(false);
   const [currentUsers, setCurrentUsers] = useState(user);
+  const [updateU, setupdateU] = useState(user);
   const [updateOtherUser, setUpdateOtherUser] = useState(null);
   const filteredUsers = Users.filter(
     (u) =>
@@ -24,8 +25,11 @@ export const Home = ({ user, updateUser }) => {
   );
 
   useEffect(() => {
-    updateUser(currentUsers);
-  }, [currentUsers]);
+    updateUser(updateU);
+    setCurrentUsers(updateU);
+  }, [updateU]);
+
+  useEffect(() => {}, [currentUsers]);
 
   const handleLike = () => {
     addToLikeList();
@@ -61,11 +65,12 @@ export const Home = ({ user, updateUser }) => {
       return profile;
     });
 
-    setCurrentUsers(tempUser);
+    // setupdateU(tempUser);
     otherU = filteredUsers[currentIndex];
     findMatch(tempUser, otherU);
   };
   const findMatch = (currentUser, otherUser) => {
+    let updatedCurrentUser = currentUser;
     if (
       otherUser.like.includes(currentUser.id) &&
       !otherUser.match.includes(currentUser.id) &&
@@ -73,10 +78,10 @@ export const Home = ({ user, updateUser }) => {
     ) {
       console.log("add match");
       const matchList = [...currentUser.match, otherUser.id];
-      const updatedCurrentUser = { ...currentUser, match: matchList };
+      updatedCurrentUser = { ...currentUser, match: matchList };
       //update match for currentUser
       Users = Users.map((profile) => {
-        if (profile.email === currentUser.email) {
+        if (profile.email === updatedCurrentUser.email) {
           return {
             ...profile,
             match: matchList, // Update the match value here
@@ -85,9 +90,6 @@ export const Home = ({ user, updateUser }) => {
 
         return profile;
       });
-      console.log("\n\n update current users match list", matchList);
-      console.log("\n\n", updatedCurrentUser);
-      setCurrentUsers(updatedCurrentUser);
 
       //update match for otherUser
       const matchList2 = [...otherUser.match, currentUser.id];
@@ -106,6 +108,9 @@ export const Home = ({ user, updateUser }) => {
       console.log("\n\n liked users match list", matchList2);
       console.log("\n\n", otherUser);
     }
+    console.log("\n\n update current users match list");
+    console.log("\n\n", updatedCurrentUser);
+    setupdateU(updatedCurrentUser);
   };
 
   const handleDislike = () => {
@@ -146,7 +151,7 @@ export const Home = ({ user, updateUser }) => {
       }
       return profile;
     });
-    setCurrentUsers(tempUser);
+    setupdateU(tempUser);
   };
   return (
     <View style={styles.container}>
@@ -177,5 +182,4 @@ export const Home = ({ user, updateUser }) => {
       </View>
     </View>
   );
-  
 };

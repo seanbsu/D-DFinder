@@ -35,9 +35,11 @@ export default function App() {
     setLoggedInUser(user);
   };
 
+
   const isLogOut = (logOut) => {
     setIsLoggedIn(logOut);
   }
+
   useEffect(() => {
     if (isLoading === false && loggedInUser !== null) {
       // const testUserId = 6; // Number type
@@ -132,7 +134,9 @@ export default function App() {
               <ProfileScreen
                 user={loggedInUser}
                 back={false}
+                updateUser={updateUser}
                 isLogOut={isLogOut}
+
               />
             )}
             options={{
