@@ -19,9 +19,6 @@ export default function LoginView({ setIsLoggedIn, onLogin }) {
     let isLoggedIn = false;
     // console.log(username);
     // console.log(password);
-    onLogin(Demo[0]);
-    setIsLoggedIn(true);
-    isLoggedIn = true;
     Demo.forEach((user) => {
       if (user.email === username && user.password === password) {
         onLogin(user);
