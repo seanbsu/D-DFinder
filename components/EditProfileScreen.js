@@ -304,7 +304,13 @@ const EditProfileScreen = ({ setShowEditProfile, user, updateEditUser }) => {
           />
         ) : user.uri !== null ? (
           <Image
-            source={typeof user.uri === "number" ? user.uri : { uri: user.uri }}
+            source={
+              user.uri === ""
+                ? require("../assets/icon.jpg")
+                : typeof user.uri === "number"
+                ? user.uri
+                : { uri: user.uri }
+            }
             style={{ width: 150, height: 150 }}
           />
         ) : (
