@@ -18,6 +18,7 @@ export const Home = ({ user, updateUser }) => {
   const [currentUsers, setCurrentUsers] = useState(user);
   const [matched, setMatched] = useState(false);
   const [matchedUserID, setMatchedUserID] = useState(null); // Track matched user ID
+  const [updateU, setupdateU] = useState(user);
   const [updateOtherUser, setUpdateOtherUser] = useState(null);
   const filteredUsers = Users.filter(
     (u) =>
@@ -37,8 +38,11 @@ export const Home = ({ user, updateUser }) => {
   }, [matched]);
 
   useEffect(() => {
-    updateUser(currentUsers);
-  }, [currentUsers]);
+    updateUser(updateU);
+    setCurrentUsers(updateU);
+  }, [updateU]);
+
+  useEffect(() => {}, [currentUsers]);
 
   useEffect(() => {
     if (matched) {
@@ -76,12 +80,13 @@ export const Home = ({ user, updateUser }) => {
       return profile;
     });
 
-    setCurrentUsers(tempUser);
-    const otherUser = filteredUsers[currentIndex];
-    findMatch(tempUser, otherUser);
+    // setupdateU(tempUser);
+    otherU = filteredUsers[currentIndex];
+    findMatch(tempUser, otherU);
   };
 
   const findMatch = (currentUser, otherUser) => {
+    let updatedCurrentUser = currentUser;
     if (
       otherUser.like.includes(currentUser.id) &&
       !otherUser.match.includes(currentUser.id) &&
@@ -89,9 +94,10 @@ export const Home = ({ user, updateUser }) => {
     ) {
       console.log("add match");
       const matchList = [...currentUser.match, otherUser.id];
-      const updatedCurrentUser = { ...currentUser, match: matchList };
+      updatedCurrentUser = { ...currentUser, match: matchList };
+      //update match for currentUser
       Users = Users.map((profile) => {
-        if (profile.email === currentUser.email) {
+        if (profile.email === updatedCurrentUser.email) {
           return {
             ...profile,
             match: matchList,
@@ -99,8 +105,6 @@ export const Home = ({ user, updateUser }) => {
         }
         return profile;
       });
-
-      setCurrentUsers(updatedCurrentUser);
 
       const matchList2 = [...otherUser.match, currentUser.id];
       otherUser.match = matchList2;
@@ -115,13 +119,17 @@ export const Home = ({ user, updateUser }) => {
       });
 
       setUpdateOtherUser(otherUser);
+      console.log("\n\n liked users match list", matchList2);
+      console.log("\n\n", otherUser);
+            // Set matchedUserID for MatchedScreen
+            setMatchedUserID(otherUser.id);
 
-      // Set matchedUserID for MatchedScreen
-      setMatchedUserID(otherUser.id);
-
-      // Set matched to true to trigger MatchedScreen display
-      setMatched(true);
+            // Set matched to true to trigger MatchedScreen display
+            setMatched(true);
     }
+    console.log("\n\n update current users match list");
+    console.log("\n\n", updatedCurrentUser);
+    setupdateU(updatedCurrentUser);
   };
 
   const handleDislike = () => {
@@ -159,12 +167,12 @@ export const Home = ({ user, updateUser }) => {
       }
       return profile;
     });
-    setCurrentUsers(tempUser);
+    setupdateU(tempUser);
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.overlay}>
+      <View style={styles.contentContainer}>
         {!showProfile && currentIndex < filteredUsers.length ? (
           <View style={styles.cards}>
             <UserCard
@@ -175,17 +183,18 @@ export const Home = ({ user, updateUser }) => {
               toggleProfile={toggleProfile}
             />
           </View>
-        ) : (
-          <View style={[styles.cards, styles.noUsersContainer]}>
-            <Text style={styles.noUsersText}>No more users available</Text>
-          </View>
-        )}
+        ) : null}
         {showProfile && (
           <ProfileScreen
             user={currentUsers}
             onClose={toggleProfile}
             edit={false}
           />
+        )}
+        {!showProfile && currentIndex >= filteredUsers.length && (
+          <View style={[styles.cards, styles.noUsersContainer]}>
+            <Text style={styles.noUsersText}>No more users available</Text>
+          </View>
         )}
       </View>
       {matched && (

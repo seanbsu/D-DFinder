@@ -35,12 +35,17 @@ export default function App() {
     setLoggedInUser(user);
   };
 
+
+  const isLogOut = (logOut) => {
+    setIsLoggedIn(logOut);
+  }
+
   useEffect(() => {
     if (isLoading === false && loggedInUser !== null) {
       // const testUserId = 6; // Number type
       // // Attempt to find the user with id 6
       // const user = Demo.find(user => user.id === testUserId);
-      console.log("Logged In");
+      // console.log("Logged In");
       // console.log(loggedInUser);
     }
   }, [isLoading, loggedInUser]);
@@ -129,6 +134,9 @@ export default function App() {
               <ProfileScreen
                 user={loggedInUser}
                 back={false}
+                updateUser={updateUser}
+                isLogOut={isLogOut}
+
               />
             )}
             options={{
