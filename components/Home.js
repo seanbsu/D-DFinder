@@ -151,22 +151,17 @@ export const Home = ({ user, updateUser }) => {
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-          {!showProfile && currentIndex < filteredUsers.length ? (
-              <View style={styles.cards}>
-                <UserCard
-                  user={filteredUsers[currentIndex]}
-                  position={position}
-                  onLike={handleLike}
-                  onDislike={handleDislike}
-                  toggleProfile={toggleProfile}
-                />
-              </View>
-            ) : (
-            
-          <View style={[styles.cards, styles.noUsersContainer]}>
-              <Text style= {styles.noUsersText}>No more users available</Text>
-            </View>
-            )}
+        {!showProfile && currentIndex < filteredUsers.length ? (
+          <View style={styles.cards}>
+            <UserCard
+              user={filteredUsers[currentIndex]}
+              position={position}
+              onLike={handleLike}
+              onDislike={handleDislike}
+              toggleProfile={toggleProfile}
+            />
+          </View>
+        ) : null}
         {showProfile && (
           <ProfileScreen
             user={currentUsers}
@@ -174,7 +169,13 @@ export const Home = ({ user, updateUser }) => {
             edit={false}
           />
         )}
+        {!showProfile && currentIndex >= filteredUsers.length && (
+          <View style={[styles.cards, styles.noUsersContainer]}>
+            <Text style={styles.noUsersText}>No more users available</Text>
+          </View>
+        )}
       </View>
     </View>
   );
+  
 };
