@@ -12,10 +12,12 @@ import Icon from "./Icon";
 import EditProfileScreen from "./EditProfileScreen";
 import styles from "../assets/styles";
 
-const Profile = ({ onClose, user, edit, back, updateUser }) => {
-  console.log("user");
-  console.log(user);
 
+const Profile = ({ onClose, user, edit, back, isLogOut, updateUser }) => {
+  if (edit) {
+    console.log("user");
+    console.log(user);
+  }
   const [editing, setEditing] = useState(false);
 
   const handleEditProfile = () => {
@@ -29,8 +31,9 @@ const Profile = ({ onClose, user, edit, back, updateUser }) => {
   const updateEditUser = (user) => {
     updateUser(user);
   };
-  const logOut= ()=> {
 
+  const logOut = () => {
+    isLogOut(false);
   };
 
   return (
@@ -72,19 +75,20 @@ const Profile = ({ onClose, user, edit, back, updateUser }) => {
 
         {edit !== false && ( // Ensure the "Edit Profile" button is rendered when 'edit' prop is not explicitly set to false
           <View style={styles.actionsProfile}>
-
-            <TouchableOpacity style={styles.roundedButton} onPress={handleEditProfile}>
-
+            <TouchableOpacity
+              style={styles.roundedButton}
+              onPress={handleEditProfile}>
               <Text style={styles.iconButton}>
                 <Icon name="create-outline" />
               </Text>
               <Text style={styles.textButton}>Edit Profile</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.roundedButton} onPress={logOut}>
+            <TouchableOpacity
+              style={styles.roundedButton}
+              onPress={logOut}>
               <Text style={styles.textButton}>Log Out</Text>
             </TouchableOpacity>
-
           </View>
         )}
       </ScrollView>

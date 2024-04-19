@@ -34,6 +34,12 @@ export default function App() {
   const handleLogin = (user) => {
     setLoggedInUser(user);
   };
+
+
+  const isLogOut = (logOut) => {
+    setIsLoggedIn(logOut);
+  }
+
   useEffect(() => {
     if (isLoading === false && loggedInUser !== null) {
       // const testUserId = 6; // Number type
@@ -129,6 +135,8 @@ export default function App() {
                 user={loggedInUser}
                 back={false}
                 updateUser={updateUser}
+                isLogOut={isLogOut}
+
               />
             )}
             options={{
