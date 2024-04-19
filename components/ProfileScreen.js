@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
-import { ScrollView, View, Text, ImageBackground, TouchableOpacity, Modal } from 'react-native';
-import ProfileItem from './ProfileItem';
-import Icon from './Icon';
-import EditProfileScreen from './EditProfileScreen';
-import styles from '../assets/styles';
+import React, { useState } from "react";
+import {
+  ScrollView,
+  View,
+  Text,
+  ImageBackground,
+  TouchableOpacity,
+  Modal,
+} from "react-native";
+import ProfileItem from "./ProfileItem";
+import Icon from "./Icon";
+import EditProfileScreen from "./EditProfileScreen";
+import styles from "../assets/styles";
 
-const Profile = ({ onClose, user, edit, back }) => {
-  if(edit){
+const Profile = ({ onClose, user, edit, back, isLogOut }) => {
+  if (edit) {
     console.log("user");
-  console.log(user);
+    console.log(user);
   }
   const { age, uri, info1, info2, info3, info4, location, match, name } = user;
   const [editing, setEditing] = useState(false);
@@ -20,25 +27,29 @@ const Profile = ({ onClose, user, edit, back }) => {
   const handleCloseEdit = () => {
     setEditing(false);
   };
-  const logOut= ()=> {
-
+  const logOut = () => {
+    isLogOut(false);
   };
 
   return (
-    <ImageBackground source={require('../assets/bg.png')} style={styles.bg}>
+    <ImageBackground
+      source={require("../assets/bg.png")}
+      style={styles.bg}>
       <ScrollView style={styles.containerProfile}>
         <ImageBackground
-          source={(user.uri === "")? require("../assets/icon.jpg"): user.uri} //need a default uri
+          source={user.uri === "" ? require("../assets/icon.jpg") : user.uri} //need a default uri
           style={styles.photo}>
           <View style={styles.top}>
             {back === false ? null : (
               <TouchableOpacity onPress={onClose}>
                 <Text style={styles.topIconLeft}>
-                  <Icon name="chevron-back-sharp" size={20} />
+                  <Icon
+                    name="chevron-back-sharp"
+                    size={20}
+                  />
                 </Text>
               </TouchableOpacity>
             )}
-
           </View>
         </ImageBackground>
 
@@ -53,24 +64,32 @@ const Profile = ({ onClose, user, edit, back }) => {
 
         {edit !== false && ( // Ensure the "Edit Profile" button is rendered when 'edit' prop is not explicitly set to false
           <View style={styles.actionsProfile}>
-
-            <TouchableOpacity style={styles.roundedButton} onPress={handleEditProfile}>
+            <TouchableOpacity
+              style={styles.roundedButton}
+              onPress={handleEditProfile}>
               <Text style={styles.iconButton}>
                 <Icon name="create-outline" />
               </Text>
               <Text style={styles.textButton}>Edit Profile</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.roundedButton} onPress={logOut}>
+            <TouchableOpacity
+              style={styles.roundedButton}
+              onPress={logOut}>
               <Text style={styles.textButton}>Log Out</Text>
             </TouchableOpacity>
-
           </View>
         )}
       </ScrollView>
 
-      <Modal visible={editing} animationType="slide">
-        <EditProfileScreen setShowEditProfile={handleCloseEdit} user={user} edit />
+      <Modal
+        visible={editing}
+        animationType="slide">
+        <EditProfileScreen
+          setShowEditProfile={handleCloseEdit}
+          user={user}
+          edit
+        />
       </Modal>
     </ImageBackground>
   );
