@@ -32,23 +32,18 @@ export default function App() {
   // For testing purposes, set the logged-in user ID directly
   // Define a callback function to receive the username
   const handleLogin = (user) => {
+    console.log("Logged In");
+    console.log(user);
     setLoggedInUser(user);
   };
 
-
   const isLogOut = (logOut) => {
+    setIsLoading(false);
+    setLoggedInUser(null);
     setIsLoggedIn(logOut);
-  }
+  };
 
-  useEffect(() => {
-    if (isLoading === false && loggedInUser !== null) {
-      // const testUserId = 6; // Number type
-      // // Attempt to find the user with id 6
-      // const user = Demo.find(user => user.id === testUserId);
-      // console.log("Logged In");
-      // console.log(loggedInUser);
-    }
-  }, [isLoading, loggedInUser]);
+  useEffect(() => {}, [isLoading, loggedInUser]);
 
   if (isLoading) {
     return <SplashScreen />;
@@ -136,7 +131,6 @@ export default function App() {
                 back={false}
                 updateUser={updateUser}
                 isLogOut={isLogOut}
-
               />
             )}
             options={{

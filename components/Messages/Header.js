@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
-import styles from '../../assets/styles';
+import styles from "../../assets/styles";
+import { on } from "events";
 
-const Header = ({ title, onBackPress }) => {
+const Header = ({ title, onBackPress, isUnMatch }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
   const toggleDropdown = () => {
@@ -12,25 +13,42 @@ const Header = ({ title, onBackPress }) => {
 
   const handleUnmatch = () => {
     // Code to handle unmatching
-    // This function will be called when the "Unmatch" button is pressed
-    // You can implement the logic to handle unmatching here
+    isUnMatch(true);
+    onBackPress(true);
   };
 
   return (
-    <View style={{ padding: 0, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-      <TouchableOpacity style={{ paddingLeft: 10 }} onPress={onBackPress}>
-        <Ionicons name="chevron-back-outline" size={20}  />
+    <View
+      style={{
+        padding: 0,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}>
+      <TouchableOpacity
+        style={{ paddingLeft: 10 }}
+        onPress={onBackPress}>
+        <Ionicons
+          name="chevron-back-outline"
+          size={20}
+        />
       </TouchableOpacity>
-      <Text style={{ fontSize: 18, fontWeight: "bold", paddingLeft: 10 }}>{title}</Text>
-      <TouchableOpacity style={{ paddingRight: 10 }} onPress={toggleDropdown}>
-        <Ionicons name="ellipsis-vertical" size={20}  />
+      <Text style={{ fontSize: 18, fontWeight: "bold", paddingLeft: 10 }}>
+        {title}
+      </Text>
+      <TouchableOpacity
+        style={{ paddingRight: 10 }}
+        onPress={toggleDropdown}>
+        <Ionicons
+          name="ellipsis-vertical"
+          size={20}
+        />
       </TouchableOpacity>
       <Modal
         animationType="slide"
         transparent={true}
         visible={dropdownVisible}
-        onRequestClose={() => setDropdownVisible(false)}
-      >
+        onRequestClose={() => setDropdownVisible(false)}>
         <View style={styles.modalBackground}>
           <View style={styles.modalContent}>
             <TouchableOpacity onPress={handleUnmatch}>
@@ -45,4 +63,3 @@ const Header = ({ title, onBackPress }) => {
 };
 
 export default Header;
-
