@@ -23,6 +23,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "packagerOpts" : {
+      "url":"https://cs.boisestate.edu/~scutchin/project/savejson.php?user=ryedata"
     }
   }
 }

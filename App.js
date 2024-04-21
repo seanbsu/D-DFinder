@@ -10,6 +10,10 @@ import styles from './assets/styles';
 import SplashScreen from './components/SplashScreen'; 
 import LoginView from './components/LoginView';
 import Demo from './assets/Demo'; // Import the Demo array
+import {saveRemoteProfiles, getRemoteProfiles, loadList, saveList} from './components/RemoteHandler'
+
+loadurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/loadjson.php?user=ryeland"
+saveurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/savejson.php?user=ryeland"
 
 const Tab = createBottomTabNavigator();
 // Create context for loggedInUserId and its setter function
@@ -20,6 +24,7 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); 
   const [loggedInUserId, setLoggedInUserId] = useState(null);
   const [loggedInUser, setLoggedInUser] = useState(null); // State to hold the logged-in user
+  const [Users, setUser] = useState(null)
 
   useEffect(() => {
     setTimeout(() => {
@@ -42,6 +47,26 @@ export default function App() {
       console.log(loggedInUser);
     }
   }, [isLoading, loggedInUser]);
+
+  //TODO: Saving inial Demo data
+  useEffect(() => {
+    saveList(saveurl, Demo).then(() => {
+      console.log("Saved Global User:");
+    }).catch((e) => {
+      console.log("Error saving demo");
+      console.log(e);
+   });
+  }, []);
+
+  // useEffect(() => {
+  //   loadList(url, Users,setUser).then(() => {
+  //     console.log("Loaded Global User:");
+  //     console.log(Users)
+  //   }).catch((e) => {
+  //     console.log("Error loading globals");
+  //     console.log(e);
+  //  });
+  // }, []);
 
  
 

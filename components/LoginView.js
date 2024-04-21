@@ -2,40 +2,60 @@ import React, { useState, useEffect } from 'react';
 import LoginScreen from "react-native-login-screen";
 import {View, TextInput} from "react-native";
 import SignUpScreen from './SignUpScreen';
-import {saveRemoteProfiles, getRemoteProfiles} from './RemoteHandler'
+import {saveRemoteProfiles, getRemoteProfiles, loadList, saveList} from './RemoteHandler'
 import Demo from '../assets/Demo';
 
-saveurl="https://cs.boisestate.edu/~scutchin/project/savejson.php?user=dd-find-data.json"
+loadurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/loadjson.php?user=ryeland"
+saveurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/savejson.php?user=ryeland"
 
 export default function LoginView({setIsLoggedIn, onLogin}) {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [showSignUp, setShowSignUp] = useState(false); 
+  const [Users, setUser] = useState(null);
 
-  useEffect(() => {
-    saveRemoteProfiles(saveurl,Demo);
-  }, [])
+  // useEffect(() => {
+  //   console.log("Gonna save a list")
+  //   saveList(url,Demo);
+  //   // console.log(Demo); is sending!
+  // }, [])
 
   const SignUpPress = ()=>{
     setShowSignUp(true);
   }
+
   const LoginPress = ()=>{
-    //test user: a@gmail.com
-    //test password:  123456
-    //TODO: fetch user data from server
+    // test user: a@gmail.com
+    // test password:  123456
+    // TODO: fetch user data from server
     let isLoggedIn = false;
-    console.log(username);
-    console.log(password);
-    Demo.forEach((user)=>{
+
+    console.log("Logging in")
+    console.log("Loading list")
+    getRemoteProfiles(loadurl).then((ret) => {
+      setUser(ret);
+      console.log("Users loading in loginview")
+      console.log(Users);
+      console.log(ret);
+      console.log(username);
+      console.log(password);
+
+      ret.forEach((user)=>{
       if(user.email === username && user.password === password){
         onLogin(user);
         setIsLoggedIn(true);
         isLoggedIn = true;
       }
-    }); 
-    if(isLoggedIn === false){
-      alert("Invalid username or password");
-    }
+
+      if(isLoggedIn === false){
+        alert("Invalid username or password");
+      }
+      });
+    }).catch((e) => {
+      console.log("Failure during loading remote login")
+      console.log(e)
+    });
+     
   }
   
   // setUser = (user)=>{

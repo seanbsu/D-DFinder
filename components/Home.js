@@ -9,9 +9,9 @@ import {saveRemoteProfiles, getRemoteProfiles} from './RemoteHandler'
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry.js';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
-url="https://cs.boisestate.edu/~scutchin/cs402/codesnips/loadjson.php?user=ryeland"
-loadurl="https://cs.boisestate.edu/~scutchin/project/loadjson.php?user=dd-find-data.json"
-saveurl="https://cs.boisestate.edu/~scutchin/project/savejson.php?user=dd-find-data.json"
+
+loadurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/loadjson.php?user=ryeland"
+saveurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/savejson.php?user=ryeland"
 
 export const Home = ({user}) => {
   const {
@@ -22,16 +22,16 @@ export const Home = ({user}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const position = new Animated.ValueXY();
   const [showProfile, setShowProfile] = useState(false);
-  const [Users, setUsers] = useState(getRemoteProfiles(loadurl))
+  const [Users, setUsers] = useState(getRemoteProfiles(loadurl));
 
   //Trying to save t
   // getRemoteProfiles(loadurl,Demo);
 
-  // //Get the users from our remote
+  //Get the users from our remote
   // useEffect(() => {
+  //   setUsers(getRemoteProfiles(loadurl));
   //   console.log('USE EFFECCT SEE NEEEEEEEEEEEEEEEEEEEEEEE');
-  //   saveRemoteProfiles(save,Demo);
-  //   const response = loadList(url,Users,setUsers)
+  //   console.log(Users)
   // }, [])
 
   const handleLike = () => {
