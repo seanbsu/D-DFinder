@@ -28,11 +28,11 @@ export const Home = ({user}) => {
   // getRemoteProfiles(loadurl,Demo);
 
   //Get the users from our remote
-  useEffect(() => {
-    setUsers(getRemoteProfiles(loadurl));
-    console.log('USE EFFECCT SEE NEEEEEEEEEEEEEEEEEEEEEEE');
-    console.log(Users);
-  }, [])
+  // useEffect(() => {
+  //   setUsers(getRemoteProfiles(loadurl));
+  //   console.log('USE EFFECCT SEE NEEEEEEEEEEEEEEEEEEEEEEE');
+  //   console.log(Users);
+  // }, [])
 
   const handleLike = () => {
     addToLikeList();
@@ -51,17 +51,30 @@ export const Home = ({user}) => {
     console.log('add match1');
 
     // Find the object with the specific id and update its match value
-    Users = Users.map(profile => {
-    if (profile.email === user.email) { // Assuming update the match value for the object with id 5
-      const likeList = [...profile.like, Users[currentIndex].id]
-      return {
-          ...profile,
-          like: likeList // Update the match value here
-      };
-    }
-    return profile;
+    Users.then((ret)=>{
+
+      ret = ret.map(profile => {
+      if (profile.email === user.email) { // Assuming update the match value for the object with id 5
+        const likeList = [...profile.like, ret[currentIndex].id]
+        return {
+            ...profile,
+            like: likeList // Update the match value here
+        };
+      }
+
+      return profile;
+    })
    });
-   console.log(Users);
+   console.log(ret);
+  }
+
+  function getUsers(){
+    getRemoteProfiles(loadurl).then((val)=>{
+      setUsers(val)
+      console.log("returning below")
+      console.log(val[currentIndex])
+      return val[currentIndex]
+    })
   }
 
   const handleDislike = () => {
@@ -104,7 +117,7 @@ export const Home = ({user}) => {
         {!showProfile && currentIndex < Users.length && (
           <View style={styles.cards}>
             <UserCard
-              user={Users[currentIndex]}
+              user={Users.then((ret)=>{return ret[currentIndex]})}
               position={position}
               onLike={handleLike}
               onDislike={handleDislike}

@@ -36,6 +36,8 @@ export default function App() {
    // Define a callback function to receive the username
    const handleLogin = (user) => {
     setLoggedInUser(user);
+    console.log("Logging in displayed user")
+    console.log(user)
    };
 
   useEffect(() => {

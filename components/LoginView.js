@@ -37,6 +37,8 @@ export default function LoginView({setIsLoggedIn, onLogin}) {
       ret.forEach((user)=>{
       if(user.email === username && user.password === password){
         onLogin(user);
+        console.log("Logging the user that should appear")
+        console.log(user)
         setIsLoggedIn(true);
         isLoggedIn = true;
       }
