@@ -28,11 +28,11 @@ export const Home = ({user}) => {
   // getRemoteProfiles(loadurl,Demo);
 
   //Get the users from our remote
-  // useEffect(() => {
-  //   setUsers(getRemoteProfiles(loadurl));
-  //   console.log('USE EFFECCT SEE NEEEEEEEEEEEEEEEEEEEEEEE');
-  //   console.log(Users)
-  // }, [])
+  useEffect(() => {
+    setUsers(getRemoteProfiles(loadurl));
+    console.log('USE EFFECCT SEE NEEEEEEEEEEEEEEEEEEEEEEE');
+    console.log(Users);
+  }, [])
 
   const handleLike = () => {
     addToLikeList();

@@ -12,13 +12,7 @@ export default function LoginView({setIsLoggedIn, onLogin}) {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [showSignUp, setShowSignUp] = useState(false); 
-  const [Users, setUser] = useState(null);
-
-  // useEffect(() => {
-  //   console.log("Gonna save a list")
-  //   saveList(url,Demo);
-  //   // console.log(Demo); is sending!
-  // }, [])
+  const [Users, setUser] = useState();
 
   const SignUpPress = ()=>{
     setShowSignUp(true);
@@ -32,11 +26,11 @@ export default function LoginView({setIsLoggedIn, onLogin}) {
 
     console.log("Logging in")
     console.log("Loading list")
+    setUser("booser")
     getRemoteProfiles(loadurl).then((ret) => {
-      setUser(ret);
       console.log("Users loading in loginview")
-      console.log(Users);
       console.log(ret);
+      setUser(ret);
       console.log(username);
       console.log(password);
 
