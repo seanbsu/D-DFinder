@@ -1,20 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from "react";
 import LoginScreen from "react-native-login-screen";
-import {View, TextInput} from "react-native";
-import SignUpScreen from './SignUpScreen';
-import {saveRemoteProfiles, getRemoteProfiles, loadList, saveList} from './RemoteHandler'
-import Demo from '../assets/Demo';
+import { View, TextInput } from "react-native";
+import SignUpScreen from "./SignUpScreen";
+import Demo from "../assets/Demo";
 
 loadurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/loadjson.php?user=ryeland"
 saveurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/savejson.php?user=ryeland"
 
-export default function LoginView({setIsLoggedIn, onLogin}) {
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [showSignUp, setShowSignUp] = useState(false); 
-  const [Users, setUser] = useState();
+export default function LoginView({ setIsLoggedIn, onLogin }) {
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [showSignUp, setShowSignUp] = useState(false);
 
-  const SignUpPress = ()=>{
+  const SignUpPress = () => {
     setShowSignUp(true);
   }
 
@@ -59,22 +57,30 @@ export default function LoginView({setIsLoggedIn, onLogin}) {
   //   setIsLoggedIn(true);
   // }
 
-  return(
-      <View style={{ flex: 1 }}>
-        {showSignUp ? (
-          <SignUpScreen setIsLoggedIn={setIsLoggedIn} setShowSignUp={setShowSignUp} onSignUp={setUser}/>
-        ) : (
-          <LoginScreen
-            logoImageSource={require('../assets/icon-complete-trim.png')}
-            onLoginPress={ LoginPress}
-            onSignupPress={SignUpPress}
-            onEmailChange={setUsername}
-            onPasswordChange={setPassword}
-            enablePasswordValidation
-            disableSocialButtons
-          />
-        )}
-      </View>
-    );
-}
+  setUser = (user) => {
+    onLogin(user);
+    setIsLoggedIn(true);
+  };
 
+  return (
+    <View style={{ flex: 1 }}>
+      {showSignUp ? (
+        <SignUpScreen
+          setIsLoggedIn={setIsLoggedIn}
+          setShowSignUp={setShowSignUp}
+          onSignUp={setUser}
+        />
+      ) : (
+        <LoginScreen
+          logoImageSource={require("../assets/icon-complete-trim.png")}
+          onLoginPress={LoginPress}
+          onSignupPress={SignUpPress}
+          onEmailChange={setUsername}
+          onPasswordChange={setPassword}
+          enablePasswordValidation
+          disableSocialButtons
+        />
+      )}
+    </View>
+  );
+}

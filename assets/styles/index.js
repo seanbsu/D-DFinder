@@ -208,16 +208,16 @@ export default StyleSheet.create({
 		fontSize: 13
 	},
 	info: {
-		paddingVertical: 8,
-		flexDirection: "row",
-		alignItems: "center"
-	},
-	iconProfile: {
-		
-		fontSize: 12,
-		color: DARK_GRAY,
-		paddingHorizontal: 10
-	},
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginBottom: 10,
+	  },
+	  iconProfile: {
+		marginRight: 10,
+	  },
+	  infoContentContainer: {
+		flex: 1, 
+	  },
 	infoContent: {
 		color: GRAY,
 		fontSize: 13
@@ -247,6 +247,16 @@ export default StyleSheet.create({
 
 	// CONTAINER - HOME
 	containerHome: { marginHorizontal: 10 },
+	noUsersText: {
+		color: "white",
+		fontSize: 20, 
+		fontFamily: "sans-serif", 
+		textAlign: "center",
+	  },
+	  noUsersContainer: {
+		justifyContent: "center",
+		alignItems: "center",
+	  },
 
 	// CONTAINER - MATCHES
 	containerMatches: {
@@ -259,8 +269,31 @@ export default StyleSheet.create({
 	containerMessages: {
 		justifyContent: "space-between",
 		flex: 1,
-		paddingHorizontal: 10
+		paddingHorizontal: 0
 	},
+	messagestop: {
+		paddingTop: 0,
+		marginHorizontal: 10,
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center"
+	},
+	modalBackground: {
+		flex: 1,
+		backgroundColor: "rgba(0, 0, 0, 0.5)",
+		justifyContent: "center",
+		alignItems: "center",
+	  },
+	  modalContent: {
+		backgroundColor: "white",
+		padding: 20,
+		borderRadius: 10,
+		elevation: 5,
+	  },
+	  dropdownItem: {
+		fontSize: 16,
+		paddingVertical: 10,
+	  },
 
 	// CONTAINER - PROFILE
 	containerProfile: { marginHorizontal: 0 },
@@ -504,4 +537,43 @@ export default StyleSheet.create({
 	backgroundColor: "white",
 	marginTop:36,
   },
+
+  //MATCHED SCREEN
+  matchedContainer: {
+    flex: 1,
+    backgroundColor: "green",
+    paddingTop: 20,
+    opacity: 0.89,
+	zIndex: 999,
+  },
+  imageContainer: {
+    justifyContent: "center",
+    paddingHorizontal: 10,
+    paddingTop: 20,
+  },
+  matchedImage: {
+    height: 80,
+    width: "100%",
+    resizeMode: "contain",
+  },
+  matchedText: {
+    color: "white",
+    textAlign: "center",
+    marginTop: 5,
+  },
+  avatarsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    marginTop: 5,
+  },
+  matchAvatar: {
+    height: 100,
+    width: 100,
+    borderRadius: 50,
+  },
+  overlay: {
+	...StyleSheet.absoluteFillObject,
+	zIndex: 999,
+  },
+  
 });

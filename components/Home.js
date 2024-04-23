@@ -7,27 +7,29 @@ import UserCard from './UserCard';
 import styles from '../assets/styles';
 import {saveRemoteProfiles, getRemoteProfiles, loadList} from './RemoteHandler'
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry.js';
+import MatchedScreen from "./MatchedScreen"; // Import MatchedScreen component
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 loadurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/loadjson.php?user=ryeland"
 saveurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/savejson.php?user=ryeland"
 
-export const Home = ({user}) => {
-  // const {
-  //   email,
-  //   password,
-  //   name
-  // } = user
+export const Home = ({ user, updateUser }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const position = new Animated.ValueXY();
-  const [showProfile, setShowProfile] = useState(true);
-  const [Users, setUsers] = useState([{}]);
+  const [showProfile, setShowProfile] = useState(false);
+  const [currentUsers, setCurrentUsers] = useState(user);
+  const [matched, setMatched] = useState(false);
+  const [matchedUserID, setMatchedUserID] = useState(null); // Track matched user ID
+  const [updateU, setupdateU] = useState(user);
+  const [updateOtherUser, setUpdateOtherUser] = useState(null);
+  const filteredUsers = Users.filter(
+    (u) =>
+      u.email !== user.email &&
+      !user.like.includes(u.id) &&
+      !user.match.includes(u.id)
+  );
 
-  //Trying to save t
-  // getRemoteProfiles(loadurl,Demo);
-
-  //Get the users from our remote
   useEffect(() => {
     getRemoteProfiles(loadurl).then((ret)=>{
       console.log('USE EFFECCT SEE NEEEEEEEEEEEEEEEEEEEEEEE');
@@ -39,49 +41,110 @@ export const Home = ({user}) => {
     })
   }, [currentIndex])
 
+  useEffect(() => {
+    if (matched) {
+      const timer = setTimeout(() => {
+        setMatched(false); // Reset matched state after 3 seconds
+      }, 5000);
+
+      return () => clearTimeout(timer); // Cleanup timer on unmount
+    }
+  }, [matched]);
+
+  useEffect(() => {
+    updateUser(updateU);
+    setCurrentUsers(updateU);
+  }, [updateU]);
+
+  useEffect(() => {}, [currentUsers]);
+
+  useEffect(() => {
+    if (matched) {
+      // If matched, show MatchedScreen
+      setShowProfile(false); // Hide ProfileScreen if it's open
+    }
+  }, [matched]);
+
   const handleLike = () => {
     addToLikeList();
     Animated.spring(position, {
       toValue: { x: SCREEN_WIDTH + 100, y: 0 },
       useNativeDriver: true,
     }).start(() => {
-      setCurrentIndex(currentIndex + 1);
+      setCurrentIndex(currentIndex);
       position.setValue({ x: 0, y: 0 });
     });
   };
-    /**
-   * Update the match value for the user object if the user swipes right
-   */
+
   const addToLikeList = () => {
-    console.log('add match1');
-
-    // Find the object with the specific id and update its match value
-    Users.then((ret)=>{
-
-      ret = ret.map(profile => {
-      if (profile.email === user.email) { // Assuming update the match value for the object with id 5
-        const likeList = [...profile.like, ret[currentIndex].id]
+    console.log("add like");
+    const likeList = [...user.like, filteredUsers[currentIndex].id];
+    let tempUser = { ...user };
+    tempUser.like = likeList;
+    Users = Users.map((profile) => {
+      if (
+        profile.email === user.email &&
+        !profile.like.includes(filteredUsers[currentIndex].id)
+      ) {
         return {
-            ...profile,
-            like: likeList // Update the match value here
+          ...profile,
+          like: likeList,
         };
       }
-
       return profile;
-    })
-   });
-   console.log(ret);
-  }
+    });
 
-  function getUsers(){
-    console.log("RYELAND LOOK HERE")
-    Users.then((val)=>{
-      setUsers(val)
-      console.log("returning below")
-      console.log(val[currentIndex])
-      return val[currentIndex]
-    })
-  }
+    // setupdateU(tempUser);
+    otherU = filteredUsers[currentIndex];
+    findMatch(tempUser, otherU);
+  };
+
+  const findMatch = (currentUser, otherUser) => {
+    let updatedCurrentUser = currentUser;
+    if (
+      otherUser.like.includes(currentUser.id) &&
+      !otherUser.match.includes(currentUser.id) &&
+      !currentUser.match.includes(otherUser.id)
+    ) {
+      console.log("add match");
+      const matchList = [...currentUser.match, otherUser.id];
+      updatedCurrentUser = { ...currentUser, match: matchList };
+      //update match for currentUser
+      Users = Users.map((profile) => {
+        if (profile.email === updatedCurrentUser.email) {
+          return {
+            ...profile,
+            match: matchList,
+          };
+        }
+        return profile;
+      });
+
+      const matchList2 = [...otherUser.match, currentUser.id];
+      otherUser.match = matchList2;
+      Users = Users.map((profile) => {
+        if (profile.email === otherUser.email) {
+          return {
+            ...profile,
+            match: matchList2,
+          };
+        }
+        return profile;
+      });
+
+      setUpdateOtherUser(otherUser);
+      console.log("\n\n liked users match list", matchList2);
+      console.log("\n\n", otherUser);
+            // Set matchedUserID for MatchedScreen
+            setMatchedUserID(otherUser.id);
+
+            // Set matched to true to trigger MatchedScreen display
+            setMatched(true);
+    }
+    console.log("\n\n update current users match list");
+    console.log("\n\n", updatedCurrentUser);
+    setupdateU(updatedCurrentUser);
+  };
 
   const handleDislike = () => {
     addDisLikeList();
@@ -93,52 +156,68 @@ export const Home = ({user}) => {
       position.setValue({ x: 0, y: 0 });
     });
   };
+
   const toggleProfile = () => {
     setShowProfile(!showProfile);
-  };
-  /**
-   * Update the match value for the user object if the user swipes left or click x icon
-   */
-  const addDisLikeList = () => {
-    console.log('add dislike');
-    
-    // Find the object with the specific id and update its match value
-    Users = Users.map(profile => {
-    if (profile.email === user.email) { // Assuming update the match value for the object with id 5
-      
-      const dislikeList = [...profile.dislike, Users[currentIndex].id]
-      return {
-          ...profile,
-          dislike: dislikeList // Update the match value here
-      };
+    if (!showProfile) {
+      setCurrentUsers(filteredUsers[currentIndex]);
     }
-    return profile;
-   });
-   console.log(Users);
-  }
+  };
 
-  function ltc(){
-    console.log("User condidtion!")
-    console.log(Users)
-   return currentIndex < Users.length
-  }
+  const addDisLikeList = () => {
+    console.log("add dislike");
+    const dislikeList = [...user.dislike, filteredUsers[currentIndex].id];
+    let tempUser = { ...user };
+    tempUser.dislike = dislikeList;
+    Users = Users.map((profile) => {
+      if (
+        profile.email === user.email &&
+        !profile.like.includes(filteredUsers[currentIndex].id)
+      ) {
+        return {
+          ...profile,
+          dislike: dislikeList,
+        };
+      }
+      return profile;
+    });
+    setupdateU(tempUser);
+  };
 
   return (
     <View style={styles.container}>
-       
       <View style={styles.contentContainer}>
-        {showProfile && ltc && (
+        {!showProfile && currentIndex < filteredUsers.length ? (
           <View style={styles.cards}>
             <UserCard
-              user={Users[currentIndex]}
+              user={filteredUsers[currentIndex]}
               position={position}
               onLike={handleLike}
               onDislike={handleDislike}
               toggleProfile={toggleProfile}
             />
           </View>
+        ) : null}
+        {showProfile && (
+          <ProfileScreen
+            user={currentUsers}
+            onClose={toggleProfile}
+            edit={false}
+          />
+        )}
+        {!showProfile && currentIndex >= filteredUsers.length && (
+          <View style={[styles.cards, styles.noUsersContainer]}>
+            <Text style={styles.noUsersText}>No more users available</Text>
+          </View>
         )}
       </View>
+      {matched && (
+        <View style={[styles.overlay, styles.matchedContainer]}>
+          <MatchedScreen user={user} matchedUserID={matchedUserID} />
+        </View>
+      )}
     </View>
   );
-}
+};
+
+export default Home;

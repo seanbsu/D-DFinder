@@ -24,8 +24,19 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+<<<<<<< HEAD
     "packagerOpts" : {
       "url":"https://cs.boisestate.edu/~scutchin/project/savejson.php?user=ryedata"
     }
+=======
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
+    ]
+>>>>>>> main
   }
 }
