@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import ProfileItem from './ProfileItem';
 import Icon from './Icon';
-import Demo from '../assets/Demo';
 
 const Profile = ({onClose, user, edit, back}) => {
   const {

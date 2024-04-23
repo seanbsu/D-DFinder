@@ -5,7 +5,7 @@ import ProfileScreen from './ProfileScreen';
 import Demo from '../assets/Demo';
 import UserCard from './UserCard';
 import styles from '../assets/styles';
-import {saveRemoteProfiles, getRemoteProfiles} from './RemoteHandler'
+import {saveRemoteProfiles, getRemoteProfiles, loadList} from './RemoteHandler'
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry.js';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -14,25 +14,30 @@ loadurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/loadjson.php?user=r
 saveurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/savejson.php?user=ryeland"
 
 export const Home = ({user}) => {
-  const {
-    email,
-    password,
-    name
-  } = user
+  // const {
+  //   email,
+  //   password,
+  //   name
+  // } = user
   const [currentIndex, setCurrentIndex] = useState(0);
   const position = new Animated.ValueXY();
-  const [showProfile, setShowProfile] = useState(false);
-  const [Users, setUsers] = useState(getRemoteProfiles(loadurl));
+  const [showProfile, setShowProfile] = useState(true);
+  const [Users, setUsers] = useState([{}]);
 
   //Trying to save t
   // getRemoteProfiles(loadurl,Demo);
 
   //Get the users from our remote
-  // useEffect(() => {
-  //   setUsers(getRemoteProfiles(loadurl));
-  //   console.log('USE EFFECCT SEE NEEEEEEEEEEEEEEEEEEEEEEE');
-  //   console.log(Users);
-  // }, [])
+  useEffect(() => {
+    getRemoteProfiles(loadurl).then((ret)=>{
+      console.log('USE EFFECCT SEE NEEEEEEEEEEEEEEEEEEEEEEE');
+      setUsers(ret);
+      console.log(Users);
+    }).catch((e) => {
+      console.log("Failure during setUsers")
+      console.log(e)
+    })
+  }, [currentIndex])
 
   const handleLike = () => {
     addToLikeList();
@@ -69,7 +74,8 @@ export const Home = ({user}) => {
   }
 
   function getUsers(){
-    getRemoteProfiles(loadurl).then((val)=>{
+    console.log("RYELAND LOOK HERE")
+    Users.then((val)=>{
       setUsers(val)
       console.log("returning below")
       console.log(val[currentIndex])
@@ -110,14 +116,21 @@ export const Home = ({user}) => {
    });
    console.log(Users);
   }
+
+  function ltc(){
+    console.log("User condidtion!")
+    console.log(Users)
+   return currentIndex < Users.length
+  }
+
   return (
     <View style={styles.container}>
        
       <View style={styles.contentContainer}>
-        {!showProfile && currentIndex < Users.length && (
+        {showProfile && ltc && (
           <View style={styles.cards}>
             <UserCard
-              user={Users.then((ret)=>{return ret[currentIndex]})}
+              user={Users[currentIndex]}
               position={position}
               onLike={handleLike}
               onDislike={handleDislike}
@@ -125,7 +138,6 @@ export const Home = ({user}) => {
             />
           </View>
         )}
-        {showProfile && <ProfileScreen user={Users[currentIndex]} onClose={toggleProfile} edit={false} />}
       </View>
     </View>
   );
