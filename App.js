@@ -39,7 +39,7 @@ export default function App() {
   const handleLogin = (user) => {
     setLoggedInUser(user);
     console.log("Logging in displayed user")
-    console.log(user)
+    // console.log(user)
    };
 
   const isLogOut = (logOut) => {

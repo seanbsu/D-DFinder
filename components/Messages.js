@@ -12,13 +12,35 @@ import Icon from "../components/Icon";
 import Demo from "../assets/Demo.js";
 import styles from "../assets/styles";
 import MessageScreen from "./Messages/MessageScreen";
-let Users = Demo;
+import { getRemoteProfiles } from "./RemoteHandler.js";
 
 const Messages = ({ user, updateUser }) => {
   const [matchedUsers, setMatchedUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [Users, setUsers] = useState(null);
+
+  getRemoteProfiles((ret)=>{
+    console.log("Setting Users in home")
+    setUsers(ret)
+    console.log("Users has been set in Messages")
+  })
 
   useEffect(() => {
+    getRemoteProfiles((ret)=>{
+      console.log("Setting Users in home")
+      setUsers(ret)
+      console.log("Users has been set in Messages")
+    })
+  }, []);
+
+  useEffect(() => {
+    console.log("Users in messages")
+    console.log(Users)
+    if(Users === null){
+      //If Users is null then let's just not do crap
+      return;
+    }
+
     const usersWithMatches = Users.filter((u) => user.match.includes(u.id));
     const matchedUsersData = usersWithMatches.map((u) => {
       const match = user.messages.find((message) => message.matchId === u.id);
@@ -33,7 +55,7 @@ const Messages = ({ user, updateUser }) => {
       };
     });
     setMatchedUsers(matchedUsersData);
-  }, [user, selectedUser]);
+  }, [user, selectedUser, Users]);
 
   const handlePressMessage = (user) => {
     setSelectedUser(user);

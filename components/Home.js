@@ -43,7 +43,6 @@ export const Home = ({ user, updateUser }) => {
   }, [currentIndex])
 
   useEffect(() => {
-    console.log(Users)
     if(Users != null){
       setFilteredUsers(Users.filter(
         (u) =>
@@ -198,8 +197,7 @@ export const Home = ({ user, updateUser }) => {
   };
 
   function getShowHome(){
-    console.log("Filtered Users")
-    console.log(filteredUsers)
+    // console.log("Filtered Users")
     return !showProfile && filteredUsers != null && 
             currentIndex < filteredUsers.length
   }

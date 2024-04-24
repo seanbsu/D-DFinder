@@ -49,7 +49,7 @@ async function getRemoteProfiles(aurl) {
     console.log(response);
     const names = await response.json();
     console.log("Result of fetched JSON")
-    console.log(names);
+    // console.log(names);
     // add the returned list to the existing list
     // names.forEach((item ) => {
     //     alist.push(item)
