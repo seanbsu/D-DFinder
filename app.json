@@ -24,11 +24,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-<<<<<<< HEAD
-    "packagerOpts" : {
-      "url":"https://cs.boisestate.edu/~scutchin/project/savejson.php?user=ryedata"
-    }
-=======
     "plugins": [
       [
         "expo-image-picker",
@@ -37,6 +32,5 @@
         }
       ]
     ]
->>>>>>> main
   }
 }

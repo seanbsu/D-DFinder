@@ -3,6 +3,7 @@ import LoginScreen from "react-native-login-screen";
 import { View, TextInput } from "react-native";
 import SignUpScreen from "./SignUpScreen";
 import Demo from "../assets/Demo";
+import { getRemoteProfiles } from "./RemoteHandler";
 
 loadurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/loadjson.php?user=ryeland"
 saveurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/savejson.php?user=ryeland"
@@ -14,48 +15,33 @@ export default function LoginView({ setIsLoggedIn, onLogin }) {
 
   const SignUpPress = () => {
     setShowSignUp(true);
-  }
+  };
+  const LoginPress = () => {
+    //test user: a@gmail.com
+    //test password:  123456
+    //TODO: fetch user data from server
+    getRemoteProfiles(loadurl).then((ret)=>{
 
-  const LoginPress = ()=>{
-    // test user: a@gmail.com
-    // test password:  123456
-    // TODO: fetch user data from server
-    let isLoggedIn = false;
-
-    console.log("Logging in")
-    console.log("Loading list")
-    setUser("booser")
-    getRemoteProfiles(loadurl).then((ret) => {
-      console.log("Users loading in loginview")
-      console.log(ret);
-      setUser(ret);
-      console.log(username);
-      console.log(password);
-
-      ret.forEach((user)=>{
-      if(user.email === username && user.password === password){
-        onLogin(user);
-        console.log("Logging the user that should appear")
-        console.log(user)
-        setIsLoggedIn(true);
-        isLoggedIn = true;
-      }
-
-      if(isLoggedIn === false){
+      let isLoggedIn = false;
+      // console.log(username);
+      // console.log(password);
+      ret.forEach((user) => {
+        if (user.email === username && user.password === password) {
+          onLogin(user);
+          console.log("Updated login handler in app.json")
+          setIsLoggedIn(true);
+          console.log("Set is logged in")
+          isLoggedIn = true;
+        }
+      });
+      if (isLoggedIn === false) {
         alert("Invalid username or password");
       }
-      });
-    }).catch((e) => {
-      console.log("Failure during loading remote login")
+    }).catch((e)=>{
+      console.log("Error during logging in!")
       console.log(e)
-    });
-     
-  }
-  
-  // setUser = (user)=>{
-  //   onLogin(user);
-  //   setIsLoggedIn(true);
-  // }
+    })
+  };
 
   setUser = (user) => {
     onLogin(user);

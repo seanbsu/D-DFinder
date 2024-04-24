@@ -37,8 +37,6 @@ export default function App() {
   // For testing purposes, set the logged-in user ID directly
   // Define a callback function to receive the username
   const handleLogin = (user) => {
-    console.log("Logged In");
-    console.log(user);
     setLoggedInUser(user);
     console.log("Logging in displayed user")
     console.log(user)

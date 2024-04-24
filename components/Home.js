@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Dimensions, View, Animated,Text } from 'react-native';
 import NavBar from './NavBar.js';
 import ProfileScreen from './ProfileScreen';
-import Demo from '../assets/Demo';
+import Demo, { filter } from '../assets/Demo';
 import UserCard from './UserCard';
 import styles from '../assets/styles';
 import {saveRemoteProfiles, getRemoteProfiles, loadList} from './RemoteHandler'
@@ -23,23 +23,36 @@ export const Home = ({ user, updateUser }) => {
   const [matchedUserID, setMatchedUserID] = useState(null); // Track matched user ID
   const [updateU, setupdateU] = useState(user);
   const [updateOtherUser, setUpdateOtherUser] = useState(null);
-  const filteredUsers = Users.filter(
-    (u) =>
-      u.email !== user.email &&
-      !user.like.includes(u.id) &&
-      !user.match.includes(u.id)
-  );
+  const [Users, setUsers] = useState(null);
+  const [filteredUsers, setFilteredUsers] = useState(null);
+
+  getRemoteProfiles((ret)=>{
+    console.log("Setting Users in home")
+    setUsers(ret)
+    console.log("Users has been set")
+  })
 
   useEffect(() => {
     getRemoteProfiles(loadurl).then((ret)=>{
       console.log('USE EFFECCT SEE NEEEEEEEEEEEEEEEEEEEEEEE');
-      setUsers(ret);
-      console.log(Users);
+      setUsers(ret)
     }).catch((e) => {
       console.log("Failure during setUsers")
       console.log(e)
     })
   }, [currentIndex])
+
+  useEffect(() => {
+    console.log(Users)
+    if(Users != null){
+      setFilteredUsers(Users.filter(
+        (u) =>
+        u.email !== user.email &&
+        !user.like.includes(u.id) &&
+        !user.match.includes(u.id)
+      ));
+    }
+  }, [Users])
 
   useEffect(() => {
     if (matched) {
@@ -184,10 +197,17 @@ export const Home = ({ user, updateUser }) => {
     setupdateU(tempUser);
   };
 
+  function getShowHome(){
+    console.log("Filtered Users")
+    console.log(filteredUsers)
+    return !showProfile && filteredUsers != null && 
+            currentIndex < filteredUsers.length
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-        {!showProfile && currentIndex < filteredUsers.length ? (
+        { getShowHome()? (
           <View style={styles.cards}>
             <UserCard
               user={filteredUsers[currentIndex]}
@@ -197,7 +217,7 @@ export const Home = ({ user, updateUser }) => {
               toggleProfile={toggleProfile}
             />
           </View>
-        ) : null}
+        ) : (<Text>ERROR DURING HOME REMOTE LOAD</Text>)}
         {showProfile && (
           <ProfileScreen
             user={currentUsers}
@@ -205,11 +225,11 @@ export const Home = ({ user, updateUser }) => {
             edit={false}
           />
         )}
-        {!showProfile && currentIndex >= filteredUsers.length && (
+        {!showProfile && filteredUsers != null && currentIndex >= filteredUsers.length  ? (
           <View style={[styles.cards, styles.noUsersContainer]}>
             <Text style={styles.noUsersText}>No more users available</Text>
           </View>
-        )}
+        ): null}
       </View>
       {matched && (
         <View style={[styles.overlay, styles.matchedContainer]}>
