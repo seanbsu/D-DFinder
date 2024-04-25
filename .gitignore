@@ -1,4 +1,9 @@
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+docs/*.log
+docs/*.aux
+docs/*.pdf
+docs/*.drawio
+docs/*.svg
 
 # dependencies
 node_modules/
