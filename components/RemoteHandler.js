@@ -3,10 +3,9 @@ import * as React from 'react';
 async function loadList(aurl,alist,asetlist) {
     const response = await fetch(aurl);
     console.log("Response from remote:")
-    console.log(response);
+    // console.log(response);
     const names = await response.json();
     console.log("Result of fetched JSON")
-    console.log(names);
     // add the returned list to the existing list
     // names.forEach((item ) => {
     //     alist.push(item)
@@ -26,7 +25,6 @@ async function saveList(aurl, list) {
     };
     const response = await fetch(aurl, requestOptions);
     console.log("Response from remote save")
-    console.log(response);
     console.log("save worked");
 }
 
@@ -39,14 +37,13 @@ async function saveRemoteProfiles(aurl, list) {
         body: JSON.stringify(list)
     };
     const response = await fetch(aurl, requestOptions);
-    console.log(response);
     console.log("save worked");
 }
 
 async function getRemoteProfiles(aurl) {
     const response = await fetch(aurl);
     console.log("Response from remote:")
-    console.log(response);
+    // console.log(response);
     const names = await response.json();
     console.log("Result of fetched JSON")
     // console.log(names);

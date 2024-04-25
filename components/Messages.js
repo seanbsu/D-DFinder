@@ -19,14 +19,14 @@ const Messages = ({ user, updateUser }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [Users, setUsers] = useState(null);
 
-  getRemoteProfiles((ret)=>{
-    console.log("Setting Users in home")
-    setUsers(ret)
-    console.log("Users has been set in Messages")
-  })
+  // getRemoteProfiles((ret)=>{
+  //   console.log("Setting Users in home")
+  //   setUsers(ret)
+  //   console.log("Users has been set in Messages")
+  // })
 
   useEffect(() => {
-    getRemoteProfiles((ret)=>{
+    getRemoteProfiles(loadurl).then((ret)=>{
       console.log("Setting Users in home")
       setUsers(ret)
       console.log("Users has been set in Messages")
@@ -35,7 +35,6 @@ const Messages = ({ user, updateUser }) => {
 
   useEffect(() => {
     console.log("Users in messages")
-    console.log(Users)
     if(Users === null){
       //If Users is null then let's just not do crap
       return;

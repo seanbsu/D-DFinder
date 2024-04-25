@@ -25,6 +25,9 @@ export default function LoginView({ setIsLoggedIn, onLogin }) {
       let isLoggedIn = false;
       // console.log(username);
       // console.log(password);
+      if(ret === null){
+        console.error("This is bad....")
+      }
       ret.forEach((user) => {
         if (user.email === username && user.password === password) {
           onLogin(user);

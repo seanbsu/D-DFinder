@@ -16,7 +16,6 @@ import styles from "../assets/styles";
 const Profile = ({ onClose, user, edit, back, isLogOut, updateUser }) => {
   if (edit) {
     console.log("user");
-    console.log(user);
   }
   const [editing, setEditing] = useState(false);
 

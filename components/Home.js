@@ -26,11 +26,11 @@ export const Home = ({ user, updateUser }) => {
   const [Users, setUsers] = useState(null);
   const [filteredUsers, setFilteredUsers] = useState(null);
 
-  getRemoteProfiles((ret)=>{
-    console.log("Setting Users in home")
-    setUsers(ret)
-    console.log("Users has been set")
-  })
+  // getRemoteProfiles(loadurl).then((ret)=>{
+  //   console.log("Setting Users in home")
+  //   setUsers(ret)
+  //   console.log("Users has been set")
+  // })
 
   useEffect(() => {
     getRemoteProfiles(loadurl).then((ret)=>{
@@ -93,7 +93,7 @@ export const Home = ({ user, updateUser }) => {
     const likeList = [...user.like, filteredUsers[currentIndex].id];
     let tempUser = { ...user };
     tempUser.like = likeList;
-    Users = Users.map((profile) => {
+    setUsers(Users.map((profile) => {
       if (
         profile.email === user.email &&
         !profile.like.includes(filteredUsers[currentIndex].id)
@@ -104,7 +104,7 @@ export const Home = ({ user, updateUser }) => {
         };
       }
       return profile;
-    });
+    }));
 
     // setupdateU(tempUser);
     otherU = filteredUsers[currentIndex];
@@ -181,7 +181,7 @@ export const Home = ({ user, updateUser }) => {
     const dislikeList = [...user.dislike, filteredUsers[currentIndex].id];
     let tempUser = { ...user };
     tempUser.dislike = dislikeList;
-    Users = Users.map((profile) => {
+    setUsers(Users.map((profile) => {
       if (
         profile.email === user.email &&
         !profile.like.includes(filteredUsers[currentIndex].id)
@@ -192,7 +192,7 @@ export const Home = ({ user, updateUser }) => {
         };
       }
       return profile;
-    });
+    }));
     setupdateU(tempUser);
   };
 

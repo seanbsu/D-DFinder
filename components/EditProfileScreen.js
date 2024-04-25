@@ -152,7 +152,7 @@ const EditProfileScreen = ({ setShowEditProfile, user, updateEditUser }) => {
     if (hasError) {
       setErrorMessages(errors);
     } else {
-      console.log(formData);
+      // console.log(formData);
       // Implement your submission logic here
       updateFormDataInDemo(formData);
       updateEditUser(formData);
