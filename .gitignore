@@ -4,6 +4,7 @@ docs/*.aux
 docs/*.pdf
 docs/*.drawio
 docs/*.svg
+!docs/User_Guide.pdf
 
 # dependencies
 node_modules/
