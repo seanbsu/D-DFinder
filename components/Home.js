@@ -34,13 +34,13 @@ export const Home = ({ user, updateUser }) => {
 
   useEffect(() => {
     getRemoteProfiles(loadurl).then((ret)=>{
-      console.log('USE EFFECCT SEE NEEEEEEEEEEEEEEEEEEEEEEE');
+      console.log("Finished loading the remote profiles... updating locally.")
       setUsers(ret)
     }).catch((e) => {
       console.log("Failure during setUsers")
       console.log(e)
     })
-  }, [currentIndex])
+  }, [])
 
   useEffect(() => {
     if(Users != null){
@@ -51,7 +51,7 @@ export const Home = ({ user, updateUser }) => {
         !user.match.includes(u.id)
       ));
     }
-  }, [Users])
+  }, [currentIndex])
 
   useEffect(() => {
     if (matched) {
@@ -93,7 +93,7 @@ export const Home = ({ user, updateUser }) => {
     const likeList = [...user.like, filteredUsers[currentIndex].id];
     let tempUser = { ...user };
     tempUser.like = likeList;
-    setUsers(Users.map((profile) => {
+    let newUsers = Users.map((profile) => {
       if (
         profile.email === user.email &&
         !profile.like.includes(filteredUsers[currentIndex].id)
@@ -104,7 +104,15 @@ export const Home = ({ user, updateUser }) => {
         };
       }
       return profile;
-    }));
+    });
+
+    setUsers(newUsers);
+    saveRemoteProfiles(saveurl, newUsers).catch((e) => {
+      console.error("Issue saving list after like")
+      console.log(e)
+    }).then(()=>{
+      console.log("Finsihed saving new like")
+    });
 
     // setupdateU(tempUser);
     otherU = filteredUsers[currentIndex];
@@ -122,7 +130,7 @@ export const Home = ({ user, updateUser }) => {
       const matchList = [...currentUser.match, otherUser.id];
       updatedCurrentUser = { ...currentUser, match: matchList };
       //update match for currentUser
-      Users = Users.map((profile) => {
+      setUsers(Users.map((profile) => {
         if (profile.email === updatedCurrentUser.email) {
           return {
             ...profile,
@@ -130,11 +138,11 @@ export const Home = ({ user, updateUser }) => {
           };
         }
         return profile;
-      });
+      }));
 
       const matchList2 = [...otherUser.match, currentUser.id];
       otherUser.match = matchList2;
-      Users = Users.map((profile) => {
+      setUsers(Users.map((profile) => {
         if (profile.email === otherUser.email) {
           return {
             ...profile,
@@ -142,7 +150,8 @@ export const Home = ({ user, updateUser }) => {
           };
         }
         return profile;
-      });
+      }));
+    
 
       setUpdateOtherUser(otherUser);
       console.log("\n\n liked users match list", matchList2);

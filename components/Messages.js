@@ -13,6 +13,7 @@ import Demo from "../assets/Demo.js";
 import styles from "../assets/styles";
 import MessageScreen from "./Messages/MessageScreen";
 import { getRemoteProfiles } from "./RemoteHandler.js";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry.js";
 
 const Messages = ({ user, updateUser }) => {
   const [matchedUsers, setMatchedUsers] = useState([]);
@@ -30,17 +31,19 @@ const Messages = ({ user, updateUser }) => {
       console.log("Setting Users in home")
       setUsers(ret)
       console.log("Users has been set in Messages")
+      getMatchedUser(ret);
     })
   }, []);
 
-  useEffect(() => {
+  function getMatchedUser(users){
     console.log("Users in messages")
-    if(Users === null){
+    if(users === null){
       //If Users is null then let's just not do crap
+      console.error("Users is null in messages")
       return;
     }
 
-    const usersWithMatches = Users.filter((u) => user.match.includes(u.id));
+    const usersWithMatches = users.filter((u) => user.match.includes(u.id));
     const matchedUsersData = usersWithMatches.map((u) => {
       const match = user.messages.find((message) => message.matchId === u.id);
       const lastMessage = match
@@ -54,7 +57,15 @@ const Messages = ({ user, updateUser }) => {
       };
     });
     setMatchedUsers(matchedUsersData);
-  }, [user, selectedUser, Users]);
+  }
+
+  // useEffect(() => {
+  //   if(Users === null){
+  //     console.error("Null boi");
+  //     return;
+  //   }
+  //   getMatchedUser(Users)
+  // }, [user, selectedUser, Users]);
 
   const handlePressMessage = (user) => {
     setSelectedUser(user);
@@ -78,7 +89,7 @@ const Messages = ({ user, updateUser }) => {
 
       //replace the selected User  and usr on Demo with updated user
 
-      Users = Users.map((profile) => {
+      setUsers(Users.map((profile) => {
         if (profile.id === user.id) {
           return user;
         }
@@ -86,7 +97,7 @@ const Messages = ({ user, updateUser }) => {
           return selectedUser;
         }
         return profile;
-      });
+      }));
       //update user match list, remove from liked list , also remove from message list
 
       user.match = (user.match ?? []).filter(

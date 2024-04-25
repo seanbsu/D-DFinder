@@ -37,7 +37,8 @@ async function saveRemoteProfiles(aurl, list) {
         body: JSON.stringify(list)
     };
     const response = await fetch(aurl, requestOptions);
-    console.log("save worked");
+    console.log()
+    console.log("save completed");
 }
 
 async function getRemoteProfiles(aurl) {
