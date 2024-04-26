@@ -29,6 +29,7 @@ const Profile = ({ onClose, user, edit, back, isLogOut, updateUser }) => {
 
   const updateEditUser = (user) => {
     updateUser(user);
+
   };
 
   const logOut = () => {

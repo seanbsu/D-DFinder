@@ -24,7 +24,7 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loggedInUserId, setLoggedInUserId] = useState(null);
   const [loggedInUser, setLoggedInUser] = useState(null); // State to hold the logged-in user
-  const [Users, setUser] = useState(null)
+  const [Users, setUsers] = useState(null)
 
   useEffect(() => {
     setTimeout(() => {
@@ -52,11 +52,38 @@ export default function App() {
   useEffect(() => {
     saveRemoteProfiles(saveurl, Demo).then(() => {
       console.log("Saved Global User:");
+      setUsers(Demo)
     }).catch((e) => {
       console.log("Error saving demo");
       console.log(e);
    });
   }, []);
+
+  useEffect(() => {
+    if(loggedInUser === null || Users === null){
+      console.log("Not logged in, don't update users")
+      return;
+    }
+
+    var newUsers = Users.map((profile) => {
+      if (
+        profile.email === loggedInUser.email
+      ) {
+        console.log(loggedInUser)
+        return {...loggedInUser}
+      }
+      return profile;
+    });
+    setUsers(newUsers)
+
+    saveRemoteProfiles(saveurl, newUsers).then(() => {
+      console.log("saved user");
+      // console.log(loggedInUser)
+    }).catch((e) => {
+      console.log("Error saving user globally");
+      console.log(e);
+   });
+  }, [loggedInUser]);
 
 
   if (isLoading) {
