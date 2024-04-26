@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect} from "react";
 import {
   Button,
   Keyboard,
@@ -10,8 +10,11 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import styles from "../assets/styles";
-import Demo from "../assets/Demo";
 import { UserService } from "../components/UserService";
+import { getRemoteProfiles, saveRemoteProfiles } from "./RemoteHandler";
+
+loadurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/loadjson.php?user=ryeland"
+saveurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/savejson.php?user=ryeland"
 
 const SignUpScreen = ({ setShowSignUp, setIsLoggedIn, onSignUp }) => {
   const emailInputRef = useRef(null);
@@ -42,6 +45,18 @@ const SignUpScreen = ({ setShowSignUp, setIsLoggedIn, onSignUp }) => {
     showCampaignError: false,
     showBioError: false,
   });
+  const [Users, setUsers] = useState(null)
+
+  useEffect(() => {
+    console.log("Requesting remote data form sign up")
+    getRemoteProfiles(loadurl).then((ret)=>{
+      console.log("Finished loading the remote profiles in sign up.")
+      setUsers(ret)
+    }).catch((e) => {
+      console.log("Failure during setUsers")
+      console.log(e)
+    })
+  }, [state])
 
   const inputs = [
     emailInputRef,
@@ -139,7 +154,7 @@ const SignUpScreen = ({ setShowSignUp, setIsLoggedIn, onSignUp }) => {
     // console.log(userState);
     //check if email exists
     let isCreated = false;
-    Demo.some((profile) => {
+    Users.some((profile) => {
       if (profile.email === state.email) {
         isCreated = true;
         alert(
@@ -151,7 +166,15 @@ const SignUpScreen = ({ setShowSignUp, setIsLoggedIn, onSignUp }) => {
     });
     if (!isCreated) {
       setUserState(userState);
-      Demo.push(userState); // TODO: need to post to the server to add new user
+      Users.push(userState); // TODO: need to post to the server to add new user
+      console.log(Users)
+      saveRemoteProfiles(saveurl, Users).then(()=>{
+        console.log("Done saving new guy")
+      }).catch((e)=>{
+        console.log("ERror saving new sign up guy")
+        console.log(e)
+      })
+
       onSignUp(userState);
       Keyboard.dismiss();
       //  backPressed();

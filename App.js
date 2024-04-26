@@ -49,15 +49,15 @@ export default function App() {
   };
 
   // TODO: Saving inial Demo data
-  useEffect(() => {
-    saveRemoteProfiles(saveurl, Demo).then(() => {
-      console.log("Saved Global User:");
-      setUsers(Demo)
-    }).catch((e) => {
-      console.log("Error saving demo");
-      console.log(e);
-   });
-  }, []);
+  // useEffect(() => {
+  //   saveRemoteProfiles(saveurl, Demo).then(() => {
+  //     console.log("Saved Global User:");
+  //     setUsers(Demo)
+  //   }).catch((e) => {
+  //     console.log("Error saving demo");
+  //     console.log(e);
+  //  });
+  // }, []);
 
   useEffect(() => {
     if(loggedInUser === null || Users === null){
@@ -69,7 +69,6 @@ export default function App() {
       if (
         profile.email === loggedInUser.email
       ) {
-        console.log(loggedInUser)
         return {...loggedInUser}
       }
       return profile;
