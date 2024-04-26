@@ -48,9 +48,9 @@ export default function App() {
     setIsLoggedIn(logOut);
   };
 
-  //TODO: Saving inial Demo data
+  // TODO: Saving inial Demo data
   useEffect(() => {
-    saveList(saveurl, Demo).then(() => {
+    saveRemoteProfiles(saveurl, Demo).then(() => {
       console.log("Saved Global User:");
     }).catch((e) => {
       console.log("Error saving demo");
@@ -58,17 +58,6 @@ export default function App() {
    });
   }, []);
 
-  // useEffect(() => {
-  //   loadList(url, Users,setUser).then(() => {
-  //     console.log("Loaded Global User:");
-  //     console.log(Users)
-  //   }).catch((e) => {
-  //     console.log("Error loading globals");
-  //     console.log(e);
-  //  });
-  // }, []);
-
- 
 
   if (isLoading) {
     return <SplashScreen />;

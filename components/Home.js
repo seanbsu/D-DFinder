@@ -40,7 +40,7 @@ export const Home = ({ user, updateUser }) => {
       console.log("Failure during setUsers")
       console.log(e)
     })
-  }, [])
+  }, [currentIndex, currentUsers])
 
   useEffect(() => {
     if(Users != null){
@@ -51,7 +51,7 @@ export const Home = ({ user, updateUser }) => {
         !user.match.includes(u.id)
       ));
     }
-  }, [currentIndex])
+  }, [currentIndex, Users])
 
   useEffect(() => {
     if (matched) {
@@ -106,7 +106,22 @@ export const Home = ({ user, updateUser }) => {
       return profile;
     });
 
+    //Adding new message bubble
+    newUsers = newUsers.map((profile) => {
+      if (
+        profile.email === user.email &&
+        !profile.like.includes(filteredUsers[currentIndex].id)
+      ) {
+        return {
+          ...profile,
+          like: likeList,
+        };
+      }
+      return profile;
+    });
+
     setUsers(newUsers);
+
     saveRemoteProfiles(saveurl, newUsers).catch((e) => {
       console.error("Issue saving list after like")
       console.log(e)
