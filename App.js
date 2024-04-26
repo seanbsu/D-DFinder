@@ -121,7 +121,7 @@ export default function App() {
           />
           <Tab.Screen
             name="Chat"
-            children={() => <MessagesScreen user={loggedInUser} />}
+            children={() => <MessagesScreen user={loggedInUser} setUser={setLoggedInUser} />}
             options={{
               tabBarIcon: ({ focused }) => (
                 <Text

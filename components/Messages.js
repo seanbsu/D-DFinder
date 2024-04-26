@@ -15,7 +15,7 @@ import MessageScreen from "./Messages/MessageScreen";
 import { getRemoteProfiles } from "./RemoteHandler.js";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry.js";
 
-const Messages = ({ user, updateUser }) => {
+const Messages = ({ user, setUser }) => {
   const [matchedUsers, setMatchedUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [Users, setUsers] = useState(null);
@@ -131,6 +131,7 @@ const Messages = ({ user, updateUser }) => {
             matchedUserId={selectedUser.id}
             onPressBack={goBack}
             isUnMatch={isUnMatch}
+            setUser={setUser}
           />
         )}
 
