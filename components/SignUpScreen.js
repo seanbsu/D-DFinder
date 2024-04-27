@@ -175,10 +175,23 @@ const SignUpScreen = ({ setShowSignUp, setIsLoggedIn, onSignUp }) => {
       }
     });
     if (!isCreated) {
+      //If there is an invalid field, don't boogie yet
+      if(state.showBioError||
+         state.showCampaignError||
+         state.showCharacterNameError||
+         state.showClassError||
+         state.showEmailError||
+         state.showNameError||
+         state.showPasswordError||
+         state.showcharacterLevelError
+        ){alert("Invalid input"); console.log(state);return;};
+
       userState.id = generateUniqueId();
       setUserState(userState);
       Users.push(userState);
       console.log(Users)
+
+      //Save to the remote
       saveRemoteProfiles(saveurl, Users).then(()=>{
         console.log("Done saving new guy")
       }).catch((e)=>{

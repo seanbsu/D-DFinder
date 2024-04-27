@@ -11,6 +11,7 @@ import ProfileItem from "./ProfileItem";
 import Icon from "./Icon";
 import EditProfileScreen from "./EditProfileScreen";
 import styles from "../assets/styles";
+import { saveRemoteProfiles } from "./RemoteHandler";
 
 
 const Profile = ({ onClose, user, edit, back, isLogOut, updateUser }) => {
@@ -27,12 +28,16 @@ const Profile = ({ onClose, user, edit, back, isLogOut, updateUser }) => {
     setEditing(false);
   };
 
-  const updateEditUser = (user) => {
-    updateUser(user);
+  // const updateEditUser = (user) => {
+  //   updateUser(user);
 
-  };
+  // };
 
   const logOut = () => {
+    //Save to the remote
+    updateUser(user);
+
+    //Logout
     isLogOut(false);
   };
 
@@ -100,7 +105,7 @@ const Profile = ({ onClose, user, edit, back, isLogOut, updateUser }) => {
           setShowEditProfile={handleCloseEdit}
           user={user}
           edit
-          updateEditUser={updateEditUser}
+          updateEditUser={updateUser}
         />
       </Modal>
     </ImageBackground>

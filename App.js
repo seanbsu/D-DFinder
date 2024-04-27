@@ -32,6 +32,7 @@ export default function App() {
     }, 5000); // Simulating loading for 5 seconds
   }, []);
   const updateUser = (newUser) => {
+    console.log("Request to update the logged in user")
     setLoggedInUser(newUser);
   };
   // For testing purposes, set the logged-in user ID directly
@@ -49,7 +50,7 @@ export default function App() {
   };
 
   // TODO: Saving inial Demo data
-  // useEffect(() => {
+  useEffect(() => {
   //   saveRemoteProfiles(saveurl, Demo).then(() => {
   //     console.log("Saved Global User:");
   //     setUsers(Demo)
@@ -57,7 +58,14 @@ export default function App() {
   //     console.log("Error saving demo");
   //     console.log(e);
   //  });
-  // }, []);
+
+    getRemoteProfiles(loadurl).then((ret)=>{
+      console.log("Got profiles in main")
+      setUsers(ret)
+    }).catch(()=>{
+      console.log("There was an error loading remote in app.json")
+    })
+  }, []);
 
   useEffect(() => {
     if(loggedInUser === null || Users === null){
