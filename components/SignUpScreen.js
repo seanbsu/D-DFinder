@@ -127,6 +127,16 @@ const SignUpScreen = ({ setShowSignUp, setIsLoggedIn, onSignUp }) => {
     }
   };
 
+  const generateUniqueId = () => {
+      let newId = 1;
+
+      while (Users.some((user) => user.id === newId)){
+        newId++;
+      }
+
+      return newId;
+  };
+
   const submitPressed = () => {
     setState((prevState) => ({
       ...prevState,
@@ -165,8 +175,9 @@ const SignUpScreen = ({ setShowSignUp, setIsLoggedIn, onSignUp }) => {
       }
     });
     if (!isCreated) {
+      userState.id = generateUniqueId();
       setUserState(userState);
-      Users.push(userState); // TODO: need to post to the server to add new user
+      Users.push(userState);
       console.log(Users)
       saveRemoteProfiles(saveurl, Users).then(()=>{
         console.log("Done saving new guy")

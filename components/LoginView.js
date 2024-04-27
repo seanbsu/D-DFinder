@@ -16,7 +16,7 @@ export default function LoginView({ setIsLoggedIn, onLogin }) {
   const SignUpPress = () => {
     setShowSignUp(true);
   };
-  const LoginPress = () => {
+  const LoginPress = async() => {
     //test user: a@gmail.com
     //test password:  123456
     //TODO: fetch user data from server
@@ -66,7 +66,6 @@ export default function LoginView({ setIsLoggedIn, onLogin }) {
           onSignupPress={SignUpPress}
           onEmailChange={setUsername}
           onPasswordChange={setPassword}
-          enablePasswordValidation
           disableSocialButtons
         />
       )}
