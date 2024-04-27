@@ -49,15 +49,14 @@ export default function App() {
     setIsLoggedIn(logOut);
   };
 
-  // TODO: Saving inial Demo data
   useEffect(() => {
-  //   saveRemoteProfiles(saveurl, Demo).then(() => {
-  //     console.log("Saved Global User:");
-  //     setUsers(Demo)
-  //   }).catch((e) => {
-  //     console.log("Error saving demo");
-  //     console.log(e);
-  //  });
+    saveRemoteProfiles(saveurl, Demo).then(() => {
+      console.log("Saved Global User:");
+      setUsers(Demo)
+    }).catch((e) => {
+      console.log("Error saving demo");
+      console.log(e);
+   });
 
     getRemoteProfiles(loadurl).then((ret)=>{
       console.log("Got profiles in main")

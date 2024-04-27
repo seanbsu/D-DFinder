@@ -41,7 +41,7 @@ const MessageScreen = ({ user, matchedUserId, onPressBack, isUnMatch, setUser })
       return 
     }
 
-    console.log(user)
+    console.log("Looking for matched messages")
     const matchedMessages = user.messages.find(
       (message) => message.matchId === matchedUserId
     );
@@ -49,6 +49,7 @@ const MessageScreen = ({ user, matchedUserId, onPressBack, isUnMatch, setUser })
     if (matchedMessages) {
       const foundMatch = Users.find((item) => item.id === matchedUserId);
       if (foundMatch) {
+        console.log("Found a matching, makinig the convo")
         setMatchedUser(foundMatch);
 
         const initialConversation = matchedMessages.conversation.map(
@@ -111,6 +112,9 @@ const MessageScreen = ({ user, matchedUserId, onPressBack, isUnMatch, setUser })
   }
 
   const sendMessage = () => {
+    console.log("Sending message RYELAND")
+    console.log(user)
+    console.log(matchedUser)
     const newMessage = {
       senderId: user.id,
       recipientId: matchedUser.id,

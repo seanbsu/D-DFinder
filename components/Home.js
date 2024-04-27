@@ -33,6 +33,20 @@ export const Home = ({ user, updateUser }) => {
   // })
 
   useEffect(() => {
+    if(Users === null){
+      console.log("Refusing to save null Users in home")
+      return;
+    }
+
+    saveRemoteProfiles(saveurl, Users).then((ret)=>{
+      console.log("Finished saving the remote profiles... updating locally.")
+    }).catch((e) => {
+      console.log("Failure during setUsers")
+      console.log(e)
+    })
+  }, [Users])
+
+  useEffect(() => {
     getRemoteProfiles(loadurl).then((ret)=>{
       console.log("Finished loading the remote profiles... updating locally.")
       setUsers(ret)
@@ -145,7 +159,7 @@ export const Home = ({ user, updateUser }) => {
       const matchList = [...currentUser.match, otherUser.id];
       updatedCurrentUser = { ...currentUser, match: matchList };
       //update match for currentUser
-      setUsers(Users.map((profile) => {
+      var first = (Users.map((profile) => {
         if (profile.email === updatedCurrentUser.email) {
           return {
             ...profile,
@@ -156,8 +170,10 @@ export const Home = ({ user, updateUser }) => {
       }));
 
       const matchList2 = [...otherUser.match, currentUser.id];
-      otherUser.match = matchList2;
-      setUsers(Users.map((profile) => {
+      otherUser = { ...otherUser, match: matchList2 };
+      console.log("Other User")
+      console.log(otherUser)
+      var second = (first.map((profile) => {
         if (profile.email === otherUser.email) {
           return {
             ...profile,
@@ -167,8 +183,10 @@ export const Home = ({ user, updateUser }) => {
         return profile;
       }));
     
+      console.log(second)
+      setUsers(second);
 
-      setUpdateOtherUser(otherUser);
+      // setUpdateOtherUser(otherUser);
       console.log("\n\n liked users match list", matchList2);
       console.log("\n\n", otherUser);
             // Set matchedUserID for MatchedScreen
