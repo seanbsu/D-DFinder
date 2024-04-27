@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { Dimensions, View, Animated, Text } from "react-native";
-import NavBar from "./NavBar.js";
-import ProfileScreen from "./ProfileScreen";
-import Demo from "../assets/Demo";
-import UserCard from "./UserCard";
-import styles from "../assets/styles";
+import React, { useState, useEffect } from 'react';
+import { Dimensions, View, Animated,Text } from 'react-native';
+import NavBar from './NavBar.js';
+import ProfileScreen from './ProfileScreen';
+import Demo, { filter } from '../assets/Demo';
+import UserCard from './UserCard';
+import styles from '../assets/styles';
+import {saveRemoteProfiles, getRemoteProfiles, loadList} from './RemoteHandler'
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry.js';
 import MatchedScreen from "./MatchedScreen"; // Import MatchedScreen component
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
-let Users = Demo;
+loadurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/loadjson.php?user=ryeland"
+saveurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/savejson.php?user=ryeland"
 
 export const Home = ({ user, updateUser }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -20,12 +23,49 @@ export const Home = ({ user, updateUser }) => {
   const [matchedUserID, setMatchedUserID] = useState(null); // Track matched user ID
   const [updateU, setupdateU] = useState(user);
   const [updateOtherUser, setUpdateOtherUser] = useState(null);
-  const filteredUsers = Users.filter(
-    (u) =>
-      u.email !== user.email &&
-      !user.like.includes(u.id) &&
-      !user.match.includes(u.id)
-  );
+  const [Users, setUsers] = useState(null);
+  const [filteredUsers, setFilteredUsers] = useState(null);
+
+  // getRemoteProfiles(loadurl).then((ret)=>{
+  //   console.log("Setting Users in home")
+  //   setUsers(ret)
+  //   console.log("Users has been set")
+  // })
+
+  useEffect(() => {
+    if(Users === null){
+      console.log("Refusing to save null Users in home")
+      return;
+    }
+
+    saveRemoteProfiles(saveurl, Users).then((ret)=>{
+      console.log("Finished saving the remote profiles... updating locally.")
+    }).catch((e) => {
+      console.log("Failure during setUsers")
+      console.log(e)
+    })
+  }, [Users])
+
+  useEffect(() => {
+    getRemoteProfiles(loadurl).then((ret)=>{
+      console.log("Finished loading the remote profiles... updating locally.")
+      setUsers(ret)
+    }).catch((e) => {
+      console.log("Failure during setUsers")
+      console.log(e)
+    })
+  }, [currentIndex, currentUsers])
+
+  useEffect(() => {
+    if(Users != null){
+      setFilteredUsers(Users.filter(
+        (u) =>
+        u.email !== user.email &&
+        !user.like.includes(u.id) &&
+        !user.match.includes(u.id)
+      ));
+    }
+  }, [currentIndex, Users])
 
   useEffect(() => {
     if (matched) {
@@ -67,7 +107,7 @@ export const Home = ({ user, updateUser }) => {
     const likeList = [...user.like, filteredUsers[currentIndex].id];
     let tempUser = { ...user };
     tempUser.like = likeList;
-    Users = Users.map((profile) => {
+    let newUsers = Users.map((profile) => {
       if (
         profile.email === user.email &&
         !profile.like.includes(filteredUsers[currentIndex].id)
@@ -78,6 +118,29 @@ export const Home = ({ user, updateUser }) => {
         };
       }
       return profile;
+    });
+
+    //Adding new message bubble
+    newUsers = newUsers.map((profile) => {
+      if (
+        profile.email === user.email &&
+        !profile.like.includes(filteredUsers[currentIndex].id)
+      ) {
+        return {
+          ...profile,
+          like: likeList,
+        };
+      }
+      return profile;
+    });
+
+    setUsers(newUsers);
+
+    saveRemoteProfiles(saveurl, newUsers).catch((e) => {
+      console.error("Issue saving list after like")
+      console.log(e)
+    }).then(()=>{
+      console.log("Finsihed saving new like")
     });
 
     // setupdateU(tempUser);
@@ -96,7 +159,7 @@ export const Home = ({ user, updateUser }) => {
       const matchList = [...currentUser.match, otherUser.id];
       updatedCurrentUser = { ...currentUser, match: matchList };
       //update match for currentUser
-      Users = Users.map((profile) => {
+      var first = (Users.map((profile) => {
         if (profile.email === updatedCurrentUser.email) {
           return {
             ...profile,
@@ -104,11 +167,13 @@ export const Home = ({ user, updateUser }) => {
           };
         }
         return profile;
-      });
+      }));
 
       const matchList2 = [...otherUser.match, currentUser.id];
-      otherUser.match = matchList2;
-      Users = Users.map((profile) => {
+      otherUser = { ...otherUser, match: matchList2 };
+      console.log("Other User")
+      console.log(otherUser)
+      var second = (first.map((profile) => {
         if (profile.email === otherUser.email) {
           return {
             ...profile,
@@ -116,9 +181,12 @@ export const Home = ({ user, updateUser }) => {
           };
         }
         return profile;
-      });
+      }));
+    
+      console.log(second)
+      setUsers(second);
 
-      setUpdateOtherUser(otherUser);
+      // setUpdateOtherUser(otherUser);
       console.log("\n\n liked users match list", matchList2);
       console.log("\n\n", otherUser);
             // Set matchedUserID for MatchedScreen
@@ -155,7 +223,7 @@ export const Home = ({ user, updateUser }) => {
     const dislikeList = [...user.dislike, filteredUsers[currentIndex].id];
     let tempUser = { ...user };
     tempUser.dislike = dislikeList;
-    Users = Users.map((profile) => {
+    setUsers(Users.map((profile) => {
       if (
         profile.email === user.email &&
         !profile.like.includes(filteredUsers[currentIndex].id)
@@ -166,14 +234,20 @@ export const Home = ({ user, updateUser }) => {
         };
       }
       return profile;
-    });
+    }));
     setupdateU(tempUser);
   };
+
+  function getShowHome(){
+    // console.log("Filtered Users")
+    return !showProfile && filteredUsers != null && 
+            currentIndex < filteredUsers.length
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-        {!showProfile && currentIndex < filteredUsers.length ? (
+        { getShowHome()? (
           <View style={styles.cards}>
             <UserCard
               user={filteredUsers[currentIndex]}
@@ -183,7 +257,7 @@ export const Home = ({ user, updateUser }) => {
               toggleProfile={toggleProfile}
             />
           </View>
-        ) : null}
+        ) : (<Text>ERROR DURING HOME REMOTE LOAD</Text>)}
         {showProfile && (
           <ProfileScreen
             user={currentUsers}
@@ -191,11 +265,11 @@ export const Home = ({ user, updateUser }) => {
             edit={false}
           />
         )}
-        {!showProfile && currentIndex >= filteredUsers.length && (
+        {!showProfile && filteredUsers != null && currentIndex >= filteredUsers.length  ? (
           <View style={[styles.cards, styles.noUsersContainer]}>
             <Text style={styles.noUsersText}>No more users available</Text>
           </View>
-        )}
+        ): null}
       </View>
       {matched && (
         <View style={[styles.overlay, styles.matchedContainer]}>
