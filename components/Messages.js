@@ -20,12 +20,6 @@ const Messages = ({ user, setUser }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [Users, setUsers] = useState(null);
 
-  // getRemoteProfiles((ret)=>{
-  //   console.log("Setting Users in home")
-  //   setUsers(ret)
-  //   console.log("Users has been set in Messages")
-  // })
-
   useEffect(() => {
     getRemoteProfiles(loadurl).then((ret)=>{
       console.log("Setting Users in home")
@@ -38,7 +32,6 @@ const Messages = ({ user, setUser }) => {
   function getMatchedUser(users){
     console.log("Users in messages")
     if(users === null){
-      //If Users is null then let's just not do crap
       console.error("Users is null in messages")
       return;
     }
@@ -59,14 +52,6 @@ const Messages = ({ user, setUser }) => {
     setMatchedUsers(matchedUsersData);
   }
 
-  // useEffect(() => {
-  //   if(Users === null){
-  //     console.error("Null boi");
-  //     return;
-  //   }
-  //   getMatchedUser(Users)
-  // }, [user, selectedUser, Users]);
-
   const handlePressMessage = (user) => {
     setSelectedUser(user);
   };
@@ -74,7 +59,8 @@ const Messages = ({ user, setUser }) => {
   const goBack = () => {
     setSelectedUser(null);
   };
-  isUnMatch = (isUnMatch) => {
+
+  const isUnMatch = (isUnMatch) => {
     if (isUnMatch) {
       //update user match list, remove from liked list , also remove from message list fro selected user
       selectedUser.match = (selectedUser.match ?? []).filter(
@@ -98,6 +84,7 @@ const Messages = ({ user, setUser }) => {
         }
         return profile;
       }));
+
       //update user match list, remove from liked list , also remove from message list
 
       user.match = (user.match ?? []).filter(
@@ -143,7 +130,7 @@ const Messages = ({ user, setUser }) => {
             renderItem={({ item }) => (
               <TouchableOpacity onPress={() => handlePressMessage(item)}>
                 <Message
-                  image={item.uri}
+                  image={typeof item.uri === 'number' ? item.uri : { uri: item.uri }}
                   name={item.name}
                   lastMessage={item.lastMessage}
                 />
