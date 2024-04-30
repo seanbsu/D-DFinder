@@ -85,7 +85,12 @@ const UserCard = ({ user, position, onLike, onDislike, toggleProfile }) => {
               </Animated.View>
             </>
           )}
-          <Image style={styles.image} source={user.uri}></Image>
+          
+          {typeof user.uri === 'number' ? (
+        <Image style={styles.image} source={user.uri} />
+      ) : (
+        <Image style={styles.image} source={{ uri: user.uri }} />
+      )}
           
         </Animated.View>
       

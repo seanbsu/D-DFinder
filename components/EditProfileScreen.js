@@ -12,7 +12,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import styles from "../assets/styles";
 import Demo from "../assets/Demo";
 import * as ImagePicker from "expo-image-picker";
-import { ImageManipulator } from 'expo-image-manipulator';
+import * as ImageManipulator from 'expo-image-manipulator';
+
 
 
 const EditProfileScreen = ({ setShowEditProfile, user, updateEditUser }) => {
@@ -195,13 +196,19 @@ const EditProfileScreen = ({ setShowEditProfile, user, updateEditUser }) => {
       quality: 1,
     });
   
-    if (!result.canceled) { // Updated from result.cancelled to result.canceled
+    if (!result.canceled && result.assets.length > 0) {
+      // Get the first selected asset
+      const selectedAsset = result.assets[0];
       // Convert image to base64
-      const base64Image = await convertToBase64(result.assets[0].uri);
-      setImage(base64Image); // Set the base64 image
-      onChangeInputHandler('uri', base64Image); // Set the base64 image in the form data
+      const base64Image = await convertToBase64(selectedAsset.uri);
+      // Set the base64 image
+      setImage(`data:image/jpeg;base64,${base64Image}`);
+      // Update the URI in the form data
+      onChangeInputHandler('uri', `data:image/jpeg;base64,${base64Image}`);
     }
   };
+  
+  
   
   
   const convertToBase64 = async (uri) => {
