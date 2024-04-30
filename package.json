@@ -27,7 +27,8 @@
     "react-native-text-input-interactive": "^0.1.5",
     "react-native-web": "~0.19.6",
     "react-navigation": "^5.0.0",
-    "expo-image-picker": "~14.3.2"
+    "expo-image-picker": "~14.3.2",
+    "expo-image-manipulator": "~11.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

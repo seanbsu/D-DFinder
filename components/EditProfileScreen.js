@@ -12,6 +12,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import styles from "../assets/styles";
 import Demo from "../assets/Demo";
 import * as ImagePicker from "expo-image-picker";
+import { ImageManipulator } from 'expo-image-manipulator';
+
 
 const EditProfileScreen = ({ setShowEditProfile, user, updateEditUser }) => {
   const firstnameInputRef = useRef(null);
@@ -172,18 +174,39 @@ const EditProfileScreen = ({ setShowEditProfile, user, updateEditUser }) => {
     });
   };
 
+  // const pickImage = async () => {
+  //   // No permissions request is necessary for launching the image library
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.All,
+  //     allowsEditing: true,
+  //     aspect: [4, 3],
+  //     quality: 1,
+  //   });
+  //   if (!result.canceled) {
+  //     setImage(result.assets[0].uri);
+  //   }
+  //   onChangeInputHandler("uri", result.assets[0].uri);
+  // };
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
+  
+    if (!result.canceled) { // Updated from result.cancelled to result.canceled
+      // Convert image to base64
+      const base64Image = await convertToBase64(result.assets[0].uri);
+      setImage(base64Image); // Set the base64 image
+      onChangeInputHandler('uri', base64Image); // Set the base64 image in the form data
     }
-    onChangeInputHandler("uri", result.assets[0].uri);
+  };
+  
+  
+  const convertToBase64 = async (uri) => {
+    const manipResult = await ImageManipulator.manipulateAsync(uri, [], { format: 'jpeg', base64: true });
+    return manipResult.base64;
   };
 
   const backPressed = () => {

@@ -13,7 +13,7 @@ export class UserService {
     this.dislike = [];
     this.match = [];
     this.status = "";
-    this.message = "";
+    this.messages = [];
     this.uri = "";
   }
   createUser(
@@ -44,7 +44,7 @@ export class UserService {
     this.like = like === undefined ? this.like : like;
     this.dislike = dislike === undefined ? this.dislike : dislike;
     this.match = match === undefined ? this.match : match;
-    this.message = "";
+    this.messages = this.messages;
     this.uri = "";
   }
 }
