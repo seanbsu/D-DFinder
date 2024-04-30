@@ -332,7 +332,6 @@ const SignUpScreen = ({ setShowSignUp, setIsLoggedIn, onSignUp }) => {
             placeholder="Campaign"
             style={styles.textInput}
             returnKeyType="next"
-            keyboardType="numeric"
             onSubmitEditing={editNextInput}
             onFocus={onInputFocus}
             onChangeText={(value) => onChangeInputHandler("campaigns", value)}

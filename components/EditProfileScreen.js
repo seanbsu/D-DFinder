@@ -302,7 +302,6 @@ const EditProfileScreen = ({ setShowEditProfile, user, updateEditUser }) => {
             placeholder="Campaign"
             style={styles.textInput}
             returnKeyType="next"
-            keyboardType="numeric"
             onSubmitEditing={editNextInput}
             onChangeText={(value) => onChangeInputHandler("campaign", value)}
             ref={campaignInputRef}
