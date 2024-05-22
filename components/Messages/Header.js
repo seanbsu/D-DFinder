@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import styles from "../../assets/styles";
-import { on } from "events";
 
 const Header = ({ title, onBackPress, isUnMatch }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);

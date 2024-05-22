@@ -1,0 +1,31 @@
+users (collection)
+│
+├── userID (document)
+│   ├── email: "user@example.com"
+│   ├── password: "hashedPassword"
+│   ├── firstname: "John"
+│   ├── charactername: "CharacterName"
+│   ├── characterClass: "Warrior"
+│   ├── characterLevel: 10
+│   ├── campaign: "CampaignName"
+│   ├── bio: "User's bio"
+│   ├── uri: "URI to user's profile picture"
+│   ├── like: ["userID1", "userID2", ...]
+│   ├── dislike: ["userID3", "userID4", ...]
+│   ├── match: ["matchID1", "matchID2", ...]
+│   │
+│   └── messages (subcollection)
+│       │
+│       ├── matchID (document)
+│       │   └── conversation (collection)
+│       │       │
+│       │       ├── messageID (document)
+│       │       │   ├── senderId: "senderUserID"
+│       │       │   ├── content: "Message content"
+│       │       │   └── timestamp: <timestamp>
+│       │       │
+│       │       └── ...
+│       │
+│       └── ...
+│
+└── ...

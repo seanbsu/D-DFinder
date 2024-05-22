@@ -11,50 +11,16 @@ import SplashScreen from './components/SplashScreen';
 import LoginView from './components/LoginView';
 import Demo from './assets/Demo'; // Import the Demo array
 import {saveRemoteProfiles, getRemoteProfiles, loadList, saveList} from './components/RemoteHandler'
-import { initializeApp } from "firebase/app";
-import { initializeFirestore, collection, doc, setDoc, addDoc,  Timestamp } from 'firebase/firestore';
-import { getFirestore } from "firebase/firestore";
+import { firebase_app, firebase_auth, firebase_db } from "./firebaseConfig";
+import { collection, doc, setDoc, addDoc,  Timestamp } from 'firebase/firestore';
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAMeujQxNjqGJojHH7cPzx-W7RvwgjeTzI",
-  authDomain: "test-6a1d9.firebaseapp.com",
-  projectId: "test-6a1d9",
-  storageBucket: "test-6a1d9.appspot.com",
-  messagingSenderId: "1078242046089",
-  appId: "1:1078242046089:web:658a1ae7fdc0480b1b1658",
-  measurementId: "G-EG22GCZD0T"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
-// Initialize Firestore
-const db = getFirestore(app);
-
-loadurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/loadjson.php?user=ryeland"
-saveurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/savejson.php?user=ryeland"
+// loadurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/loadjson.php?user=ryeland"
+// saveurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/savejson.php?user=ryeland"
 
 const Tab = createBottomTabNavigator();
 // Create context for loggedInUserId and its setter function
 export const UserIdContext = createContext();
-
-// const firebaseConfig = {
-//   apiKey: "AIzaSyAMeujQxNjqGJojHH7cPzx-W7RvwgjeTzI",
-//   authDomain: "test-6a1d9.firebaseapp.com",
-//   projectId: "test-6a1d9",
-//   storageBucket: "test-6a1d9.appspot.com",
-//   messagingSenderId: "1078242046089",
-//   appId: "1:1078242046089:web:658a1ae7fdc0480b1b1658",
-//   measurementId: "G-EG22GCZD0T"
-// };
-
-
-// // Initialize Firebase
-// const app = initializeApp(firebaseConfig);
-
-// //initialize firestore database
-// const db = initializeFirestore(app);
-
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -64,64 +30,67 @@ export default function App() {
   const [Users, setUsers] = useState(null)
   const [isDatabaseInitialized, setIsDatabaseInitialized] = useState(false);
 
-
-  useEffect(() => {
-    const initializeDatabase = async () => {
-      try {
-        // Initialize users collection
-        const usersCollectionRef = collection(db, 'users');
-
-        // Loop through Demo data and add documents to users collection
-        for (const user of Demo) {
-          const userDocRef = doc(usersCollectionRef, user.id.toString());
-          await setDoc(userDocRef, {
-            email: user.email,
-            password: user.password,
-            firstname: user.firstname,
-            charactername: user.charactername,
-            characterClass: user.characterClass,
-            characterLevel: user.characterLevel,
-            campaign: user.campaign,
-            bio: user.bio,
-            uri: user.uri,
-            like: user.like || [],
-            dislike: user.dislike || [],
-            match: user.match || []
-          });
-
-          // Add messages subcollection for each user
-          const messagesCollectionRef = collection(userDocRef, 'messages');
-          for (const matchId of user.match || []) {
-            const matchDocRef = doc(messagesCollectionRef, matchId.toString());
-            const matchMessages = user.messages
-              .filter(message => message.matchId === matchId)
-              .flatMap(match => match.conversation)
-              .map(message => ({
-                senderId: message.senderId,
-                content: message.content,
-                timestamp: Timestamp.fromDate(new Date(message.timestamp))
-              }));
-
-            // Add each message as a separate document within the match document
-            for (const message of matchMessages) {
-              if (message.senderId && message.content && message.timestamp) {
-                await addDoc(collection(matchDocRef, 'messages'), message);
-              }
-            }
-          }
-        }
-
-        setIsDatabaseInitialized(true);
-        console.log('Database initialized successfully.');
-      } catch (error) {
-        console.error('Error initializing database:', error);
-      }
-    };
-
-    initializeDatabase();
-  }, []);
+  // useEffect(() => {
+  //   const initializeDatabase = async () => {
+  //     try {
+  //       // Initialize users collection
+  //       const usersCollectionRef = collection(firebase_db, 'users');
   
-
+  //       // Loop through Demo data and add documents to users collection
+  //       for (const user of Demo) {
+  //         // Create user in Firebase Authentication
+  //         const userCredential = await createUserWithEmailAndPassword(firebase_auth, user.email, user.password);
+  //         const uid = userCredential.user.uid;
+  
+  //         // Use UID to set document in Firestore
+  //         const userDocRef = doc(usersCollectionRef, uid);
+  //         await setDoc(userDocRef, {
+  //           firstname: user.firstname,
+  //           charactername: user.charactername,
+  //           characterClass: user.characterClass,
+  //           characterLevel: user.characterLevel,
+  //           campaign: user.campaign,
+  //           bio: user.bio,
+  //           uri: user.uri,
+  //           like: user.like || [],
+  //           dislike: user.dislike || [],
+  //           match: user.match || []
+  //         });
+  
+  //         // Add messages subcollection for each user
+  //         const messagesCollectionRef = collection(userDocRef, 'messages');
+  //         const addedMatchIds = new Set();
+  
+  //         for (const messageGroup of user.messages || []) {
+  //           const matchId = messageGroup.matchId.toString();
+  
+  //           if (!addedMatchIds.has(matchId)) {
+  //             addedMatchIds.add(matchId);
+  //             const matchDocRef = doc(messagesCollectionRef, matchId);
+  
+  //             // Add each message as a separate document within the match document
+  //             for (const message of messageGroup.conversation || []) {
+  //               if (message.senderId && message.content && message.timestamp) {
+  //                 await addDoc(collection(matchDocRef, 'conversation'), {
+  //                   senderId: message.senderId,
+  //                   content: message.content,
+  //                   timestamp: Timestamp.fromDate(new Date(message.timestamp))
+  //                 });
+  //               }
+  //             }
+  //           }
+  //         }
+  //       }
+  
+  //       setIsDatabaseInitialized(true);
+  //       console.log('Database initialized successfully.');
+  //     } catch (error) {
+  //       console.error('Error initializing database:', error);
+  //     }
+  //   };
+  
+  //   initializeDatabase();
+  // }, []);
 
   useEffect(() => {
     setTimeout(() => {
@@ -197,6 +166,7 @@ export default function App() {
       <LoginView
         setIsLoggedIn={setIsLoggedIn}
         onLogin={handleLogin}
+        auth={firebase_auth}
       />
     );
   }
