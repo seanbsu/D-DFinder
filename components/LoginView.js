@@ -8,7 +8,7 @@ import { getRemoteProfiles } from "./RemoteHandler";
 loadurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/loadjson.php?user=ryeland"
 saveurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/savejson.php?user=ryeland"
 
-export default function LoginView({ setIsLoggedIn, onLogin }) {
+export default function LoginView({ setIsLoggedIn, onLogin, auth }) {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showSignUp, setShowSignUp] = useState(false);
