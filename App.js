@@ -11,7 +11,7 @@ import SplashScreen from './components/SplashScreen';
 import LoginView from './components/LoginView';
 import Demo from './assets/Demo'; // Import the Demo array
 import {saveRemoteProfiles, getRemoteProfiles, loadList, saveList} from './components/RemoteHandler'
-import { firebase_app, firebase_auth, firebase_db } from "./firebaseConfig";
+import {  firebase_auth, firebase_db } from "./firebaseConfig";
 import { collection, doc, setDoc, addDoc,  Timestamp } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 

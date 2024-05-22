@@ -1,9 +1,8 @@
-import { firebase_app, firebase_auth, firebase_db } from "./firebaseConfig";
+import {  firebase_auth, firebase_db } from "./firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, doc, setDoc, addDoc,  Timestamp } from 'firebase/firestore';
 class FirebaseUtil {
     constructor() {
-      const app = firebase_app;
       this.auth = firebase_auth;
       this.db = firebase_db;
     }
