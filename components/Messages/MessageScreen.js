@@ -13,21 +13,43 @@ import {
 import Header from "./Header";
 import ReceiverMessage from "./ReceiverMessage";
 import SenderMessage from "./SenderMessage";
-import Demo from "../../assets/Demo";
+import { getRemoteProfiles, saveRemoteProfiles } from "../RemoteHandler";
 
-const MessageScreen = ({ user, matchedUserId, onPressBack, isUnMatch }) => {
+loadurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/loadjson.php?user=ryeland"
+saveurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/savejson.php?user=ryeland"
+
+const MessageScreen = ({ user, matchedUserId, onPressBack, isUnMatch, setUser }) => {
   const [input, setInput] = useState("");
   const [conversation, setConversation] = useState([]);
   const [matchedUser, setMatchedUser] = useState(null);
+  const [Users, setUsers] = useState(null);
 
   useEffect(() => {
+    console.log("Requesting remote data form messages")
+    getRemoteProfiles(loadurl).then((ret)=>{
+      console.log("Finished loading the remote profiles in messages.")
+      setUsers(ret)
+    }).catch((e) => {
+      console.log("Failure during setUsers")
+      console.log(e)
+    })
+  }, [matchedUserId])
+
+  useEffect(() => {
+    if(Users === null){
+      console.log("Users is not updated yet in messages...")
+      return 
+    }
+
+    console.log("Looking for matched messages")
     const matchedMessages = user.messages.find(
       (message) => message.matchId === matchedUserId
     );
 
     if (matchedMessages) {
-      const foundMatch = Demo.find((item) => item.id === matchedUserId);
+      const foundMatch = Users.find((item) => item.id === matchedUserId);
       if (foundMatch) {
+        console.log("Found a matching, makinig the convo")
         setMatchedUser(foundMatch);
 
         const initialConversation = matchedMessages.conversation.map(
@@ -46,9 +68,53 @@ const MessageScreen = ({ user, matchedUserId, onPressBack, isUnMatch }) => {
         setConversation([]);
       }
     }
-  }, [matchedUserId]);
+  }, [matchedUserId, Users]);
+
+  function updateRemote(updatedConvo){
+    let newUsers = Users.map((profile) => {
+      if ( profile.email === user.email) {
+        for(let heck of profile.messages){
+          if(heck.matchId === matchedUserId){
+            console.log("Made it and pdated")
+            heck.conversation = JSON.parse(JSON.stringify(updatedConvo))
+            console.log(profile.messages)
+            let tmpUser = {...profile}
+            setUser(tmpUser)
+            return tmpUser;
+          }
+        }
+      }
+      return profile;
+    });
+
+    //Updating matched user
+    newUsers = Users.map((profile) => {
+      if ( profile.email === matchedUser.email) {
+        for(let heck of profile.messages){
+          if(heck.matchId === matchedUserId){
+            console.log("Made it and pdated")
+            heck.conversation = JSON.parse(JSON.stringify(updatedConvo))
+            console.log(profile.messages)
+            let tmpUser = {...profile}
+            return tmpUser;
+          }
+        }
+      }
+      return profile;
+    });
+
+    saveRemoteProfiles(saveurl, newUsers).catch((e)=>{
+      console.log("ERROR updating messageScreen");
+    }).then((ret)=>{
+      console.log("Saved convo")
+    })
+
+  }
 
   const sendMessage = () => {
+    console.log("Sending message RYELAND")
+    console.log(user)
+    console.log(matchedUser)
     const newMessage = {
       senderId: user.id,
       recipientId: matchedUser.id,
@@ -58,7 +124,9 @@ const MessageScreen = ({ user, matchedUserId, onPressBack, isUnMatch }) => {
     const updatedConversation = [...conversation, newMessage]; // Add new message to the end of the conversation array
     // Sort conversation by timestamp
     updatedConversation.sort((a, b) => a.timestamp - b.timestamp);
+    console.log(updatedConversation)
     setConversation(updatedConversation);
+    updateRemote(updatedConversation)
     setInput("");
   };
 

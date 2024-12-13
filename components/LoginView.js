@@ -3,6 +3,10 @@ import LoginScreen from "react-native-login-screen";
 import { View, TextInput } from "react-native";
 import SignUpScreen from "./SignUpScreen";
 import Demo from "../assets/Demo";
+import { getRemoteProfiles } from "./RemoteHandler";
+
+loadurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/loadjson.php?user=ryeland"
+saveurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/savejson.php?user=ryeland"
 
 export default function LoginView({ setIsLoggedIn, onLogin }) {
   const [username, setUsername] = React.useState("");
@@ -12,23 +16,34 @@ export default function LoginView({ setIsLoggedIn, onLogin }) {
   const SignUpPress = () => {
     setShowSignUp(true);
   };
-  const LoginPress = () => {
+  const LoginPress = async() => {
     //test user: a@gmail.com
     //test password:  123456
     //TODO: fetch user data from server
-    let isLoggedIn = false;
-    // console.log(username);
-    // console.log(password);
-    Demo.forEach((user) => {
-      if (user.email === username && user.password === password) {
-        onLogin(user);
-        setIsLoggedIn(true);
-        isLoggedIn = true;
+    getRemoteProfiles(loadurl).then((ret)=>{
+
+      let isLoggedIn = false;
+      // console.log(username);
+      // console.log(password);
+      if(ret === null){
+        console.error("This is bad....")
       }
-    });
-    if (isLoggedIn === false) {
-      alert("Invalid username or password");
-    }
+      ret.forEach((user) => {
+        if (user.email === username && user.password === password) {
+          onLogin(user);
+          console.log("Updated login handler in app.json")
+          setIsLoggedIn(true);
+          console.log("Set is logged in")
+          isLoggedIn = true;
+        }
+      });
+      if (isLoggedIn === false) {
+        alert("Invalid username or password");
+      }
+    }).catch((e)=>{
+      console.log("Error during logging in!")
+      console.log(e)
+    })
   };
 
   setUser = (user) => {
@@ -51,7 +66,6 @@ export default function LoginView({ setIsLoggedIn, onLogin }) {
           onSignupPress={SignUpPress}
           onEmailChange={setUsername}
           onPasswordChange={setPassword}
-          enablePasswordValidation
           disableSocialButtons
         />
       )}

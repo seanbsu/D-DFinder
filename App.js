@@ -1,15 +1,19 @@
 import React, { useState, useEffect, createContext } from "react";
 import { Text } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Home } from "./components/Home";
-import MessagesScreen from "./components/Messages";
-import ProfileScreen from "./components/ProfileScreen";
-import Icon from "./components/Icon";
-import styles from "./assets/styles";
-import SplashScreen from "./components/SplashScreen";
-import LoginView from "./components/LoginView";
-import Demo from "./assets/Demo"; // Import the Demo array
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Home } from './components/Home';
+import MessagesScreen from './components/Messages';
+import ProfileScreen from './components/ProfileScreen';
+import Icon from './components/Icon';
+import styles from './assets/styles';
+import SplashScreen from './components/SplashScreen'; 
+import LoginView from './components/LoginView';
+import Demo from './assets/Demo'; // Import the Demo array
+import {saveRemoteProfiles, getRemoteProfiles, loadList, saveList} from './components/RemoteHandler'
+
+loadurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/loadjson.php?user=ryeland"
+saveurl="https://cs.boisestate.edu/~scutchin/cs402/codesnips/savejson.php?user=ryeland"
 
 const Tab = createBottomTabNavigator();
 // Create context for loggedInUserId and its setter function
@@ -20,6 +24,7 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loggedInUserId, setLoggedInUserId] = useState(null);
   const [loggedInUser, setLoggedInUser] = useState(null); // State to hold the logged-in user
+  const [Users, setUsers] = useState(null)
 
   useEffect(() => {
     setTimeout(() => {
@@ -27,15 +32,16 @@ export default function App() {
     }, 5000); // Simulating loading for 5 seconds
   }, []);
   const updateUser = (newUser) => {
+    console.log("Request to update the logged in user")
     setLoggedInUser(newUser);
   };
   // For testing purposes, set the logged-in user ID directly
   // Define a callback function to receive the username
   const handleLogin = (user) => {
-    console.log("Logged In");
-    console.log(user);
     setLoggedInUser(user);
-  };
+    console.log("Logging in displayed user")
+    // console.log(user)
+   };
 
   const isLogOut = (logOut) => {
     setIsLoading(false);
@@ -43,7 +49,48 @@ export default function App() {
     setIsLoggedIn(logOut);
   };
 
-  useEffect(() => {}, [isLoading, loggedInUser]);
+  useEffect(() => {
+  //   saveRemoteProfiles(saveurl, Demo).then(() => {
+  //     console.log("Saved Global User:");
+  //     setUsers(Demo)
+  //   }).catch((e) => {
+  //     console.log("Error saving demo");
+  //     console.log(e);
+  //  });
+
+    getRemoteProfiles(loadurl).then((ret)=>{
+      console.log("Got profiles in main")
+      setUsers(ret)
+    }).catch(()=>{
+      console.log("There was an error loading remote in app.json")
+    })
+  }, []);
+
+  useEffect(() => {
+    if(loggedInUser === null || Users === null){
+      console.log("Not logged in, don't update users")
+      return;
+    }
+
+    var newUsers = Users.map((profile) => {
+      if (
+        profile.email === loggedInUser.email
+      ) {
+        return {...loggedInUser}
+      }
+      return profile;
+    });
+    setUsers(newUsers)
+
+    saveRemoteProfiles(saveurl, newUsers).then(() => {
+      console.log("saved user");
+      // console.log(loggedInUser)
+    }).catch((e) => {
+      console.log("Error saving user globally");
+      console.log(e);
+   });
+  }, [loggedInUser]);
+
 
   if (isLoading) {
     return <SplashScreen />;
@@ -107,7 +154,7 @@ export default function App() {
           />
           <Tab.Screen
             name="Chat"
-            children={() => <MessagesScreen user={loggedInUser} />}
+            children={() => <MessagesScreen user={loggedInUser} setUser={setLoggedInUser} />}
             options={{
               tabBarIcon: ({ focused }) => (
                 <Text
